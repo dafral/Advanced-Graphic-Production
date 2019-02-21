@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file alias="open_file">Icons/Folder.png</file>
+        <file alias="collapsed">Icons/Arrow down.png</file>
+        <file alias="expanded">Icons/Arrow right.png</file>
+        <file alias="remove">Icons/Badge-multiply.png</file>
+        <file alias="save_file">Icons/Doc.png</file>
+    </qresource>
+</RCC>
