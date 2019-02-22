@@ -36,6 +36,8 @@ public:
 public:
     QString name;
     Transform transform;
+public:
+    virtual void CleanUp() {}
 
 }
 

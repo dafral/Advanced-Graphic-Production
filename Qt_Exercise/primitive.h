@@ -50,6 +50,8 @@ public:
     float strokeThickness;
     Qt::PenStyle strokeStyle;
     Qt::BrushStyle fillStyle;
+public:
+    void CleanUp() override;
 };
 
 #endif // PRIMITIVE_H

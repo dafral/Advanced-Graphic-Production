@@ -4,3 +4,12 @@ Primitive::Primitive()
 {
 
 }
+Primitive::~Primitive()
+{
+
+}
+
+Primitive::CleanUp()
+{
+
+}

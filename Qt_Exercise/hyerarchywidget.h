@@ -2,6 +2,10 @@
 #define HYERARCHYWIDGET_H
 
 #include <QWidget>
+#include <list>
+#include <QLabel>
+
+#include "entity.h"
 
 namespace Ui {
 class HyerarchyWidget;
@@ -15,8 +19,15 @@ public:
     explicit HyerarchyWidget(QWidget *parent = 0);
     ~HyerarchyWidget();
 
-private:
+protected:
     Ui::HyerarchyWidget *ui;
+    std::list<QLabel> labels;
+public:
+    void UpdateHyerarchy();
+    void PaintHyerarchy();
+
+    void CreateLabelFromEntity(Entity* ent);
+    void CleanUpLabels();
 };
 
 #endif // HYERARCHYWIDGET_H
