@@ -33,16 +33,59 @@ MainWindow::~MainWindow()
 
 void MainWindow::openProject()
 {
-    QString path = QFileDialog::getOpenFileName(this, "Open project");
-    if(!path.isEmpty())
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open project"), "", tr("scene(*.sce);;All files(*)"));
+
+    if(fileName.isEmpty())
     {
-        std::cout << path.toStdString() << std::endl;
+        std::cout << "Error. File name is empty!" << std::endl;
+        return;
+    }
+
+    else
+    {
+        std::cout << fileName.toStdString() << std::endl;
+
+        QFile file(fileName);
+
+        if (!file.open(QIODevice::ReadOnly))
+        {
+            QMessageBox::information(this, tr("Unable to open file"),
+            file.errorString());
+            return;
+        }
+
+        QDataStream in(&file);
+        in.setVersion(QDataStream::Qt_4_5);
+        //contacts.clear();   // clear existing contacts
+        //in >> contacts;
     }
 }
 
 void MainWindow::saveProject()
 {
-    std::cout <<"Save project" << std::endl;
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save Scene"), "", tr("Scene (*.sce);;All Files (*)"));
+
+    if(fileName.isEmpty())
+    {
+        std::cout << "Error. File name is empty!" << std::endl;
+        return;
+    }
+
+    else
+    {
+        std::cout << fileName.toStdString() << std::endl;
+
+        QFile file(fileName);
+        if (!file.open(QIODevice::WriteOnly))
+        {
+            QMessageBox::information(this, tr("Unable to open file"), file.errorString());
+            return;
+        }
+
+        QDataStream out(&file);
+        out.setVersion(QDataStream::Qt_4_5);
+        //out << contacts;
+    }
 }
 
 void MainWindow::quit()
