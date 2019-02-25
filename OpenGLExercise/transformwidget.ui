@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TransformWidget</class>
+ <widget class="QWidget" name="TransformWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>248</width>
+    <height>115</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="labelTransform">
+     <property name="text">
+      <string>&lt;b&gt;Transform&lt;/b&gt;</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="Translation">
+     <item>
+      <widget class="QLabel" name="labelTrans">
+       <property name="text">
+        <string>Translation</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="transX"/>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="transY"/>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="transZ"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="Rotation">
+     <item>
+      <widget class="QLabel" name="labelRot">
+       <property name="text">
+        <string>Rotation</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="rotX"/>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="rotY"/>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="rotZ"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="Scale">
+     <item>
+      <widget class="QLabel" name="labelSca">
+       <property name="text">
+        <string>Scale</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="scaX"/>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="scaY"/>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="scaZ"/>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
