@@ -47,10 +47,13 @@ FORMS += \
 
 RESOURCES += \
     icons.qrc \
-    icons.qrc
+    icons.qrc \
+    shaders/shaders.qrc
 
 # Adds OpenGL library
 QT      += opengl
 
 # Opens a console during execution to show debug logs
 CONFIG += console
+
+DISTFILES +=
