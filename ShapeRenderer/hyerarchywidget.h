@@ -10,7 +10,7 @@
 #include "entitylabelwidget.h"
 
 namespace Ui {
-class HyerarchyWidget;
+class Hyerarchy;
 }
 
 class HyerarchyWidget : public QWidget
@@ -22,7 +22,7 @@ public:
     ~HyerarchyWidget();
 
 protected:
-    Ui::HyerarchyWidget *ui;
+    Ui::Hyerarchy *ui;
     std::vector<EntityLabelWidget*> labels;
     QVBoxLayout* layout;
 public:

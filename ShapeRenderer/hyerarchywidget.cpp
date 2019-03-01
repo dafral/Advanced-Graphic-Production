@@ -6,7 +6,7 @@
 
 HyerarchyWidget::HyerarchyWidget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::HyerarchyWidget)
+    ui(new Ui::Hyerarchy)
 {
     ui->setupUi(this);
     ui->scrollArea->setBackgroundRole(QPalette::Dark);
