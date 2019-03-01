@@ -3,6 +3,7 @@
 
 #include "application.h"
 #include "entitylabelwidget.h"
+#include "entitylabel.h"
 
 HyerarchyWidget::HyerarchyWidget(QWidget *parent) :
     QWidget(parent),
@@ -39,11 +40,14 @@ void HyerarchyWidget::PaintHyerarchy()
     this->show();
 }
 
-void HyerarchyWidget::CreateLabelFromEntity(Entity *ent)
+void HyerarchyWidget::CreateLabelFromEntity(Entity *e)
 {
-    if(ent == nullptr) return;
-    labels.push_back(new EntityLabelWidget(ent->name, ent));
-    layout->addWidget(labels[labels.size() - 1]);
+    if(e == nullptr) return;
+    EntityLabel* el = new EntityLabel();
+    el->ent = e;
+    el->setText(e->name);
+    labels.push_back(el);
+    layout->addWidget(el);
 }
 
 void HyerarchyWidget::CleanUpLabels()
@@ -52,7 +56,6 @@ void HyerarchyWidget::CleanUpLabels()
     {
         if(labels[i] != nullptr)
         {
-            labels[i]->CleanUp();
             delete labels[i];
         }
     }

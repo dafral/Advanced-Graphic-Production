@@ -7,7 +7,7 @@
 #include <QVBoxLayout>
 
 #include "entity.h"
-#include "entitylabelwidget.h"
+#include "entitylabel.h".h"
 
 namespace Ui {
 class Hyerarchy;
@@ -23,7 +23,7 @@ public:
 
 protected:
     Ui::Hyerarchy *ui;
-    std::vector<EntityLabelWidget*> labels;
+    std::vector<EntityLabel*> labels;
     QVBoxLayout* layout;
 public:
     void UpdateHyerarchy();
