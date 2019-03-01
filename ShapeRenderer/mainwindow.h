@@ -3,7 +3,9 @@
 
 #include "inspectorwidget.h"
 #include "customwidget.h"
+
 #include <QMainWindow>
+#include <QSettings>
 
 namespace Ui {
 class MainWindow;
@@ -30,6 +32,7 @@ private:
     //File manager
     QString pathtrunk;
     QString foldername;
+    QSettings settings;
 
 };
 

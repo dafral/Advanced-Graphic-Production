@@ -1,9 +1,10 @@
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
-#include <vector>
-
+#include "mainwindow.h"
 #include "entity.h"
+
+#include <vector>
 
 class App
 {
@@ -12,10 +13,13 @@ public:
     virtual ~App();
 public:
     std::vector<Entity*> entities;
+    MainWindow* w;
+
 public:
     void CleanUp();
+    MainWindow* CreateMainWindow();
 }
 
-static App;
+extern App;
 
 #endif // APPLICATION_H

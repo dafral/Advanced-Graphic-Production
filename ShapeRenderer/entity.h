@@ -40,6 +40,7 @@ public:
     Transform transform;
 public:
     virtual void CleanUp() {}
+    virtual void Save();
 
 };
 

@@ -13,3 +13,8 @@ void Primitive::CleanUp()
 {
 
 }
+
+void Primitive::Save()
+{
+
+}

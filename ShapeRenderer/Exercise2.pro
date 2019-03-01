@@ -34,7 +34,8 @@ SOURCES += \
     hyerarchywidget.cpp \
     primitive.cpp \
     application.cpp \
-    entitylabelwidget.cpp
+    entitylabelwidget.cpp \
+    entity.cpp
 
 HEADERS += \
         mainwindow.h \

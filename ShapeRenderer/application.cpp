@@ -9,6 +9,12 @@ App::~App()
 
 }
 
+MainWindow* App::CreateMainWindow()
+{
+    w = new MainWindow();
+    return w;
+}
+
 void App::CleanUp()
 {
     for(int i = 0; i < entities.size(); ++i)
@@ -20,4 +26,6 @@ void App::CleanUp()
         }
     }
     entities.clear();
+
+    delete w;
 }

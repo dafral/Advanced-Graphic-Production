@@ -4,7 +4,6 @@
 #include <iostream>
 #include <QMessageBox>
 #include <QFileDialog>
-#include <QSettings>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -76,7 +75,7 @@ void MainWindow::saveProject()
     {
         std::cout << fileName.toStdString() << std::endl;
 
-        QSettings settings(fileName, QSettings::IniFormat);
+        settings(fileName, QSettings::IniFormat);
 
         settings.beginGroup("MainWindow");
         settings.setValue("size", size());
