@@ -1,11 +1,11 @@
 #include "entity.h"
-#include "main.h"
+#include "mainwindow.h"
 
-virtual void Entity::Save()
+void Entity::Save()
 {
-    settings.beginGroup(name);
+    //w->settings.beginGroup((QString)name);
 
-    settings.set("size", size());
-    settings.setValue("pos", pos());
-    settings.endGroup();
+   // settings.set("size", size());
+   // settings.setValue("pos", pos());
+   // settings.endGroup();
 }

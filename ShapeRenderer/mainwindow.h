@@ -3,6 +3,7 @@
 
 #include "inspectorwidget.h"
 #include "customwidget.h"
+#include "entity.h"
 
 #include <QMainWindow>
 #include <QSettings>
@@ -32,8 +33,13 @@ private:
     //File manager
     QString pathtrunk;
     QString foldername;
+
+public:
     QSettings settings;
+    std::vector<Entity*> entities;
 
 };
+
+extern MainWindow* w;
 
 #endif // MAINWINDOW_H

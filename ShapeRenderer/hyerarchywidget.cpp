@@ -1,7 +1,6 @@
 #include "hyerarchywidget.h"
 #include "ui_hyerarchywidget.h"
 
-#include "application.h"
 #include "entitylabelwidget.h"
 
 HyerarchyWidget::HyerarchyWidget(QWidget *parent) :
@@ -23,15 +22,15 @@ HyerarchyWidget::~HyerarchyWidget()
 
 void HyerarchyWidget::UpdateHyerarchy()
 {
-    CleanUpLabels();
-    for(int i = 0; i < App.entities.size(); ++i)
-    {
-        if(App.entities[i] != nullptr)
-        {
-            CreateLabelFromEntity(App.entities[i]);
-        }
-    }
-    setLayout(layout);
+//    CleanUpLabels();
+//    for(int i = 0; i < App.entities.size(); ++i)
+//    {
+//        if(App.entities[i] != nullptr)
+//        {
+//            CreateLabelFromEntity(App.entities[i]);
+//        }
+//    }
+//    setLayout(layout);
 }
 
 void HyerarchyWidget::PaintHyerarchy()

@@ -75,12 +75,12 @@ void MainWindow::saveProject()
     {
         std::cout << fileName.toStdString() << std::endl;
 
-        settings(fileName, QSettings::IniFormat);
+        //w->settings(fileName, QSettings::IniFormat);
 
-        settings.beginGroup("MainWindow");
-        settings.setValue("size", size());
-        settings.setValue("pos", pos());
-        settings.endGroup();
+        //settings.beginGroup("MainWindow");
+        //settings.setValue("size", size());
+        //settings.setValue("pos", pos());
+        //settings.endGroup();
     }
 }
 
