@@ -35,7 +35,8 @@ SOURCES += \
     primitive.cpp \
     application.cpp \
     entitylabelwidget.cpp \
-    entity.cpp
+    entity.cpp \
+    entitylabel.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -48,7 +49,8 @@ HEADERS += \
     entity.h \
     primitive.h \
     application.h \
-    entitylabelwidget.h
+    entitylabelwidget.h \
+    entitylabel.h
 
 FORMS += \
         mainwindow.ui \
