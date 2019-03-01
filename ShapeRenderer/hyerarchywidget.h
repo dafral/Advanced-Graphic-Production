@@ -2,7 +2,7 @@
 #define HYERARCHYWIDGET_H
 
 #include <QWidget>
-#include <list>
+#include <vector>
 #include <QLabel>
 
 #include "entity.h"
@@ -21,7 +21,7 @@ public:
 
 protected:
     Ui::HyerarchyWidget *ui;
-    std::list<QLabel> labels;
+    std::vector<QLabel*> labels;
 public:
     void UpdateHyerarchy();
     void PaintHyerarchy();

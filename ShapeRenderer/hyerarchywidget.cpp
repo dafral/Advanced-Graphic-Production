@@ -41,7 +41,7 @@ void HyerarchyWidget::CleanUpLabels()
 {
     for(int i = 0; i < labels.size(); ++i)
     {
-        if(labels != nullptr)
+        if(labels[i] != nullptr)
         {
             delete labels[i];
         }

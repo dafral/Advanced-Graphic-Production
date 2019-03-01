@@ -5,12 +5,14 @@
 
 struct float2
 {
+    float2(){};
     float x;
     float y;
 };
 
 struct float3
 {
+    float3(){};
     float3(float a, float b, float c)
         : x(a), y(b), z(c)
     {}
@@ -30,15 +32,15 @@ class Entity
 {
 public:
     Entity()
-    {}
+    {};
     virtual ~Entity()
-    {}
+    {};
 public:
     QString name;
     Transform transform;
 public:
     virtual void CleanUp() {}
 
-}
+};
 
 #endif // ENTITY_H

@@ -9,7 +9,7 @@ Primitive::~Primitive()
 
 }
 
-Primitive::CleanUp()
+void Primitive::CleanUp()
 {
 
 }

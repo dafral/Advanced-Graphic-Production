@@ -1,21 +1,21 @@
 #include "application.h"
 
-Application::Application()
+App::App()
 {
 
 }
-Application::~Application()
+App::~App()
 {
 
 }
 
-Application::CleanUp()
+void App::CleanUp()
 {
     for(int i = 0; i < entities.size(); ++i)
     {
-        if(entities[i] != nullptr)
+        if(entities[i])
         {
-            entities[i].CleanUp();
+            entities[i]->CleanUp();
             delete entities[i];
         }
     }
