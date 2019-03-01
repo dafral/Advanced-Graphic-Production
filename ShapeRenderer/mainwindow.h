@@ -27,6 +27,10 @@ private:
     InspectorWidget *uiInspector;
     CustomWidget *uiCustomWidget;
 
+    //File manager
+    QString pathtrunk;
+    QString foldername;
+
 };
 
 #endif // MAINWINDOW_H
