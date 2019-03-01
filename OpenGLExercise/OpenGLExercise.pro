@@ -48,7 +48,7 @@ FORMS += \
 RESOURCES += \
     icons.qrc \
     icons.qrc \
-    shaders/shaders.qrc
+    shaders.qrc
 
 # Adds OpenGL library
 QT      += opengl

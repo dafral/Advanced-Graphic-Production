@@ -7,6 +7,7 @@
 #include <QOpenGLBuffer>
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLShaderProgram>
+#include <QOpenGLDebugLogger>
 
 class MyOpenGLWidget :
         public QOpenGLWidget,
@@ -27,11 +28,13 @@ public:
     void drawTriangle();
 
 signals:
+    void messageLogged(const QOpenGLDebugMessage &);
 
 public slots:
 
     //Not virtual
     void finalizeGL();
+    void handleLoggedMessage(const QOpenGLDebugMessage &);
 
 private:
     QOpenGLBuffer vbo;

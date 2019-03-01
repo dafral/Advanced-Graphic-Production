@@ -1,5 +1,6 @@
 #include "myopenglwidget.h"
 #include <iostream>
+#include <QOpenGLDebugLogger>
 
 #pragma comment( lib, "OpenGL32.lib" )
 
@@ -23,9 +24,25 @@ void MyOpenGLWidget::initializeGL()
     connect(context(), SIGNAL(aboutToBeDestroyed()),
             this, SLOT(finalizeGL()));
 
+    if(context()->hasExtension(QByteArrayLiteral("GL_KHR_debug")))
+    {
+        QOpenGLDebugLogger* logger = new QOpenGLDebugLogger(this);
+        logger->initialize();
+        connect(logger, SIGNAL(messageLogged(const QOpenGLDebugMessage &)),
+                this, SLOT(handleLoggedMessage(const QOpenGLDebugMessage &)));
+        logger->startLogging();
+    }
+
     showInfo();
 
     drawTriangle();
+
+}
+
+void MyOpenGLWidget::handleLoggedMessage(const QOpenGLDebugMessage &debugMessage)
+{
+    std::cout << debugMessage.severity() << "!!: "
+              << debugMessage.message().toStdString() << std::endl;
 }
 
 void MyOpenGLWidget::resizeGL(int width, int height)
@@ -80,8 +97,8 @@ void MyOpenGLWidget::drawTriangle()
 {
     //Program
     program.create();
-    program.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/shader1_vert");
-    program.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/shader1_frag");
+    program.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/shaders/shader1.vert");
+    program.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/shaders/shader1.frag");
     program.link();
     program.bind();
 

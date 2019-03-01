@@ -10,6 +10,7 @@ int main(int argc, char *argv[])
     format.setMinorVersion(3);
     format.setMajorVersion(3);
     format.setProfile(QSurfaceFormat::CoreProfile);
+    format.setOption(QSurfaceFormat::DebugContext);
     QSurfaceFormat::setDefaultFormat(format);
 
     MainWindow w;

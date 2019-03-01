@@ -1,7 +1,9 @@
+#version 330 core
+
 in Data
 {
     vec3 color;
-}FSIn;
+} FSIn;
 
 out vec4 outColor;
 
