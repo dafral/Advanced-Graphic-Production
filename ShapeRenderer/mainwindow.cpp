@@ -4,6 +4,7 @@
 #include <iostream>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QSettings>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -24,6 +25,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionOpenProject, SIGNAL(triggered()), this, SLOT(openProject()));
     connect(ui->actionSaveProject, SIGNAL(triggered()), this, SLOT(saveProject()));
     connect(ui->actionExit, SIGNAL(triggered()), this, SLOT(quit()));
+
+    //Create scenes folder
+    pathtrunk = QString("");
+    foldername = QString("Scenes");
+
+    QDir(pathtrunk).mkdir(foldername);
 }
 
 MainWindow::~MainWindow()
@@ -45,19 +52,13 @@ void MainWindow::openProject()
     {
         std::cout << fileName.toStdString() << std::endl;
 
-        QFile file(fileName);
+        QSettings settings(fileName, QSettings::IniFormat);
 
-        if (!file.open(QIODevice::ReadOnly))
-        {
-            QMessageBox::information(this, tr("Unable to open file"),
-            file.errorString());
-            return;
-        }
+        settings.beginGroup("MainWindow");
+        resize(settings.value("size", QSize(400, 400)).toSize());
+        move(settings.value("pos", QPoint(200, 200)).toPoint());
+        settings.endGroup();
 
-        QDataStream in(&file);
-        in.setVersion(QDataStream::Qt_4_5);
-        //contacts.clear();   // clear existing contacts
-        //in >> contacts;
     }
 }
 
@@ -75,16 +76,12 @@ void MainWindow::saveProject()
     {
         std::cout << fileName.toStdString() << std::endl;
 
-        QFile file(fileName);
-        if (!file.open(QIODevice::WriteOnly))
-        {
-            QMessageBox::information(this, tr("Unable to open file"), file.errorString());
-            return;
-        }
+        QSettings settings(fileName, QSettings::IniFormat);
 
-        QDataStream out(&file);
-        out.setVersion(QDataStream::Qt_4_5);
-        //out << contacts;
+        settings.beginGroup("MainWindow");
+        settings.setValue("size", size());
+        settings.setValue("pos", pos());
+        settings.endGroup();
     }
 }
 
