@@ -36,7 +36,7 @@ public:
     virtual ~Entity()
     {};
 public:
-    QString name;
+    std::string name;
     Transform transform;
 public:
     virtual void CleanUp() {}

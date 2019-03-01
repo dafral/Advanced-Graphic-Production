@@ -4,8 +4,10 @@
 #include <QWidget>
 #include <vector>
 #include <QLabel>
+#include <QVBoxLayout>
 
 #include "entity.h"
+#include "entitylabelwidget.h"
 
 namespace Ui {
 class HyerarchyWidget;
@@ -21,7 +23,8 @@ public:
 
 protected:
     Ui::HyerarchyWidget *ui;
-    std::vector<QLabel*> labels;
+    std::vector<EntityLabelWidget*> labels;
+    QVBoxLayout* layout;
 public:
     void UpdateHyerarchy();
     void PaintHyerarchy();
