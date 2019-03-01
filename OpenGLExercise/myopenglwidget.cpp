@@ -131,6 +131,7 @@ void MyOpenGLWidget::drawTriangle()
     {
         vao.bind();
         glDrawArrays(GL_TRIANGLES, 0, 3);
+        vao.release();
         vbo.release();
         program.release();
     }
