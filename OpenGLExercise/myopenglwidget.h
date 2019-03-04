@@ -25,7 +25,7 @@ public:
 
     void showInfo();
 
-    void drawTriangle();
+    void initializeTriangle();
 
 signals:
     void messageLogged(const QOpenGLDebugMessage &);

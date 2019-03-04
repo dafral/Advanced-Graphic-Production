@@ -35,7 +35,7 @@ void MyOpenGLWidget::initializeGL()
 
     showInfo();
 
-    drawTriangle();
+    initializeTriangle();
 
 }
 
@@ -54,6 +54,14 @@ void MyOpenGLWidget::paintGL()
 {
     glClearColor(0.9f, 0.85f, 1.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
+
+    if(program.bind())
+    {
+        vao.bind();
+        glDrawArrays(GL_TRIANGLES, 0, 3);
+        vao.release();
+        program.release();
+    }
 }
 
 void MyOpenGLWidget::finalizeGL()
@@ -93,7 +101,7 @@ void MyOpenGLWidget::showInfo()
     std::cout << context()->format().depthBufferSize() << std::endl;
 }
 
-void MyOpenGLWidget::drawTriangle()
+void MyOpenGLWidget::initializeTriangle()
 {
     //Program
     program.create();
@@ -126,15 +134,8 @@ void MyOpenGLWidget::drawTriangle()
     glVertexAttribPointer(0, compCount, GL_FLOAT, GL_FALSE, strideBytes, (void*)(offsetBytes0));
     glVertexAttribPointer(1, compCount, GL_FLOAT, GL_FALSE, strideBytes, (void*)(offsetBytes1));
 
-    //Release
-    if(program.bind())
-    {
-        vao.bind();
-        glDrawArrays(GL_TRIANGLES, 0, 3);
-        vao.release();
-        vbo.release();
-        program.release();
-    }
-
+    vao.release();
+    program.release();
+    vbo.release();
 
 }
