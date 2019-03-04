@@ -30,7 +30,8 @@ SOURCES += \
     transformwidget.cpp \
     inspectorwidget.cpp \
     myopenglwidget.cpp \
-    customwidget.cpp
+    customwidget.cpp \
+    submesh.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -38,7 +39,10 @@ HEADERS += \
     transformwidget.h \
     inspectorwidget.h \
     myopenglwidget.h \
-    customwidget.h
+    customwidget.h \
+    submesh.h \
+    vertex.h \
+    mesh.h
 
 FORMS += \
         mainwindow.ui \
@@ -57,3 +61,10 @@ QT      += opengl
 CONFIG += console
 
 DISTFILES +=
+
+# Assimp
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../ThirdParty/Assimp/lib/windows/ -lassimp
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../ThirdParty/Assimp/lib/windows/ -lassimp
+else:unix: LIBS += -L$$PWD/../ThirdParty/Assimp/lib/osx/ -lassimp.4.1.0
+INCLUDEPATH += $$PWD/../ThirdParty/Assimp/include
+DEPENDPATH += $$PWD/../ThirdParty/Assimp/include
