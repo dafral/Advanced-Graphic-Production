@@ -31,7 +31,8 @@ SOURCES += \
     inspectorwidget.cpp \
     myopenglwidget.cpp \
     customwidget.cpp \
-    submesh.cpp
+    submesh.cpp \
+    mesh.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -42,7 +43,8 @@ HEADERS += \
     customwidget.h \
     submesh.h \
     vertex.h \
-    mesh.h
+    mesh.h \
+    resource.h
 
 FORMS += \
         mainwindow.ui \
@@ -63,8 +65,9 @@ CONFIG += console
 DISTFILES +=
 
 # Assimp
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../ThirdParty/Assimp/lib/windows/ -lassimp
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../ThirdParty/Assimp/lib/windows/ -lassimp
-else:unix: LIBS += -L$$PWD/../ThirdParty/Assimp/lib/osx/ -lassimp.4.1.0
-INCLUDEPATH += $$PWD/../ThirdParty/Assimp/include
-DEPENDPATH += $$PWD/../ThirdParty/Assimp/include
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/ThirdParty/Assimp/lib/ -lassimp
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/ThirdParty/Assimp/lib/ -lassimpd
+else:unix: LIBS += -L$$PWD/ThirdParty/Assimp/lib/ -lassimp
+
+INCLUDEPATH += $$PWD/ThirdParty/Assimp/include
+DEPENDPATH += $$PWD/ThirdParty/Assimp/include

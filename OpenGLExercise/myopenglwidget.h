@@ -26,6 +26,7 @@ public:
     void showInfo();
 
     void initializeTriangle();
+    void initializeSphere(int h, int v);
 
 signals:
     void messageLogged(const QOpenGLDebugMessage &);

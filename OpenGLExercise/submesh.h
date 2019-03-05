@@ -12,6 +12,7 @@ class SubMesh :
         protected QOpenGLFunctions_3_3_Core
 {
 public:
+    SubMesh();
     SubMesh(VertexFormat vertexFormat, void *data, int size);
     SubMesh(VertexFormat vertexFormat, void*data, int size, unsigned int *indices, int indices_count);
     ~SubMesh();
