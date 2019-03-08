@@ -9,6 +9,12 @@
 #include <QOpenGLShaderProgram>
 #include <QOpenGLDebugLogger>
 
+#include "mesh.h"
+
+// Sphere //
+#define H 32
+#define V 16
+
 class MyOpenGLWidget :
         public QOpenGLWidget,
         protected QOpenGLFunctions_3_3_Core
@@ -25,8 +31,11 @@ public:
 
     void showInfo();
 
-    void initializeTriangle();
-    void initializeSphere(int h, int v);
+    // Meshes //
+    Mesh* CreateMesh();
+    Mesh* initializeTriangle();
+    Mesh* initializeSphere();
+    void CleanUpMeshes();
 
 signals:
     void messageLogged(const QOpenGLDebugMessage &);
@@ -41,6 +50,8 @@ private:
     QOpenGLBuffer vbo;
     QOpenGLVertexArrayObject vao;
     QOpenGLShaderProgram program;
+
+    std::list<Mesh*> meshes;
 
 };
 

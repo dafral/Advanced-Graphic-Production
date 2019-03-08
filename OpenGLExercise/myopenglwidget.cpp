@@ -105,7 +105,14 @@ void MyOpenGLWidget::showInfo()
     std::cout << context()->format().depthBufferSize() << std::endl;
 }
 
-void MyOpenGLWidget::initializeTriangle()
+Mesh* MyOpenGLWidget::CreateMesh()
+{
+    Mesh* newMesh = new Mesh();
+    meshes.push_back(newMesh);
+    return newMesh;
+}
+
+Mesh* MyOpenGLWidget::initializeTriangle()
 {
     //Program
     program.create();
@@ -142,20 +149,21 @@ void MyOpenGLWidget::initializeTriangle()
     program.release();
     vbo.release();
 
+    return nullptr;
 }
 
-void MyOpenGLWidget::initializeSphere(int h, int v)
+Mesh* MyOpenGLWidget::initializeSphere()
 {
     static const float pi = 3.1416f;
     struct Vertex { QVector3D pos; QVector3D norm; };
 
-    Vertex sphere[h][v + 1];
-    for(int i = 0; i < h; ++i)
+    Vertex sphere[H][V + 1];
+    for(int i = 0; i < H; ++i)
     {
-        for(int j = 0; j < v; ++j)
+        for(int j = 0; j < H; ++j)
         {
-            float nh = float(i) / h;
-            float nv = float(j) / v - 0.5f;
+            float nh = float(i) / H;
+            float nv = float(j) / V - 0.5f;
             float angleh = 2 * pi * nh;
             float anglev = -pi * nv;
 
@@ -166,17 +174,17 @@ void MyOpenGLWidget::initializeSphere(int h, int v)
         }
     }
 
-    unsigned int sphereIndices[h][v][6];
-    for (unsigned int i = 0; i < h; ++i)
+    unsigned int sphereIndices[H][V][6];
+    for (unsigned int i = 0; i < H; ++i)
     {
-        for (unsigned int j = 0; j < v; ++j)
+        for (unsigned int j = 0; j < V; ++j)
         {
-            sphereIndices[i][j][0] = (i+0)      * (v+1) + j;
-            sphereIndices[i][j][1] = ((i+1)%h)  * (v+1) + j;
-            sphereIndices[i][j][2] = ((i+1)%h)  * (v+1) + j+1;
-            sphereIndices[i][j][3] = (i+0)      * (v+1) + j;
-            sphereIndices[i][j][4] = ((i+1)%h)  * (v+1) + j+1;
-            sphereIndices[i][j][5] = (i+0)      * (v+1) + j+1;
+            sphereIndices[i][j][0] = (i+0)      * (V+1) + j;
+            sphereIndices[i][j][1] = ((i+1)%H)  * (V+1) + j;
+            sphereIndices[i][j][2] = ((i+1)%H)  * (V+1) + j+1;
+            sphereIndices[i][j][3] = (i+0)      * (V+1) + j;
+            sphereIndices[i][j][4] = ((i+1)%H)  * (V+1) + j+1;
+            sphereIndices[i][j][5] = (i+0)      * (V+1) + j+1;
         }
     }
 
@@ -184,8 +192,17 @@ void MyOpenGLWidget::initializeSphere(int h, int v)
     vertexFormat.setVertexAttribute(0,0,3);
     vertexFormat.setVertexAttribute(1, sizeof(QVector3D), 3);
 
-    //Mesh *mesh = createMesh();
-    //mesh->name = "Sphere";
-    //mesh->addSubMesh(vertexFormat, sphere, sizeof(sphere), &sphereIndices[0][0][0], h*v*6);
-    //this->sphere = mesh;
+    Mesh *mesh = this->CreateMesh();
+    mesh->name = "Sphere";
+    mesh->addSubMesh(vertexFormat, sphere, sizeof(sphere), &sphereIndices[0][0][0], H*V*6);
+    return mesh;
+}
+
+void MyOpenGLWidget::CleanUpMeshes()
+{
+    for (std::list<Mesh*>::iterator it = meshes.begin(); it != meshes.end(); ++it)
+    {
+        if((*it) != nullptr)
+            delete (*it);
+    }
 }
