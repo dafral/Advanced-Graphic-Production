@@ -5,6 +5,16 @@ SubMesh::SubMesh()
 
 }
 
+SubMesh::SubMesh(VertexFormat vertexFormat, void *data, int size)
+{
+
+}
+
+SubMesh::SubMesh(VertexFormat vertexFormat, void*data, int size, unsigned int *indices, int indices_count)
+{
+
+}
+
 SubMesh::~SubMesh()
 {
 

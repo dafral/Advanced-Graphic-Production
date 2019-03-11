@@ -193,7 +193,7 @@ Mesh* MyOpenGLWidget::initializeSphere()
     vertexFormat.setVertexAttribute(1, sizeof(QVector3D), 3);
 
     Mesh *mesh = this->CreateMesh();
-    mesh->name = "Sphere";
+    //mesh->name = "Sphere";
     mesh->addSubMesh(vertexFormat, sphere, sizeof(sphere), &sphereIndices[0][0][0], H*V*6);
     return mesh;
 }

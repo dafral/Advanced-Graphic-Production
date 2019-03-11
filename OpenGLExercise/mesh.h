@@ -8,22 +8,25 @@
 
 #include <QVector>
 
-class Mesh : public Resource /* -- Esto tendria que hacer inheritance de Resource -- */
+class Resource;
+
+class Mesh //: public Resource /* -- Esto tendria que hacer inheritance de Resource -- */
 {
 public:
     Mesh();
-    ~Mesh() override;
+    ~Mesh(); //override;
 
     //Mesh * asMesh() override { return this; }
 
-    void update() override;
-    void destroy() override;
+    void update(); //override;
+    void destroy(); //override;
 
     void addSubMesh(VertexFormat vertexFormat, void *data, int bytes);
     void addSubMesh(VertexFormat vertexFormat, void *data, int bytes, unsigned int *indexes, int bytes_indexes);
     void loadModel(const char *filename);
 
     QVector<SubMesh*> submeshes;
+    bool needsUpdate;
 
 private:
 
