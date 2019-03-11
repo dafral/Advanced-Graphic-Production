@@ -40,6 +40,7 @@ void MyOpenGLWidget::initializeGL()
     showInfo();
 
     initializeTriangle();
+    //initializeSphere();
 
 }
 
