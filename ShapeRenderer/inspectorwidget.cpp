@@ -32,17 +32,18 @@ InspectorWidget::InspectorWidget(QWidget *parent) :
 
 void InspectorWidget::Update()
 {
-    if(currentEntity != w->currentEntity)
+    /*if(currentEntity != w->currentEntity)
     {
         if(layout != nullptr)
         {
+            layout->
             delete layout;
         }
         layout = new QVBoxLayout();
         currentEntity = w->currentEntity;
         currentEntity->OnInspector(layout);
-
-    }
+        setLayout(layout);
+    }*/
 }
 
 InspectorWidget::~InspectorWidget()

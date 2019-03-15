@@ -22,8 +22,6 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    void Update();
-
     void AddEntity(Entity* ent);
     void DeleteEntity(Entity* ent);
 
@@ -31,6 +29,8 @@ public slots:
     void openProject();
     void saveProject();
     void quit();
+
+    void Update();
 
 private:
     Ui::MainWindow *ui;
@@ -46,6 +46,8 @@ public:
     QSettings settings;
     QList<Entity*> entities;
     Entity* currentEntity;
+
+    bool quitApp;
 
 };
 

@@ -4,12 +4,14 @@
 #include <iostream>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QTimer>
 
 #include "hyerarchylistwidget.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    quitApp(false)
 {
     ui->setupUi(this);
 
@@ -25,6 +27,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //Create the circle widget
     uiCustomWidget = new CustomWidget();
+
+    // Update Timer //
+    QTimer *timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(Update()));
+    timer->start(10);
 
     //Action triggers
     connect(ui->actionOpenProject, SIGNAL(triggered()), this, SLOT(openProject()));
@@ -135,6 +142,7 @@ void MainWindow::quit()
     if(button == QMessageBox::Yes)
     {
         std::cout << "Exit without saving changes" << std::endl;
+        quitApp = true;
         qApp->exit();
     }
 
