@@ -24,10 +24,12 @@ public slots:
 
 private:
     Ui::HyerarchyListWidget *ui;
-    QListWidget* list;
 
     // For very serious purposes //
     std::vector<QString> entityNames;
+
+public:
+    QListWidget* list;
 
 };
 

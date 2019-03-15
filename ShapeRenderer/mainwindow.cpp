@@ -58,6 +58,7 @@ void MainWindow::Update()
 void MainWindow::AddEntity(Entity *ent)
 {
     if(ent == nullptr) return;
+    uiHyerarchy->list->addItem(ent->GetName());
     entities.push_back(ent);
 }
 void MainWindow::DeleteEntity(Entity *ent)
