@@ -78,12 +78,19 @@ void MainWindow::openProject()
         std::cout << fileName.toStdString() << std::endl;
 
         QSettings settings(fileName, QSettings::IniFormat);
+        int size = settings.beginReadArray("entities");
 
-        settings.beginGroup("MainWindow");
-        resize(settings.value("size", QSize(400, 400)).toSize());
-        move(settings.value("pos", QPoint(200, 200)).toPoint());
-        settings.endGroup();
+        for(int i = 0; i < size; ++i)
+        {
+            settings.setArrayIndex(i);
+            Entity* ent = new Entity();
 
+            ent->name = settings.value("name").toString();
+
+            std::cout << ent->name.toStdString() << std::endl;
+            w->AddEntity(ent);
+        }
+        settings.endArray();
     }
 }
 
@@ -101,12 +108,16 @@ void MainWindow::saveProject()
     {
         std::cout << fileName.toStdString() << std::endl;
 
-        //w->settings(fileName, QSettings::IniFormat);
+        QSettings settings(fileName, QSettings::IniFormat);
+        settings.beginWriteArray("entities");
 
-        //settings.beginGroup("MainWindow");
-        //settings.setValue("size", size());
-        //settings.setValue("pos", pos());
-        //settings.endGroup();
+        for(int i = 0; i < entities.size(); i++)
+        {
+            settings.setArrayIndex(i);
+            entities[i]->Save(&settings);
+        }
+
+        settings.endArray();
     }
 }
 

@@ -2,6 +2,7 @@
 #define ENTITY_H
 
 #include <QString>
+#include <QSettings>
 
 struct float2
 {
@@ -41,7 +42,8 @@ public:
     Transform transform;
 public:
     virtual void CleanUp() {}
-    virtual void Save();
+    virtual void Save(QSettings* settings);
+    virtual void Load(QSettings* settings);
 
     // Utils
     QString GetName()

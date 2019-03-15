@@ -7,11 +7,13 @@ Entity::Entity(QString n)
 
 }
 
-void Entity::Save()
+void Entity::Save(QSettings* settings)
 {
-    //w->settings.beginGroup((QString)name);
+   settings->setValue("name", name);
+}
 
-   // settings.set("size", size());
-   // settings.setValue("pos", pos());
-   // settings.endGroup();
+void Entity::Load(QSettings* settings)
+{
+    //QSettings settings()
+    //w->AddEntity(Entity* ent = new Entity());
 }
