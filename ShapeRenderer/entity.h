@@ -31,16 +31,21 @@ struct Transform
 class Entity
 {
 public:
+    Entity(QString name);
     Entity()
     {};
     virtual ~Entity()
     {};
 public:
-    std::string name;
+    QString name;
     Transform transform;
 public:
     virtual void CleanUp() {}
     virtual void Save();
+
+    // Utils
+    QString GetName()
+        { return name; }
 
 };
 

@@ -12,6 +12,8 @@ namespace Ui {
 class MainWindow;
 }
 
+class HyerarchyListWidget;
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -19,6 +21,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+    void AddEntity(Entity* ent);
 
 public slots:
     void openProject();
@@ -29,6 +33,7 @@ private:
     Ui::MainWindow *ui;
     InspectorWidget *uiInspector;
     CustomWidget *uiCustomWidget;
+    HyerarchyListWidget* uiHyerarchy;
 
     //File manager
     QString pathtrunk;

@@ -31,12 +31,11 @@ SOURCES += \
     inspectorwidget.cpp \
     myopenglwidget.cpp \
     customwidget.cpp \
-    hyerarchywidget.cpp \
     primitive.cpp \
-    application.cpp \
     entitylabelwidget.cpp \
     entity.cpp \
-    entitylabel.cpp
+    entitylabel.cpp \
+    hyerarchylistwidget.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -45,19 +44,19 @@ HEADERS += \
     inspectorwidget.h \
     myopenglwidget.h \
     customwidget.h \
-    hyerarchywidget.h \
     entity.h \
     primitive.h \
-    application.h \
     entitylabelwidget.h \
-    entitylabel.h
+    entitylabel.h \
+    hyerarchylistwidget.h
 
 FORMS += \
         mainwindow.ui \
     rendering.ui \
     transformwidget.ui \
     hyerarchywidget.ui \
-    entitylabelwidget.ui
+    entitylabelwidget.ui \
+    hyerarchylistwidget.ui
 
 RESOURCES += \
     icons.qrc \

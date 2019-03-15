@@ -33,7 +33,13 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="HyerarchyWidget" name="hyerarchyWidget" native="true"/>
+        <widget class="HyerarchyWidget" name="hyerarchyWidget" native="true">
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <widget class="QListWidget" name="listWidget"/>
+          </item>
+         </layout>
+        </widget>
        </item>
       </layout>
      </widget>

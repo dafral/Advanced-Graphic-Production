@@ -5,6 +5,8 @@
 #include <QMessageBox>
 #include <QFileDialog>
 
+#include "hyerarchylistwidget.h"
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -16,6 +18,10 @@ MainWindow::MainWindow(QWidget *parent) :
     //Create the inspector widget
     uiInspector = new InspectorWidget();
     ui->dockInspector->setWidget(uiInspector);
+
+    // Hyerarchy Widget //
+    uiHyerarchy = new HyerarchyListWidget();
+    ui->dockHierarchy->setWidget(uiHyerarchy);
 
     //Create the circle widget
     uiCustomWidget = new CustomWidget();
@@ -35,6 +41,12 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::AddEntity(Entity *ent)
+{
+    if(ent == nullptr) return;
+    entities.push_back(ent);
 }
 
 void MainWindow::openProject()
