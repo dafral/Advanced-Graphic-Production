@@ -44,7 +44,6 @@ void HyerarchyListWidget::OnAddEntity()
     auxName.append(QString::number(w->entities.size()));
     if(rand() % 100 > 90) auxName = entityNames[rand() % entityNames.size()];
     Entity* ent = new Entity(auxName);
-    list->addItem(ent->GetName());
     w->AddEntity(ent);
 }
 void HyerarchyListWidget::OnDeleteEntity()
