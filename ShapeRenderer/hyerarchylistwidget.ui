@@ -27,7 +27,7 @@
    <item>
     <widget class="QPushButton" name="buttonDeleteEntity">
      <property name="text">
-      <string>Add Delete</string>
+      <string>Delete Entity</string>
      </property>
     </widget>
    </item>

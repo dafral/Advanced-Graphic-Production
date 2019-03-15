@@ -23,6 +23,7 @@ public:
     ~MainWindow();
 
     void AddEntity(Entity* ent);
+    void DeleteEntity(Entity* ent);
 
 public slots:
     void openProject();
@@ -41,7 +42,7 @@ private:
 
 public:
     QSettings settings;
-    std::vector<Entity*> entities;
+    QList<Entity*> entities;
 
 };
 

@@ -11,6 +11,7 @@ HyerarchyListWidget::HyerarchyListWidget(QWidget *parent) :
     ui->setupUi(this);
     list = ui->listWidget;
     connect(ui->buttonAddEntity, SIGNAL(clicked()), this, SLOT(OnAddEntity()));
+    connect(ui->buttonDeleteEntity, SIGNAL(clicked()), this, SLOT(OnDeleteEntity()));
 
     // 4 very purposes serious //
     entityNames.push_back("Popentity Pupuntity");
@@ -21,6 +22,7 @@ HyerarchyListWidget::HyerarchyListWidget(QWidget *parent) :
     entityNames.push_back("John Centity");
     entityNames.push_back("Hippity Hoppity u r now my Entity");
     entityNames.push_back("Manasuel");
+    entityNames.push_back("Raúl el Listo");
 
 }
 
@@ -32,11 +34,16 @@ HyerarchyListWidget::~HyerarchyListWidget()
 // Slots //
 void HyerarchyListWidget::OnAddEntity()
 {
-    Entity* ent = new Entity(entityNames[rand() % entityNames.size()]);
+    QString auxName = "Entity";
+    auxName.append(QString::number(w->entities.size()));
+    if(rand() % 100 > 90) auxName = entityNames[rand() % entityNames.size()];
+    Entity* ent = new Entity(auxName);
     list->addItem(ent->GetName());
     w->AddEntity(ent);
 }
 void HyerarchyListWidget::OnDeleteEntity()
 {
-
+    if(list->currentRow() == -1) return;
+    list->takeItem(list->currentRow());
+    w->DeleteEntity(w->entities.at(list->currentRow()));
 }

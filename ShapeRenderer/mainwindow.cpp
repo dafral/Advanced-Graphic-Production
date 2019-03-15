@@ -48,6 +48,20 @@ void MainWindow::AddEntity(Entity *ent)
     if(ent == nullptr) return;
     entities.push_back(ent);
 }
+void MainWindow::DeleteEntity(Entity *ent)
+{
+    if(ent == nullptr) return;
+    for(QList<Entity*>::iterator it = entities.begin(); it != entities.end(); ++it)
+    {
+        if((*it) == ent)
+        {
+            entities.removeOne((*it));
+            (*it)->CleanUp();
+            if((*it) != nullptr)
+                delete (*it);
+        }
+    }
+}
 
 void MainWindow::openProject()
 {

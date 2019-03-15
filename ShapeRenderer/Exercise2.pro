@@ -51,7 +51,6 @@ FORMS += \
     rendering.ui \
     transformwidget.ui \
     hyerarchywidget.ui \
-    entitylabelwidget.ui \
     hyerarchylistwidget.ui
 
 RESOURCES += \
