@@ -2,6 +2,7 @@
 #define ENTITY_H
 
 #include <QString>
+#include <QVBoxLayout>
 
 struct float2
 {
@@ -46,6 +47,9 @@ public:
     // Utils
     QString GetName()
         { return name; }
+
+    // Inspector //
+    virtual void OnInspector(QVBoxLayout* layout);
 
 };
 

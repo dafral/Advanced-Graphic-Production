@@ -2,20 +2,24 @@
 #include "transformwidget.h"
 #include "renderingwidget.h"
 
+#include "mainwindow.h"
+#include "entity.h"
+
 #include <QLayout>
 #include <QVBoxLayout>
 #include <QSpacerItem>
+#include <QLabel>
 
 InspectorWidget::InspectorWidget(QWidget *parent) :
     QWidget (parent)
 {
     //Create subwidgets independently
-    TransformWidget *transformWidget = new TransformWidget;
-    RenderingWidget *renderingWidget = new RenderingWidget;
+    TransformWidget *transformWidget = new TransformWidget();
+    RenderingWidget *renderingWidget = new RenderingWidget();
     QSpacerItem *spacer = new QSpacerItem(1,1,QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     //Create a vertical layour for this widget
-    QVBoxLayout *layout = new QVBoxLayout;
+    layout = new QVBoxLayout();
 
     //Add all the elements to the layout
     layout->addWidget(transformWidget);
@@ -24,6 +28,21 @@ InspectorWidget::InspectorWidget(QWidget *parent) :
 
     //Set the layout for this widget
     setLayout(layout);
+}
+
+void InspectorWidget::Update()
+{
+    if(currentEntity != w->currentEntity)
+    {
+        if(layout != nullptr)
+        {
+            delete layout;
+        }
+        layout = new QVBoxLayout();
+        currentEntity = w->currentEntity;
+        currentEntity->OnInspector(layout);
+
+    }
 }
 
 InspectorWidget::~InspectorWidget()

@@ -43,6 +43,11 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::Update()
+{
+    uiInspector->Update();
+}
+
 void MainWindow::AddEntity(Entity *ent)
 {
     if(ent == nullptr) return;

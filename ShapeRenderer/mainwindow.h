@@ -22,6 +22,8 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    void Update();
+
     void AddEntity(Entity* ent);
     void DeleteEntity(Entity* ent);
 
@@ -43,6 +45,7 @@ private:
 public:
     QSettings settings;
     QList<Entity*> entities;
+    Entity* currentEntity;
 
 };
 
