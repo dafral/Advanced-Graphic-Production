@@ -14,7 +14,12 @@ void Primitive::CleanUp()
 
 }
 
-void Primitive::Save()
+void Primitive::Save(QSettings* settings)
+{
+
+}
+
+void Primitive::Load(QSettings* settings)
 {
 
 }

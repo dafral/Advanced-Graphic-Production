@@ -52,7 +52,8 @@ public:
     Qt::BrushStyle fillStyle;
 public:
     void CleanUp() override;
-    void Save() override;
+    void Save(QSettings* settings) override;
+    void Load(QSettings* settings) override;
 };
 
 #endif // PRIMITIVE_H
