@@ -11,14 +11,17 @@ Mesh::Mesh()
 {
 
 }
+
 Mesh::~Mesh()
 {
     destroy();
 }
+
 void Mesh::addSubMesh(VertexFormat vertexFormat, void *data, int bytes)
 {
 
 }
+
 void Mesh::addSubMesh(VertexFormat vertexFormat, void *data, int bytes, unsigned int *indexes, int bytes_indexes)
 {
 

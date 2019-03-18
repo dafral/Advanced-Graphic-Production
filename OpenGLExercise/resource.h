@@ -6,7 +6,7 @@
 class Resource
 {
 public:
-    Resource();
+    Resource() {}
     virtual ~Resource() {}
 
     virtual void update() {}

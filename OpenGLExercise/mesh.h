@@ -10,7 +10,7 @@
 
 class Resource;
 
-class Mesh : public Resource /* -- Esto tendria que hacer inheritance de Resource -- */
+class Mesh : public Resource
 {
 public:
     Mesh();
