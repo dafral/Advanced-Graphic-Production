@@ -55,6 +55,11 @@ void MainWindow::Update()
     uiInspector->Update();
 }
 
+void MainWindow::UpdateInspector()
+{
+    uiInspector->transformWidget->update();
+}
+
 void MainWindow::AddEntity(Entity *ent)
 {
     if(ent == nullptr) return;

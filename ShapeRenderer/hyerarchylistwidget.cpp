@@ -36,6 +36,7 @@ HyerarchyListWidget::~HyerarchyListWidget()
 void HyerarchyListWidget::OnDobleClickEntity()
 {
     w->currentEntity = w->entities.at(list->currentRow());
+    w->UpdateInspector();
 }
 
 void HyerarchyListWidget::OnAddEntity()

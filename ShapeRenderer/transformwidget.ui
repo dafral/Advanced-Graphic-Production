@@ -7,13 +7,53 @@
     <x>0</x>
     <y>0</y>
     <width>248</width>
-    <height>115</height>
+    <height>501</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="labelName">
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Name</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QTextEdit" name="label_entityName">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <kerning>true</kerning>
+      </font>
+     </property>
+     <property name="acceptDrops">
+      <bool>false</bool>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
    <item>
     <widget class="QLabel" name="labelTransform">
      <property name="text">
@@ -36,29 +76,6 @@
      <item>
       <widget class="QSpinBox" name="transY"/>
      </item>
-     <item>
-      <widget class="QSpinBox" name="transZ"/>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="Rotation">
-     <item>
-      <widget class="QLabel" name="labelRot">
-       <property name="text">
-        <string>Rotation</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QSpinBox" name="rotX"/>
-     </item>
-     <item>
-      <widget class="QSpinBox" name="rotY"/>
-     </item>
-     <item>
-      <widget class="QSpinBox" name="rotZ"/>
-     </item>
     </layout>
    </item>
    <item>
@@ -76,10 +93,256 @@
      <item>
       <widget class="QSpinBox" name="scaY"/>
      </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelShapeRenderer">
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Shape Renderer</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QComboBox" name="comboBox_Shape">
      <item>
-      <widget class="QSpinBox" name="scaZ"/>
+      <property name="text">
+       <string>Empty</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Circle</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Square</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Infinite</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_4">
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Fill Color</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="ColorLayout">
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>R</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDoubleSpinBox" name="spinBox_FillColor_R"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>G</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDoubleSpinBox" name="spinBox_FillColor_G"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>B</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDoubleSpinBox" name="spinBox_FillColor_B"/>
      </item>
     </layout>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_8">
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Fill Style</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QComboBox" name="comboBox_FillStyle">
+     <item>
+      <property name="text">
+       <string>Solid</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Dense</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Dotted</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Cross</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Linear Gradient</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>No Brush</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_5">
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Stroke Color</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="StrokeLayout">
+     <item>
+      <widget class="QLabel" name="label_11">
+       <property name="text">
+        <string>R</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDoubleSpinBox" name="spinBox_StrokeColor_R"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_9">
+       <property name="text">
+        <string>G</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDoubleSpinBox" name="spinBox_StrokeColor_G"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_10">
+       <property name="text">
+        <string>B</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDoubleSpinBox" name="spinBox_StrokeColor_B"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_6">
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Stroke Thickness</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDoubleSpinBox" name="spinBox_StrokeThicc"/>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_7">
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Stroke Style</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QComboBox" name="comboBox_StrokeStyle">
+     <item>
+      <property name="text">
+       <string>Solid</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Dash</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Dot</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Dash - Dot</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Dash - Dot - Dot</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>

@@ -25,6 +25,8 @@ public:
     void AddEntity(Entity* ent);
     void DeleteEntity(Entity* ent);
 
+    void UpdateInspector();
+
 public slots:
     void openProject();
     void saveProject();

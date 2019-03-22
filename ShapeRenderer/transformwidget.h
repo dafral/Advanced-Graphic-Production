@@ -19,6 +19,7 @@ private:
     Ui::TransformWidget *ui;
 public:
     void Update();
+    void update();
 };
 
 
