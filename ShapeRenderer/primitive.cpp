@@ -11,7 +11,7 @@ Primitive::~Primitive()
 
 void Primitive::ResetValues()
 {
-
+    // pa que el davidz ponga los valores i no le pete
 }
 
 void Primitive::Save(QSettings* settings)

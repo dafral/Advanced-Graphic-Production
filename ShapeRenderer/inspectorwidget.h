@@ -4,6 +4,10 @@
 #include <QWidget>
 #include "entity.h"
 
+#include "inspectorwidget.h"
+#include "transformwidget.h"
+#include "renderingwidget.h"
+
 namespace Ui {
 class InspectorWidget;
 }
@@ -16,11 +20,13 @@ public:
     explicit InspectorWidget(QWidget *parent = nullptr);
     ~InspectorWidget();
     void Update();
-
+    void ResetLayout();
 private:
     Ui::InspectorWidget *ui;
     Entity* currentEntity;
     QVBoxLayout* layout;
+
+    //TransformWidget* transformWidget;
 };
 
 #endif // INSPECTORWIDGET_H
