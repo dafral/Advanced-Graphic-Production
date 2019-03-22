@@ -25,8 +25,8 @@ private:
     Ui::InspectorWidget *ui;
     Entity* currentEntity;
     QVBoxLayout* layout;
-
-    //TransformWidget* transformWidget;
+public:
+    TransformWidget* transformWidget;
 };
 
 #endif // INSPECTORWIDGET_H
