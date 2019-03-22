@@ -9,6 +9,11 @@ Entity::Entity(QString n)
 
 }
 
+Entity::~Entity()
+{
+
+}
+
 void Entity::Save(QSettings* settings)
 {
    settings->setValue("name", name);

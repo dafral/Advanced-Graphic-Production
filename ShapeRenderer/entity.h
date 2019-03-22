@@ -36,13 +36,11 @@ public:
     Entity(QString name);
     Entity()
     {};
-    virtual ~Entity()
-    {};
+    virtual ~Entity();
 public:
     QString name;
     Transform transform;
 public:
-    virtual void CleanUp() {}
     virtual void Save(QSettings* settings);
     virtual void Load(QSettings* settings);
 

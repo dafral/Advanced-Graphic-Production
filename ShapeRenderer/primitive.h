@@ -51,7 +51,6 @@ public:
     Qt::PenStyle strokeStyle;
     Qt::BrushStyle fillStyle;
 public:
-    void CleanUp() override;
     void Save(QSettings* settings) override;
     void Load(QSettings* settings) override;
 };

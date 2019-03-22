@@ -9,11 +9,6 @@ Primitive::~Primitive()
 
 }
 
-void Primitive::CleanUp()
-{
-
-}
-
 void Primitive::Save(QSettings* settings)
 {
 
