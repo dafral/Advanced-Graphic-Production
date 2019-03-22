@@ -1,5 +1,6 @@
 #include "customwidget.h"
 #include "mainwindow.h"
+#include "entity.h"
 
 #include <QPainter>
 #include <iostream>
@@ -43,8 +44,6 @@ void CustomWidget::paintEvent(QPaintEvent *event)
 
     for(int i = 0; i < w->entities.size(); i++)
     {
-        std::cout << "entra en el for" << std::endl;
-
         //Brush/Pen configuration
         brush.setColor(w->entities[i]->fillColor);
         brush.setStyle(w->entities[i]->fillStyle);
@@ -56,13 +55,18 @@ void CustomWidget::paintEvent(QPaintEvent *event)
         painter.setPen(pen);
 
         //Draw circle
-        int r = 64;
-        int w = r * 2;
-        int h = r * 2;
-        int x = rect().width()/2 - r;
-        int y = rect().height()/2 - r;
-        QRect circleRect(x, y, w, h);
-        painter.drawEllipse(circleRect);
-    }
+        QRect newShape(w->entities[i]->transform.position.x, w->entities[i]->transform.position.x,
+                       w->entities[i]->transform.scale.x, w->entities[i]->transform.scale.y);
 
+       switch(w->entities[i]->shape)
+       {
+           case Shape::Circle:
+               painter.drawEllipse(newShape);
+               break;
+
+           case Shape::Square:
+               painter.drawRect(newShape);
+               break;
+       }
+    }
 }

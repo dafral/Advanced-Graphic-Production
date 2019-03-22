@@ -50,13 +50,17 @@ public:
 public:
     QString name;
     Transform transform;
+
     // Primitive //
     Shape shape;
+
     QColor fillColor;
+    Qt::BrushStyle fillStyle;
+
     QColor strokeColor;
     float strokeThickness;
     Qt::PenStyle strokeStyle;
-    Qt::BrushStyle fillStyle;
+
 public:
     virtual void Save(QSettings* settings);
     virtual void Load(QSettings* settings);
