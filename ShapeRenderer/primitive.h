@@ -3,6 +3,8 @@
 
 #include "entity.h"
 
+#include <QColor>
+
 enum Shape
 {
     Empty = 0,
@@ -45,8 +47,8 @@ public:
 public:
     Shape shape;
 
-    Color fillColor;
-    Color strokeColor;
+    QColor fillColor;
+    QColor strokeColor;
     float strokeThickness;
     Qt::PenStyle strokeStyle;
     Qt::BrushStyle fillStyle;
