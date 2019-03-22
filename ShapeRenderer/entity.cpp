@@ -3,6 +3,7 @@
 
 #include <QLabel>
 #include <QPainter>
+#include <iostream>
 
 Entity::Entity(QString n)
     : name(n)
@@ -17,7 +18,28 @@ Entity::~Entity()
 
 void Entity::Save(QSettings* settings)
 {
+   //Saving name & transform
    settings->setValue("name", name);
+
+   settings->setValue("x", transform.position.x);
+   settings->setValue("y", transform.position.y);
+
+   settings->setValue("width", transform.scale.x);
+   settings->setValue("height", transform.scale.y);
+
+   //Saving shape properties
+   settings->setValue("shape", shape);
+
+   settings->setValue("fillcolor_r", fillColor.red());
+   settings->setValue("fillcolor_g", fillColor.green());
+   settings->setValue("fillcolor_b", fillColor.blue());
+   //settings->setValue("fillstyle", fillStyle);
+
+   settings->setValue("strokecolor_r", strokeColor.red());
+   settings->setValue("strokecolor_g", strokeColor.green());
+   settings->setValue("strokecolor_b", strokeColor.blue());
+   //settings->setValue("strokestyle", strokeStyle);
+   settings->setValue("strokethickness", strokeThickness);
 }
 
 void Entity::Load(QSettings* settings)

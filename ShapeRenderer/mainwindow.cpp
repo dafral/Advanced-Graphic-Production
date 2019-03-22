@@ -97,11 +97,28 @@ void MainWindow::openProject()
         for(int i = 0; i < size; ++i)
         {
             settings.setArrayIndex(i);
-            Entity* ent = new Entity();
+            Entity* ent = new Entity("willirres");
 
+            //Loading name & transform
             ent->name = settings.value("name").toString();
 
-            std::cout << ent->name.toStdString() << std::endl;
+            ent->transform.position.x = settings.value("x").toFloat();
+            ent->transform.position.y = settings.value("y").toFloat();
+
+            ent->transform.scale.x = settings.value("width").toFloat();
+            ent->transform.scale.y = settings.value("height").toFloat();
+
+            //Saving shape properties
+            //ent->shape = settings.value("shape").toInt();
+
+            ent->fillColor = settings.value("fillcolor").toInt();
+            //ent->fillstyle = settings.value("fillstyle").toInt();
+
+            ent->strokeColor = settings.value("strokecolor").toInt();
+            //ent->strokeStyle = settings.value("strokestyle").toInt();
+            ent->strokeThickness = settings.value("strokethickness").toFloat();
+
+            std::cout << ent->strokeStyle << std::endl;
             w->AddEntity(ent);
         }
         settings.endArray();
