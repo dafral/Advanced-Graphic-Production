@@ -53,6 +53,8 @@ public:
 public:
     void Save(QSettings* settings) override;
     void Load(QSettings* settings) override;
+public:
+    void ResetValues();
 };
 
 #endif // PRIMITIVE_H

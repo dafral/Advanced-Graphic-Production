@@ -64,23 +64,17 @@ void MainWindow::AddEntity(Entity *ent)
 void MainWindow::DeleteEntity(Entity *ent)
 {
     if(ent == nullptr) return;
-    printf("\n\t{");
     for(QList<Entity*>::iterator it = entities.begin(); it != entities.end(); ++it)
     {
         if((*it) == ent && ent != nullptr)
         {
-            printf("\nA");
-            printf("\nB");
             if((*it) != nullptr)
             {
-               printf("\nD");
                delete (*it);
-               printf("\nE");
             }
             entities.removeOne((*it));
         }
     }
-    printf("\n\t}");
 }
 
 void MainWindow::openProject()

@@ -2,9 +2,14 @@
 
 Primitive::Primitive()
 {
-
+    this->ResetValues();
 }
 Primitive::~Primitive()
+{
+
+}
+
+void Primitive::ResetValues()
 {
 
 }
