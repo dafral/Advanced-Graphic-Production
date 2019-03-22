@@ -4,6 +4,7 @@
 #include <QString>
 #include <QVBoxLayout>
 #include <QSettings>
+#include <QColor>
 
 struct float2
 {
@@ -30,6 +31,15 @@ struct Transform
     float3 rotation;
 };
 
+// Primitive //
+enum Shape
+{
+    Empty = 0,
+    Circle,
+    Square,
+    Infinite
+};
+
 class Entity
 {
 public:
@@ -40,9 +50,19 @@ public:
 public:
     QString name;
     Transform transform;
+    // Primitive //
+    Shape shape;
+    QColor fillColor;
+    QColor strokeColor;
+    float strokeThickness;
+    Qt::PenStyle strokeStyle;
+    Qt::BrushStyle fillStyle;
 public:
     virtual void Save(QSettings* settings);
     virtual void Load(QSettings* settings);
+
+    // Primitive //
+    void ResetPrimitiveValues();
 
     // Utils
     QString GetName()
