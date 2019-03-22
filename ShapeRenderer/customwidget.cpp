@@ -1,5 +1,9 @@
 #include "customwidget.h"
+#include "mainwindow.h"
+#include "primitive.h"
+
 #include <QPainter>
+#include <iostream>
 
 CustomWidget::CustomWidget(QWidget *parent) : QWidget(parent)
 {
@@ -36,23 +40,29 @@ void CustomWidget::paintEvent(QPaintEvent *event)
     painter.setPen(pen);
 
     //Paint background
-    painter.drawRect(rect());
+    //painter.drawRect(rect());
 
-    //Brush/Pen configuration
-    brush.setColor(whiteColor);
-    pen.setWidth(4);
-    pen.setColor(blackColor);
-    pen.setStyle(Qt::PenStyle::DashLine);
-    painter.setBrush(brush);
-    painter.setPen(pen);
+    for(int i = 0; i < w->entities.size(); i++)
+    {
+        std::cout << "entra en el for" << std::endl;
 
-    //Draw circle
-    int r = 64;
-    int w = r * 2;
-    int h = r * 2;
-    int x = rect().width()/2 - r;
-    int y = rect().height()/2 - r;
-    QRect circleRect(x, y, w, h);
-    painter.drawEllipse(circleRect);
+        //Brush/Pen configuration
+        Primitive* prim = (Primitive*)w->entities[i];
+        brush.setColor(prim->fillColor);
+        pen.setWidth(4);
+        pen.setColor(blackColor);
+        pen.setStyle(Qt::PenStyle::DashLine);
+        painter.setBrush(brush);
+        painter.setPen(pen);
+
+        //Draw circle
+        int r = 64;
+        int w = r * 2;
+        int h = r * 2;
+        int x = rect().width()/2 - r;
+        int y = rect().height()/2 - r;
+        QRect circleRect(x, y, w, h);
+        painter.drawEllipse(circleRect);
+    }
 
 }
