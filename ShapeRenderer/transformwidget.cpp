@@ -7,16 +7,17 @@ TransformWidget::TransformWidget(QWidget *parent) :
     ui(new Ui::TransformWidget)
 {
     ui->setupUi(this);
+    // connects //
+    // Name
+    // Trans
+    // Shape
+    // Fill Color
+    // Stroke
 }
 
 TransformWidget::~TransformWidget()
 {
     delete ui;
-}
-
-void TransformWidget::Update()
-{
-
 }
 
 void TransformWidget::update()
@@ -46,5 +47,52 @@ void TransformWidget::update()
     ui->spinBox_StrokeThicc->setValue(w->currentEntity->strokeThickness);
     // Stroke Style
     ui->comboBox_StrokeStyle->setCurrentIndex((int)w->currentEntity->strokeStyle);
+
+
+
+}
+
+void TransformWidget::OnNameChanged()
+{
+
+}
+void TransformWidget::OnPosXChanged()
+{
+
+}
+void TransformWidget::OnPosYChanged()
+{
+
+}
+void TransformWidget::OnScaXChanged()
+{
+
+}
+void TransformWidget::OnScaYChanged()
+{
+
+}
+void TransformWidget::OnShapeChanged()
+{
+
+}
+void TransformWidget::OnFillColorChanged()
+{
+
+}
+void TransformWidget::OnFillStyleChanged()
+{
+
+}
+void TransformWidget::OnStrokeColorChanged()
+{
+
+}
+void TransformWidget::OnStrokeThicknessChanged()
+{
+
+}
+void TransformWidget::OnStrokeStyleChanged()
+{
 
 }

@@ -18,8 +18,24 @@ public:
 private:
     Ui::TransformWidget *ui;
 public:
-    void Update();
     void update();
+public slots:
+    // Name
+    void OnNameChanged();
+    // Trans
+    void OnPosXChanged();
+    void OnPosYChanged();
+    void OnScaXChanged();
+    void OnScaYChanged();
+    // Shape
+    void OnShapeChanged();
+    // Fill Color
+    void OnFillColorChanged();
+    void OnFillStyleChanged();
+    // Stroke
+    void OnStrokeColorChanged();
+    void OnStrokeThicknessChanged();
+    void OnStrokeStyleChanged();
 };
 
 
