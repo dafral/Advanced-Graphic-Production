@@ -1,6 +1,5 @@
 #include "customwidget.h"
 #include "mainwindow.h"
-#include "primitive.h"
 
 #include <QPainter>
 #include <iostream>
@@ -47,11 +46,12 @@ void CustomWidget::paintEvent(QPaintEvent *event)
         std::cout << "entra en el for" << std::endl;
 
         //Brush/Pen configuration
-        Primitive* prim = (Primitive*)w->entities[i];
-        brush.setColor(prim->fillColor);
-        pen.setWidth(4);
-        pen.setColor(blackColor);
-        pen.setStyle(Qt::PenStyle::DashLine);
+        brush.setColor(w->entities[i]->fillColor);
+        brush.setStyle(w->entities[i]->fillStyle);
+        pen.setWidth(w->entities[i]->strokeThickness);
+        pen.setColor(w->entities[i]->strokeColor);
+        pen.setStyle(w->entities[i]->strokeStyle);
+
         painter.setBrush(brush);
         painter.setPen(pen);
 

@@ -31,7 +31,6 @@ SOURCES += \
     inspectorwidget.cpp \
     myopenglwidget.cpp \
     customwidget.cpp \
-    primitive.cpp \
     entity.cpp \
     hyerarchylistwidget.cpp
 
@@ -43,7 +42,6 @@ HEADERS += \
     myopenglwidget.h \
     customwidget.h \
     entity.h \
-    primitive.h \
     hyerarchylistwidget.h
 
 FORMS += \
