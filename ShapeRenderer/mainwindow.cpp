@@ -116,10 +116,18 @@ void MainWindow::openProject()
             //Saving shape properties
             //ent->shape = settings.value("shape").toInt();
 
-            ent->fillColor = settings.value("fillcolor").toInt();
+            int fill_r, fill_g, fill_b, stroke_r, stroke_g, stroke_b;
+
+            fill_r = settings.value("fillcolor_r").toInt();
+            fill_g = settings.value("fillcolor_g").toInt();
+            fill_b = settings.value("fillcolor_b").toInt();
+            ent->fillColor = QColor::fromRgb(fill_r, fill_g, fill_b);
             //ent->fillstyle = settings.value("fillstyle").toInt();
 
-            ent->strokeColor = settings.value("strokecolor").toInt();
+            stroke_r= settings.value("strokecolor_r").toInt();
+            stroke_g= settings.value("strokecolor_g").toInt();
+            stroke_b= settings.value("strokecolor_b").toInt();
+            ent->strokeColor = QColor::fromRgb(stroke_r, stroke_g, stroke_b);
             //ent->strokeStyle = settings.value("strokestyle").toInt();
             ent->strokeThickness = settings.value("strokethickness").toFloat();
 
