@@ -102,7 +102,7 @@ void MainWindow::openProject()
         for(int i = 0; i < size; ++i)
         {
             settings.setArrayIndex(i);
-            Entity* ent = new Entity("willirres");
+            Entity* ent = new Entity("noname");
 
             //Loading name & transform
             ent->name = settings.value("name").toString();
@@ -115,6 +115,24 @@ void MainWindow::openProject()
 
             //Saving shape properties
             //ent->shape = settings.value("shape").toInt();
+            switch(settings.value("shape").toInt())
+            {
+            case 0:
+                ent->shape = Shape::Empty;
+                break;
+
+            case 1:
+                ent->shape = Shape::Circle;
+                break;
+
+            case 2:
+                ent->shape = Shape::Square;
+                break;
+
+            case 3:
+                ent->shape = Shape::Infinite;
+                break;
+            }
 
             int fill_r, fill_g, fill_b, stroke_r, stroke_g, stroke_b;
 
