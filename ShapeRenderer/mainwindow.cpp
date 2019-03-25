@@ -114,7 +114,6 @@ void MainWindow::openProject()
             ent->transform.scale.y = settings.value("height").toFloat();
 
             //Saving shape properties
-            //ent->shape = settings.value("shape").toInt();
             switch(settings.value("shape").toInt())
             {
             case 0:
@@ -136,22 +135,68 @@ void MainWindow::openProject()
 
             int fill_r, fill_g, fill_b, stroke_r, stroke_g, stroke_b;
 
+            //Fill properties
             fill_r = settings.value("fillcolor_r").toInt();
             fill_g = settings.value("fillcolor_g").toInt();
             fill_b = settings.value("fillcolor_b").toInt();
             ent->fillColor = QColor::fromRgb(fill_r, fill_g, fill_b);
-            //ent->fillstyle = settings.value("fillstyle").toInt();
 
+            switch(settings.value("fillstyle").toInt())
+            {
+            case 0:
+                ent->fillStyle = Fill::Dense;
+                break;
+
+            case 1:
+                ent->fillStyle = Fill::Dotted;
+                break;
+
+            case 2:
+                ent->fillStyle = Fill::Cross;
+                break;
+
+            case 3:
+                ent->fillStyle = Fill::Gradient;
+                break;
+
+            case 4:
+                ent->fillStyle = Fill::NoBrush;
+                break;
+            }
+
+            //Stroke properties
             stroke_r= settings.value("strokecolor_r").toInt();
             stroke_g= settings.value("strokecolor_g").toInt();
             stroke_b= settings.value("strokecolor_b").toInt();
             ent->strokeColor = QColor::fromRgb(stroke_r, stroke_g, stroke_b);
-            //ent->strokeStyle = settings.value("strokestyle").toInt();
             ent->strokeThickness = settings.value("strokethickness").toFloat();
 
-            std::cout << ent->strokeStyle << std::endl;
+            switch(settings.value("strokestyle").toInt())
+            {
+            case 0:
+                ent->strokeStyle = Stroke::Solid;
+                break;
+
+            case 1:
+                ent->strokeStyle = Stroke::Dash;
+                break;
+
+            case 2:
+                ent->strokeStyle = Stroke::Dot;
+                break;
+
+            case 3:
+                ent->strokeStyle = Stroke::DashDot;
+                break;
+
+            case 4:
+                ent->strokeStyle = Stroke::DashDotDot;
+                break;
+            }
+
             w->AddEntity(ent);
         }
+
         settings.endArray();
     }
 }

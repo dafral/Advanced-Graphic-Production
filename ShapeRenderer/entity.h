@@ -40,6 +40,27 @@ enum Shape
     Infinite
 };
 
+//Stroke Style
+enum Stroke
+{
+    Solid = 0,
+    Dash,
+    Dot,
+    DashDot,
+    DashDotDot
+};
+
+//Fill Style
+enum Fill
+{
+    Dense = 0,
+    Dotted,
+    Cross,
+    Gradient,
+    NoBrush
+};
+
+//Entity
 class Entity
 {
 public:
@@ -55,11 +76,11 @@ public:
     Shape shape;
 
     QColor fillColor;
-    Qt::BrushStyle fillStyle;
+    Fill fillStyle;
 
     QColor strokeColor;
     float strokeThickness;
-    Qt::PenStyle strokeStyle;
+    Stroke strokeStyle;
 
 public:
     virtual void Save(QSettings* settings);

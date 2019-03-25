@@ -2,7 +2,6 @@
 #include "mainwindow.h"
 #include "entity.h"
 
-#include <QPainter>
 #include <iostream>
 
 CustomWidget::CustomWidget(QWidget *parent) : QWidget(parent)
@@ -46,10 +45,10 @@ void CustomWidget::paintEvent(QPaintEvent *event)
     {
         //Brush/Pen configuration
         brush.setColor(w->entities[i]->fillColor);
-        brush.setStyle(w->entities[i]->fillStyle);
+        brush.setStyle(GetBrushStyle(w->entities[i]->fillStyle));
         pen.setWidth(w->entities[i]->strokeThickness);
         pen.setColor(w->entities[i]->strokeColor);
-        pen.setStyle(w->entities[i]->strokeStyle);
+        pen.setStyle(GetPenStyle(w->entities[i]->strokeStyle));
 
         painter.setBrush(brush);
         painter.setPen(pen);
@@ -70,3 +69,37 @@ void CustomWidget::paintEvent(QPaintEvent *event)
        }
     }
 }
+
+Qt::PenStyle CustomWidget::GetPenStyle(int pentype)
+{
+    switch (pentype) {
+    case 0:
+        return Qt::PenStyle::SolidLine;;
+    case 1:
+        return Qt::PenStyle::DashLine;
+    case 2:
+        return Qt::PenStyle::DotLine;
+    case 3:
+        return Qt::PenStyle::DashDotLine;
+    case 4:
+        return Qt::PenStyle::DashDotDotLine;
+    }
+}
+
+Qt::BrushStyle CustomWidget::GetBrushStyle(int brushtype)
+{
+    switch (brushtype) {
+    case 0:
+        return Qt::BrushStyle::SolidPattern;
+    case 1:
+        return Qt::BrushStyle::Dense3Pattern;
+    case 2:
+        return Qt::BrushStyle::CrossPattern;
+    case 3:
+        return Qt::BrushStyle::LinearGradientPattern;
+    case 4:
+        return Qt::BrushStyle::NoBrush;
+    }
+}
+
+

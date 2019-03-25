@@ -33,12 +33,12 @@ void Entity::Save(QSettings* settings)
    settings->setValue("fillcolor_r", fillColor.red());
    settings->setValue("fillcolor_g", fillColor.green());
    settings->setValue("fillcolor_b", fillColor.blue());
-   //settings->setValue("fillstyle", fillStyle);
+   settings->setValue("fillstyle", fillStyle);
 
    settings->setValue("strokecolor_r", strokeColor.red());
    settings->setValue("strokecolor_g", strokeColor.green());
    settings->setValue("strokecolor_b", strokeColor.blue());
-   //settings->setValue("strokestyle", strokeStyle);
+   settings->setValue("strokestyle", strokeStyle);
    settings->setValue("strokethickness", strokeThickness);
 }
 
@@ -71,10 +71,10 @@ void Entity::ResetPrimitiveValues()
 
     //Brush properties
     fillColor = QColor::fromRgb(0,225,0);
-    fillStyle = Qt::BrushStyle::SolidPattern;
+    fillStyle = Fill::Gradient;
 
     //Pen properties
     strokeColor = QColor::fromRgb(0,0,0);
     strokeThickness = 4;
-    strokeStyle = Qt::PenStyle::SolidLine;
+    strokeStyle = Stroke::Dot;
 }
