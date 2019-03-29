@@ -59,7 +59,9 @@ void MainWindow::Update()
 
 void MainWindow::UpdateInspector()
 {
+    uiInspector->transformWidget->BlockSignals(true);
     uiInspector->transformWidget->update();
+    uiInspector->transformWidget->BlockSignals(false);
 }
 
 void MainWindow::AddEntity(Entity *ent)

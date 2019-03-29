@@ -6,8 +6,8 @@
 #include <iostream>
 
 Entity::Entity(QString n)
-    : name(n)
 {
+    name = n;
     this->ResetPrimitiveValues();
 }
 
@@ -50,9 +50,7 @@ void Entity::Load(QSettings* settings)
 
 void Entity::OnInspector(QVBoxLayout* layout)
 {
-    QLabel* labelName = new QLabel();
-    labelName->setText(this->name);
-    layout->addWidget(labelName);
+
 }
 
 // Primitives //

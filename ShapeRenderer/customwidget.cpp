@@ -54,10 +54,6 @@ void CustomWidget::paintEvent(QPaintEvent *event)
         painter.setPen(pen);
 
         QRectF shapeRect(w->entities[i]->transform.position.x, w->entities[i]->transform.position.y, w->entities[i]->transform.scale.x, w->entities[i]->transform.scale.y);
-        //shapeRect.setX(w->entities[i]->transform.position.x);
-        //shapeRect.setY(w->entities[i]->transform.position.y);
-        //shapeRect.setWidth(w->entities[i]->transform.scale.x);
-        //shapeRect.setHeight(w->entities[i]->transform.scale.y);
 
        switch(w->entities[i]->shape)
        {
