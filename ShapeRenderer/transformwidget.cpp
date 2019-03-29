@@ -43,6 +43,7 @@ TransformWidget::~TransformWidget()
 // SLOTS //
 void TransformWidget::OnGUIChanged()
 {
+    if(w->currentEntity == nullptr) return;
     // Sets //
     // Position
     w->currentEntity->transform.position.x = ui->transX->value();

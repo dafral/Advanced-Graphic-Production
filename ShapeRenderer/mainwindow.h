@@ -34,7 +34,7 @@ public slots:
 
     void Update();
 
-private:
+public:
     Ui::MainWindow *ui;
     InspectorWidget *uiInspector;
     CustomWidget *uiCustomWidget;

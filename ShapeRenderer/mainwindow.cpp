@@ -17,6 +17,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     setTabPosition(Qt::AllDockWidgetAreas, QTabWidget::TabPosition::North);
 
+    this->currentEntity = nullptr;
+
     //Create the inspector widget
     uiInspector = new InspectorWidget();
     ui->dockInspector->setWidget(uiInspector);
