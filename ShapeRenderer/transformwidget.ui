@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>248</width>
-    <height>501</height>
+    <width>274</width>
+    <height>584</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -28,31 +28,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QTextEdit" name="label_entityName">
-     <property name="enabled">
-      <bool>true</bool>
-     </property>
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="font">
-      <font>
-       <kerning>true</kerning>
-      </font>
-     </property>
-     <property name="acceptDrops">
-      <bool>false</bool>
-     </property>
-     <property name="autoFillBackground">
-      <bool>false</bool>
-     </property>
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-    </widget>
+    <widget class="QLineEdit" name="label_entityName"/>
    </item>
    <item>
     <widget class="QLabel" name="labelTransform">
@@ -71,10 +47,18 @@
       </widget>
      </item>
      <item>
-      <widget class="QSpinBox" name="transX"/>
+      <widget class="QDoubleSpinBox" name="transX">
+       <property name="maximum">
+        <double>9999.000000000000000</double>
+       </property>
+      </widget>
      </item>
      <item>
-      <widget class="QSpinBox" name="transY"/>
+      <widget class="QDoubleSpinBox" name="transY">
+       <property name="maximum">
+        <double>9999.000000000000000</double>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -88,10 +72,18 @@
       </widget>
      </item>
      <item>
-      <widget class="QSpinBox" name="scaX"/>
+      <widget class="QDoubleSpinBox" name="scaX">
+       <property name="maximum">
+        <double>9999.000000000000000</double>
+       </property>
+      </widget>
      </item>
      <item>
-      <widget class="QSpinBox" name="scaY"/>
+      <widget class="QDoubleSpinBox" name="scaY">
+       <property name="maximum">
+        <double>9999.000000000000000</double>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -155,7 +147,11 @@
       </widget>
      </item>
      <item>
-      <widget class="QDoubleSpinBox" name="spinBox_FillColor_R"/>
+      <widget class="QDoubleSpinBox" name="spinBox_FillColor_R">
+       <property name="maximum">
+        <double>255.000000000000000</double>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QLabel" name="label_3">
@@ -165,7 +161,11 @@
       </widget>
      </item>
      <item>
-      <widget class="QDoubleSpinBox" name="spinBox_FillColor_G"/>
+      <widget class="QDoubleSpinBox" name="spinBox_FillColor_G">
+       <property name="maximum">
+        <double>255.000000000000000</double>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QLabel" name="label">
@@ -175,7 +175,11 @@
       </widget>
      </item>
      <item>
-      <widget class="QDoubleSpinBox" name="spinBox_FillColor_B"/>
+      <widget class="QDoubleSpinBox" name="spinBox_FillColor_B">
+       <property name="maximum">
+        <double>255.000000000000000</double>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
