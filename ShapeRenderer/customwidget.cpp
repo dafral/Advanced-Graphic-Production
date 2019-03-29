@@ -40,8 +40,8 @@ void CustomWidget::paintEvent(QPaintEvent *event)
 
     //Paint background
     //painter.drawRect(rect());
-
     for(int i = 0; i < w->entities.size(); i++)
+
     {
         //Brush/Pen configuration
         brush.setColor(w->entities[i]->fillColor);
@@ -53,18 +53,20 @@ void CustomWidget::paintEvent(QPaintEvent *event)
         painter.setBrush(brush);
         painter.setPen(pen);
 
-        //Draw circle
-        QRect newShape(w->entities[i]->transform.position.x, w->entities[i]->transform.position.x,
-                       w->entities[i]->transform.scale.x, w->entities[i]->transform.scale.y);
+        QRectF shapeRect(w->entities[i]->transform.position.x, w->entities[i]->transform.position.y, w->entities[i]->transform.scale.x, w->entities[i]->transform.scale.y);
+        //shapeRect.setX(w->entities[i]->transform.position.x);
+        //shapeRect.setY(w->entities[i]->transform.position.y);
+        //shapeRect.setWidth(w->entities[i]->transform.scale.x);
+        //shapeRect.setHeight(w->entities[i]->transform.scale.y);
 
        switch(w->entities[i]->shape)
        {
            case Shape::Circle:
-               painter.drawEllipse(newShape);
+               painter.drawEllipse(shapeRect);
                break;
 
            case Shape::Square:
-               painter.drawRect(newShape);
+               painter.drawRect(shapeRect);
                break;
        }
     }

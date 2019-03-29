@@ -43,6 +43,8 @@ TransformWidget::~TransformWidget()
 // SLOTS //
 void TransformWidget::OnGUIChanged()
 {
+    this->BlockSignals(true);
+
     if(w->currentEntity == nullptr) return;
     // Sets //
     // Position
@@ -69,6 +71,27 @@ void TransformWidget::OnGUIChanged()
     w->currentEntity->strokeThickness = ui->spinBox_StrokeThicc->value();
     // Stroke Style
     w->currentEntity->strokeStyle = (Stroke)ui->comboBox_StrokeStyle->currentIndex();
+
+    this->BlockSignals(false);
+}
+
+void TransformWidget::BlockSignals(bool flag)
+{
+    ui->transX->blockSignals(flag);
+    ui->transY->blockSignals(flag);
+    ui->scaX->blockSignals(flag);
+    ui->scaY->blockSignals(flag);
+    ui->label_entityName->blockSignals(flag);
+    ui->comboBox_Shape->blockSignals(flag);
+    ui->comboBox_FillStyle->blockSignals(flag);
+    ui->comboBox_StrokeStyle->blockSignals(flag);
+    ui->spinBox_FillColor_B->blockSignals(flag);
+    ui->spinBox_FillColor_G->blockSignals(flag);
+    ui->spinBox_FillColor_R->blockSignals(flag);
+    ui->spinBox_StrokeColor_B->blockSignals(flag);
+    ui->spinBox_StrokeColor_G->blockSignals(flag);
+    ui->spinBox_StrokeColor_R->blockSignals(flag);
+    ui->spinBox_StrokeThicc->blockSignals(flag);
 }
 
 // UPDATE //

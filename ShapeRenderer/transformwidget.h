@@ -25,6 +25,8 @@ private:
 public:
     void Update();
     void update();
+
+    void BlockSignals(bool flag);
 };
 
 
