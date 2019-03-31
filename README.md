@@ -11,14 +11,15 @@
       
 	### MAIN MENU TOOLBAR ///////////////////////////////           
 
-		* **Exit Application Button**     
+		* **Exit Application Button (Shotcut: ESC)**     
 			- You can press this button in order to quit the application. Will ask if you want to save before leaving.      
-		* **Save Button:**    
+		* **Save Button (Shortcut: Ctrl + S):**    
 			- When pressing the button will save the current scene into a QSetting generated file (.sce).   
 		* **Load Button:**    
 			- When pressing the button will open the folder containing the project and, upon selecting a .sce file, will load the selected scene into the current.  
 		* **Save Render:**  
 			- When pressing the button will save the current scene as a .png file.    
+  
   
 	### INSPECTOR ////////////////////////////////////////       
    
@@ -36,7 +37,11 @@
  
 	### CENTRAL WIDGET //////////////////////////////////   
         
-		- Renders the current scene on screen, inside its boundaries. It uses the different Entitites inside the Hyerarchy to know wich Shape, Fill Color, Fill Style, Stroke Color, etc. variables to use when Printing them to screen.      
+		- Renders the current scene on screen, inside its boundaries. It uses the different Entitites inside the Hyerarchy to know wich Shape, Fill Color, Fill Style, Stroke Color, etc. variables to use when Printing them to screen. 
+
+	### SAVING RENDERS //////////////////////////////////   
+        
+		- Our software has the option of saving a render of the shapes displayed in the central widget, in a .png format.
         
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////       
 ##Qt FEATURES & USES:    
@@ -53,4 +58,7 @@
 		- Used in order to perform     
 	* **QPainter:**         
 		- QPainter class has been used in order to print the different shapes and styles into the Center Widget.      
+	* **Resources(.qrc):**         
+		- Resources has been used to implement icons in the graphic interface.      
+		
 		
