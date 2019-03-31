@@ -66,6 +66,7 @@ void CustomWidget::paintEvent(QPaintEvent *event)
                break;
        }
     }
+    painter.end();
 }
 
 Qt::PenStyle CustomWidget::GetPenStyle(int pentype)
@@ -94,9 +95,8 @@ Qt::BrushStyle CustomWidget::GetBrushStyle(int brushtype)
     case 2:
         return Qt::BrushStyle::CrossPattern;
     case 3:
-        return Qt::BrushStyle::LinearGradientPattern;
-    case 4:
         return Qt::BrushStyle::NoBrush;
+
     }
 }
 

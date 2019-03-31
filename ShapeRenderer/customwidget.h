@@ -17,7 +17,7 @@ signals:
 
 public slots:
 
-private:
+public:
     void paintEvent(QPaintEvent *event) override;
 
 public:

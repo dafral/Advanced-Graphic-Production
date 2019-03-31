@@ -69,7 +69,7 @@ void Entity::ResetPrimitiveValues()
 
     //Brush properties
     fillColor = QColor::fromRgb(0,225,0);
-    fillStyle = Fill::Gradient;
+    fillStyle = Fill::Dense;
 
     //Pen properties
     strokeColor = QColor::fromRgb(0,0,0);

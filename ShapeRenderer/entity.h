@@ -56,7 +56,6 @@ enum Fill
     Dense = 0,
     Dotted,
     Cross,
-    Gradient,
     NoBrush
 };
 

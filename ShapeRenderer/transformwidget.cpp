@@ -102,6 +102,9 @@ void TransformWidget::Update()
 
 void TransformWidget::update()
 {
+    QWidget::update();
+    w->uiCustomWidget->update();
+
     if(w->currentEntity == nullptr) return;
 
     // Update //

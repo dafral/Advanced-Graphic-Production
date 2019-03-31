@@ -55,6 +55,8 @@ MainWindow::~MainWindow()
 void MainWindow::Update()
 {
     uiInspector->Update();
+    uiCustomWidget->update();
+    ui->centralWidget->update();
 }
 
 void MainWindow::UpdateInspector()
@@ -160,12 +162,9 @@ void MainWindow::openProject()
                 break;
 
             case 3:
-                ent->fillStyle = Fill::Gradient;
-                break;
-
-            case 4:
                 ent->fillStyle = Fill::NoBrush;
                 break;
+
             }
 
             //Stroke properties

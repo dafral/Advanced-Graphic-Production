@@ -48,7 +48,6 @@ FORMS += \
         mainwindow.ui \
     rendering.ui \
     transformwidget.ui \
-    hyerarchywidget.ui \
     hyerarchylistwidget.ui
 
 RESOURCES += \
