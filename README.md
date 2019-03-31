@@ -1,8 +1,8 @@
-## NAMES:  
+##NAMES:  
 	* **Pau Olivé**  
 	 * **David Franco**  
 
-## FEATURES:  
+##FEATURES:  
 	### Main Menu Toolbar:  
 		* **Save Button:**  
 		* **Load Button:**  
@@ -18,7 +18,7 @@
 		Renders the current scene on screen, inside its boundaries. It uses the different Entitites inside the Hyerarchy to know wich Shape, Fill Color, Fill Style, Stroke Color, etc. variables to use when Printing them to screen.  
 
 
-## Qt FEATURES & USES:  
+##Qt FEATURES & USES:  
 For this project, we have used:  
 	### Signals / Slots:  
 		To perform sepcific methods when a UI element is being interacted with (p.e. Hyerarchy, Transform, ...).   
