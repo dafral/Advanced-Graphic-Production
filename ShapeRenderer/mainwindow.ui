@@ -82,8 +82,11 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionNewScene"/>
    <addaction name="actionOpenProject"/>
    <addaction name="actionSaveProject"/>
+   <addaction name="actionSaveRender"/>
+   <addaction name="actionExit"/>
   </widget>
   <action name="actionOpenProject">
    <property name="icon">
@@ -107,6 +110,10 @@
    </property>
   </action>
   <action name="actionExit">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/remove</normaloff>:/icons/remove</iconset>
+   </property>
    <property name="text">
     <string>Exit</string>
    </property>
@@ -115,11 +122,19 @@
    </property>
   </action>
   <action name="actionNewScene">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/new_file</normaloff>:/icons/new_file</iconset>
+   </property>
    <property name="text">
     <string>New scene</string>
    </property>
   </action>
   <action name="actionSaveRender">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/save_render</normaloff>:/icons/save_render</iconset>
+   </property>
    <property name="text">
     <string>Save render</string>
    </property>

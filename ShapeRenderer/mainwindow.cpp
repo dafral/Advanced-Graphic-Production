@@ -5,6 +5,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QTimer>
+#include <ctime>
 
 #include "hyerarchylistwidget.h"
 
@@ -42,10 +43,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionSaveRender, SIGNAL(triggered()), this, SLOT(saveRender()));
     connect(ui->actionExit, SIGNAL(triggered()), this, SLOT(quit()));
 
-    //Create scenes folder
+    //Create folders
     pathtrunk = QString("");
     foldername = QString("Scenes");
+    QDir(pathtrunk).mkdir(foldername);
 
+    foldername = QString("Renders");
     QDir(pathtrunk).mkdir(foldername);
 }
 
@@ -104,6 +107,8 @@ void MainWindow::newScene()
 
 void MainWindow::openProject()
 {
+    newScene();
+
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open project"), "", tr("scene(*.sce);;All files(*)"));
 
     if(fileName.isEmpty())
@@ -247,7 +252,17 @@ void MainWindow::saveProject()
 
 void MainWindow::saveRender()
 {
+    srand( time( NULL ) );
 
+    QPixmap pixmap(w->uiCustomWidget->size());
+    uiCustomWidget->render(&pixmap);
+
+    QString filename = "Renders/";
+    filename.append(std::to_string(rand()).c_str());
+    filename.append(".png");
+    std::cout << filename.toStdString() << std::endl;
+
+    pixmap.save(filename);
 }
 
 void MainWindow::quit()

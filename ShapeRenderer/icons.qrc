@@ -4,6 +4,8 @@
         <file alias="collapsed">Icons/Arrow down.png</file>
         <file alias="expanded">Icons/Arrow right.png</file>
         <file alias="remove">Icons/Badge-multiply.png</file>
-        <file alias="save_file">Icons/Doc.png</file>
+        <file alias="new_file">Icons/Doc.png</file>
+        <file alias="save_render">Icons/camera.png</file>
+        <file alias="save_file">Icons/Disquette.png</file>
     </qresource>
 </RCC>
