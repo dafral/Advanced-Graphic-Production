@@ -36,8 +36,10 @@ MainWindow::MainWindow(QWidget *parent) :
     timer->start(10);
 
     //Action triggers
+    connect(ui->actionNewScene, SIGNAL(triggered()), this, SLOT(newScene()));
     connect(ui->actionOpenProject, SIGNAL(triggered()), this, SLOT(openProject()));
     connect(ui->actionSaveProject, SIGNAL(triggered()), this, SLOT(saveProject()));
+    connect(ui->actionSaveRender, SIGNAL(triggered()), this, SLOT(saveRender()));
     connect(ui->actionExit, SIGNAL(triggered()), this, SLOT(quit()));
 
     //Create scenes folder
@@ -87,6 +89,17 @@ void MainWindow::DeleteEntity(Entity *ent)
             entities.removeOne((*it));
         }
     }
+}
+
+void MainWindow::newScene()
+{
+    for(QList<Entity*>::iterator it = entities.begin(); it != entities.end(); ++it)
+    {
+        delete (*it);
+        entities.removeOne(*it);
+    }
+
+    w->uiHyerarchy->newScene();
 }
 
 void MainWindow::openProject()
@@ -230,6 +243,11 @@ void MainWindow::saveProject()
 
         settings.endArray();
     }
+}
+
+void MainWindow::saveRender()
+{
+
 }
 
 void MainWindow::quit()

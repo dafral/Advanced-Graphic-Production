@@ -21,6 +21,7 @@ public slots:
     void OnAddEntity();
     void OnDeleteEntity();
     void OnDobleClickEntity();
+    void newScene();
 
 private:
     Ui::HyerarchyListWidget *ui;

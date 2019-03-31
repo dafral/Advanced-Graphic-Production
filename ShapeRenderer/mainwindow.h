@@ -28,8 +28,10 @@ public:
     void UpdateInspector();
 
 public slots:
+    void newScene();
     void openProject();
     void saveProject();
+    void saveRender();
     void quit();
 
     void Update();

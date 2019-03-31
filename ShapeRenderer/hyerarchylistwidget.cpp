@@ -47,6 +47,7 @@ void HyerarchyListWidget::OnAddEntity()
     Entity* ent = new Entity(auxName);
     w->AddEntity(ent);
 }
+
 void HyerarchyListWidget::OnDeleteEntity()
 {
     if(list->currentRow() == -1) return;
@@ -54,4 +55,9 @@ void HyerarchyListWidget::OnDeleteEntity()
     list->takeItem(list->currentRow());
     w->DeleteEntity(w->currentEntity);
     w->currentEntity = (list->currentRow() == -1 ? nullptr : w->entities.at(list->currentRow()));
+}
+
+void HyerarchyListWidget::newScene()
+{
+    list->clear();
 }
