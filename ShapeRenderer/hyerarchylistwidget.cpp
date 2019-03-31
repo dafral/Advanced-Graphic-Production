@@ -43,7 +43,7 @@ void HyerarchyListWidget::OnAddEntity()
 {
     QString auxName = "Entity";
     auxName.append(QString::number(w->entities.size()));
-    if(rand() % 100 > 90) auxName = entityNames[rand() % entityNames.size()];
+    //if(rand() % 100 > 90) auxName = entityNames[rand() % entityNames.size()];
     Entity* ent = new Entity(auxName);
     w->AddEntity(ent);
 }

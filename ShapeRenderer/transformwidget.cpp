@@ -1,6 +1,9 @@
 #include "transformwidget.h"
 #include "ui_transformwidget.h"
 #include "mainwindow.h"
+#include "hyerarchylistwidget.h"
+
+#include <QListWidget>
 
 TransformWidget::TransformWidget(QWidget *parent) :
     QWidget(parent),
@@ -55,6 +58,7 @@ void TransformWidget::OnGUIChanged()
     w->currentEntity->transform.scale.y = ui->scaY->value();
     // Name
     w->currentEntity->name = ui->label_entityName->text();
+    w->uiHyerarchy->list->currentItem()->setText(w->entities[w->entities.indexOf(w->currentEntity)]->name);
     // Shape
     w->currentEntity->shape = (Shape)ui->comboBox_Shape->currentIndex();
     // Fill Color
