@@ -161,7 +161,7 @@ Mesh* MyOpenGLWidget::initializeSphere()
     Vertex sphere[H][V + 1];
     for(int i = 0; i < H; ++i)
     {
-        for(int j = 0; j < H; ++j)
+        for(int j = 0; j < V; ++j)
         {
             float nh = float(i) / H;
             float nv = float(j) / V - 0.5f;
