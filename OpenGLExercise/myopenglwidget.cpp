@@ -40,7 +40,7 @@ void MyOpenGLWidget::initializeGL()
     showInfo();
 
     initializeTriangle();
-    //initializeSphere();
+    initializeSphere();
 
 }
 
@@ -174,7 +174,6 @@ Mesh* MyOpenGLWidget::initializeSphere()
             sphere[i][j].norm = sphere[i][j].pos;
         }
     }
-
     unsigned int sphereIndices[H][V][6];
     for (unsigned int i = 0; i < H; ++i)
     {
@@ -188,7 +187,6 @@ Mesh* MyOpenGLWidget::initializeSphere()
             sphereIndices[i][j][5] = (i+0)      * (V+1) + j+1;
         }
     }
-
     VertexFormat vertexFormat;
     vertexFormat.setVertexAttribute(0,0,3);
     vertexFormat.setVertexAttribute(1, sizeof(QVector3D), 3);
