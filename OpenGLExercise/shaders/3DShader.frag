@@ -1,6 +1,6 @@
 #version 330 core
 
-in
+in Data
 {
     vec3 positionViewspace;
     vec3 normalViewspace;

@@ -39,7 +39,7 @@ void MyOpenGLWidget::initializeGL()
 
     showInfo();
 
-    initializeTriangle();
+   // initializeTriangle();
     initializeSphere();
 
 }
@@ -155,6 +155,13 @@ Mesh* MyOpenGLWidget::initializeTriangle()
 
 Mesh* MyOpenGLWidget::initializeSphere()
 {
+    //Program
+    program.create();
+    program.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/shaders/3DShader.vert");
+    program.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/shaders/3DShader.frag");
+    program.link();
+    program.bind();
+
     static const float pi = 3.1416f;
     struct Vertex { QVector3D pos; QVector3D norm; };
 
@@ -194,6 +201,7 @@ Mesh* MyOpenGLWidget::initializeSphere()
     Mesh *mesh = this->CreateMesh();
     //mesh->name = "Sphere";
     mesh->addSubMesh(vertexFormat, sphere, sizeof(sphere), &sphereIndices[0][0][0], H*V*6);
+
     return mesh;
 }
 
