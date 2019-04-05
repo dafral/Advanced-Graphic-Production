@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //Create the circle widget
     uiCustomWidget = new CustomWidget();
+    uiOpenGL = new MyOpenGLWidget();
 
     //Action triggers
     connect(ui->actionOpenProject, SIGNAL(triggered()), this, SLOT(openProject()));

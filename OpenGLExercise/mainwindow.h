@@ -3,6 +3,7 @@
 
 #include "inspectorwidget.h"
 #include "customwidget.h"
+#include "myopenglwidget.h"
 #include <QMainWindow>
 
 namespace Ui {
@@ -26,6 +27,7 @@ private:
     Ui::MainWindow *ui;
     InspectorWidget *uiInspector;
     CustomWidget *uiCustomWidget;
+    MyOpenGLWidget *uiOpenGL;
 
 };
 
