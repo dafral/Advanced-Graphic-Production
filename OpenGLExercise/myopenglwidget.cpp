@@ -202,6 +202,24 @@ Mesh* MyOpenGLWidget::initializeSphere()
     //mesh->name = "Sphere";
     mesh->addSubMesh(vertexFormat, sphere, sizeof(sphere), &sphereIndices[0][0][0], H*V*6);
 
+    QVector3D vertices[H * (V+1)];
+    for(int i = 0; i < H; ++i)
+    {
+        for(int j = 0; j < V + 1; ++j)
+        {
+            vertices[i * j] = sphere[i][j].pos;
+        }
+    }
+
+    vbo.create();
+    vbo.bind();
+    vbo.setUsagePattern(QOpenGLBuffer::UsagePattern::StaticDraw);
+    vbo.allocate(vertices, (H * (V + 1)) * sizeof(QVector3D));
+
+    program.release();
+    vbo.release();
+    //vba.release();
+
     return mesh;
 }
 
