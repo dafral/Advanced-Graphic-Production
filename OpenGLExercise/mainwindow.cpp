@@ -9,6 +9,9 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+
+    running = true;
+
     ui->setupUi(this);
 
     setTabPosition(Qt::AllDockWidgetAreas, QTabWidget::TabPosition::North);

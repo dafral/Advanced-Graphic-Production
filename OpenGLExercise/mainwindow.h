@@ -23,12 +23,16 @@ public slots:
     void saveProject();
     void quit();
 
-private:
+public:
     Ui::MainWindow *ui;
     InspectorWidget *uiInspector;
     CustomWidget *uiCustomWidget;
     MyOpenGLWidget *uiOpenGL;
 
+    bool running;
+
+
 };
+extern MainWindow* w;
 
 #endif // MAINWINDOW_H

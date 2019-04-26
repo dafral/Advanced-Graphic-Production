@@ -2,6 +2,8 @@
 #include <QApplication>
 #include <QSurfaceFormat>
 
+MainWindow* w = nullptr;
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -13,8 +15,13 @@ int main(int argc, char *argv[])
     format.setOption(QSurfaceFormat::DebugContext);
     QSurfaceFormat::setDefaultFormat(format);
 
-    MainWindow w;
-    w.show();
+    w = new MainWindow();
+    w->show();
+
+    if(!w->running)
+    {
+        delete w;
+    }
 
     return a.exec();
 }

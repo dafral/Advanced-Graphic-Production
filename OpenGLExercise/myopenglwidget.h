@@ -35,7 +35,10 @@ public:
     Mesh* CreateMesh();
     Mesh* initializeTriangle();
     Mesh* initializeSphere();
+    Mesh* initializeCube();
     void CleanUpMeshes();
+
+    void DrawMeshes();
 
 signals:
     void messageLogged(const QOpenGLDebugMessage &);

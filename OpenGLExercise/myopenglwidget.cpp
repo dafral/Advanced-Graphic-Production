@@ -39,8 +39,10 @@ void MyOpenGLWidget::initializeGL()
 
     showInfo();
 
-   // initializeTriangle();
-    initializeSphere();
+    // initializeTriangle();
+    //initializeSphere();
+    Mesh* mesh = initializeCube();
+    meshes.push_back(mesh);
 
 }
 
@@ -52,21 +54,36 @@ void MyOpenGLWidget::handleLoggedMessage(const QOpenGLDebugMessage &debugMessage
 
 void MyOpenGLWidget::resizeGL(int width, int height)
 {
-    //TODO: resize textures
+    this->resize(width, height);
+}
+
+void MyOpenGLWidget::DrawMeshes()
+{
+    for(std::list<Mesh*>::iterator it = meshes.begin(); it != meshes.end(); ++it)
+    {
+        //(*it)->update();
+        (*it)->draw();
+    }
 }
 
 void MyOpenGLWidget::paintGL()
 {
-    glClearColor(0.9f, 0.85f, 1.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
 
-    if(program.bind())
+    glClearDepth(1.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glDisable(GL_CULL_FACE);
+
+    DrawMeshes();
+
+    /*if(program.bind())
     {
         vao.bind();
         glDrawArrays(GL_TRIANGLES, 0, 3);
         vao.release();
         program.release();
-    }
+    }*/
 }
 
 void MyOpenGLWidget::finalizeGL()
@@ -111,6 +128,27 @@ Mesh* MyOpenGLWidget::CreateMesh()
     Mesh* newMesh = new Mesh();
     meshes.push_back(newMesh);
     return newMesh;
+}
+
+Mesh* MyOpenGLWidget::initializeCube()
+{
+    Mesh* mesh = new Mesh();
+    QVector3D vertices[] = {
+        QVector3D(-0.5f, -0.5f, 0.0f),
+        QVector3D(-0.5f, 0.5f, 0.0f),
+        QVector3D(0.5f, 0.5f, 0.0f),
+        QVector3D(0.5f, -0.5f, 0.0f)
+    };
+    unsigned int indices[] = {
+        0, 2, 1,
+        0, 3, 2
+    };
+
+    VertexFormat vertexFormat;
+    vertexFormat.setVertexAttribute(0, 0, 3);
+    SubMesh* submesh = new SubMesh(vertexFormat, vertices, 4 * sizeof(QVector3D), indices, 6);
+    mesh->submeshes.push_back(submesh);
+    return mesh;
 }
 
 Mesh* MyOpenGLWidget::initializeTriangle()
@@ -216,6 +254,18 @@ Mesh* MyOpenGLWidget::initializeSphere()
     vbo.setUsagePattern(QOpenGLBuffer::UsagePattern::StaticDraw);
     vbo.allocate(vertices, (H * (V + 1)) * sizeof(QVector3D));
 
+    vao.create();
+    vao.bind();
+    const GLint compCount = 3;
+    const int strideBytes = 2 * sizeof(QVector3D);
+    const int offsetBytes0 = 0;
+    const int offsetBytes1 = sizeof(QVector3D);
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(0, compCount, GL_FLOAT, GL_FALSE, strideBytes, (void*)(offsetBytes0));
+    glVertexAttribPointer(1, compCount, GL_FLOAT, GL_FALSE, strideBytes, (void*)(offsetBytes1));
+
+    vao.release();
     program.release();
     vbo.release();
     //vba.release();
