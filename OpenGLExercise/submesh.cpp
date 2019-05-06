@@ -63,8 +63,8 @@ SubMesh::SubMesh(VertexFormat vertexFormat, QVector3D *vertices, int size, unsig
         VertexAttribute &att = vertexFormat.attribute[location];
         if(att.enabled)
         {
-            w->uiOpenGL->glEnableVertexAttribArray(GLuint(location));
-            w->uiOpenGL->glVertexAttribPointer(GLuint(location), att.ncomp, GL_FLOAT, GL_FALSE, vertexFormat.size, (void*) (att.offset));
+            w->uiOpenGL->EnableVertexAttribArray(GLuint(location));
+            w->uiOpenGL->VertexAttribPointer(GLuint(location), att.ncomp, GL_FLOAT, GL_FALSE, vertexFormat.size, (void*) (att.offset));
         }
     }
 

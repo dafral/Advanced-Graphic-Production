@@ -281,3 +281,15 @@ void MyOpenGLWidget::CleanUpMeshes()
             delete (*it);
     }
 }
+
+void MyOpenGLWidget::EnableVertexAttribArray(GLuint index)
+{
+    glEnableVertexAttribArray(index);
+}
+
+void MyOpenGLWidget::VertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid * pointer)
+{
+    glVertexAttribPointer(index, size, type, normalized, stride, pointer);
+}
+
+

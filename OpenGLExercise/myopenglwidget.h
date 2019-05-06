@@ -38,6 +38,14 @@ public:
     Mesh* initializeCube();
     void CleanUpMeshes();
 
+    void EnableVertexAttribArray(GLuint index);
+    void VertexAttribPointer(GLuint index,
+                             GLint size,
+                             GLenum type,
+                             GLboolean normalized,
+                             GLsizei stride,
+                             const GLvoid * pointer);
+
     void DrawMeshes();
 
 signals:
