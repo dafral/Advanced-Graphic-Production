@@ -1,5 +1,6 @@
 #include "submesh.h"
 #include "mainwindow.h"
+#include "myopenglwidget.h"
 
 SubMesh::SubMesh()
 {
@@ -22,8 +23,8 @@ SubMesh::SubMesh(VertexFormat vertexFormat, QVector3D *vertices, int size, unsig
 {
 
     program.create();
-    program.addShaderFromSourceFile(QOpenGLShader::Vertex, "");
-    program.addShaderFromSourceFile(QOpenGLShader::Fragment, "");
+    program.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/shaders/3DShader.vert");
+    program.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/shaders/3DShader.frag");
     program.link();
     program.bind();
 

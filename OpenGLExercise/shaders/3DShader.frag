@@ -10,14 +10,14 @@ out vec4 outColor;
 
 void main(void)
 {
-vec3 L = -normalize(FSIn.positionViewspace);
-vec3 N = normalize(FSIn.normalViewspace);
-vec3 albedo = vec3(1, 0);
-float kD = max(0.0, dot(L,N));
-outColor.rgb = albedo * kD;
-outColor.a = 1.0;
+    vec3 L = -normalize(FSIn.positionViewspace);
+    vec3 N = normalize(FSIn.normalViewspace);
+    vec3 albedo = vec3(1, 0, 0);
+    float kD = max(0.0, dot(L,N));
+    outColor.rgb = albedo * kD;
+    outColor.a = 1.0;
 
-// Gamma Correction
-outColor.rgb = pow(outColor.rgb, vec3(1.0/2.4));
+    // Gamma Correction
+    outColor.rgb = pow(outColor.rgb, vec3(1.0/2.4));
 
 }

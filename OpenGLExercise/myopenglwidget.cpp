@@ -268,7 +268,6 @@ Mesh* MyOpenGLWidget::initializeSphere()
     vao.release();
     program.release();
     vbo.release();
-    //vba.release();
 
     return mesh;
 }

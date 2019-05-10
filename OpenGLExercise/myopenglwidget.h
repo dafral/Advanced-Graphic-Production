@@ -17,7 +17,7 @@
 
 class MyOpenGLWidget :
         public QOpenGLWidget,
-        protected QOpenGLFunctions_3_3_Core
+        public QOpenGLFunctions_3_3_Core
 {
     Q_OBJECT
 public:
@@ -65,5 +65,7 @@ private:
     std::list<Mesh*> meshes;
 
 };
+
+extern QOpenGLFunctions_3_3_Core* OpenGLFunctions;
 
 #endif // MYOPENGLWIDGET_H
