@@ -22,9 +22,9 @@ void Mesh::addSubMesh(VertexFormat vertexFormat, void *data, int bytes)
 
 }
 
-void Mesh::addSubMesh(VertexFormat vertexFormat, void *data, int bytes, unsigned int *indexes, int bytes_indexes)
+void Mesh::addSubMesh(VertexFormat vertexFormat, QVector3D *data, int bytes, unsigned int *indexes, int bytes_indexes)
 {
-
+    submeshes.push_back(new SubMesh(vertexFormat, data, bytes, indexes, bytes_indexes));
 }
 
 void Mesh::update()
@@ -132,7 +132,7 @@ void Mesh::draw()
 {
     for(int i = 0; i < submeshes.size(); ++i)
     {
-        submeshes.at(i);
+        submeshes.at(i)->draw();
     }
 }
 

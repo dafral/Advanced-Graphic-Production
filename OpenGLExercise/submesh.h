@@ -8,6 +8,8 @@
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLShaderProgram>
 
+static const float pi = 3.1416f;
+struct Vertex { QVector3D pos; QVector3D norm; };
 
 class SubMesh :
         protected QOpenGLFunctions_3_3_Core

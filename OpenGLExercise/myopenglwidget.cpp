@@ -41,7 +41,7 @@ void MyOpenGLWidget::initializeGL()
 
     // initializeTriangle();
     //initializeSphere();
-    Mesh* mesh = initializeCube();
+    Mesh* mesh = initializeSphere();
     meshes.push_back(mesh);
 
 }
@@ -200,9 +200,6 @@ Mesh* MyOpenGLWidget::initializeSphere()
     program.link();
     program.bind();
 
-    static const float pi = 3.1416f;
-    struct Vertex { QVector3D pos; QVector3D norm; };
-
     Vertex sphere[H][V + 1];
     for(int i = 0; i < H; ++i)
     {
@@ -238,7 +235,6 @@ Mesh* MyOpenGLWidget::initializeSphere()
 
     Mesh *mesh = this->CreateMesh();
     //mesh->name = "Sphere";
-    mesh->addSubMesh(vertexFormat, sphere, sizeof(sphere), &sphereIndices[0][0][0], H*V*6);
 
     QVector3D vertices[H * (V+1)];
     for(int i = 0; i < H; ++i)
@@ -248,6 +244,8 @@ Mesh* MyOpenGLWidget::initializeSphere()
             vertices[i * j] = sphere[i][j].pos;
         }
     }
+
+    mesh->addSubMesh(vertexFormat, vertices, sizeof(sphere), &sphereIndices[0][0][0], H*V*6);
 
     vbo.create();
     vbo.bind();

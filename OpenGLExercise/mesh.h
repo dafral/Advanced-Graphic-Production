@@ -22,7 +22,7 @@ public:
     void destroy(); //override;
 
     void addSubMesh(VertexFormat vertexFormat, void *data, int bytes);
-    void addSubMesh(VertexFormat vertexFormat, void *data, int bytes, unsigned int *indexes, int bytes_indexes);
+    void addSubMesh(VertexFormat vertexFormat, QVector3D *data, int bytes, unsigned int *indexes, int bytes_indexes);
     void loadModel(const char *filename);
 
     void draw();
