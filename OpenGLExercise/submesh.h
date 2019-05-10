@@ -17,7 +17,7 @@ class SubMesh :
 public:
     SubMesh();
     SubMesh(VertexFormat vertexFormat, void *data, int size);
-    SubMesh(VertexFormat vertexFormat, QVector3D *vertices, int size, unsigned int *indices, int indices_count);
+    SubMesh(VertexFormat vertexFormat, void *vertices, int size, unsigned int *indices, int indices_count);
     ~SubMesh();
 
     void update();

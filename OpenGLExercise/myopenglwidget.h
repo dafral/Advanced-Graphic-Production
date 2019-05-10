@@ -66,6 +66,6 @@ private:
 
 };
 
-extern QOpenGLFunctions_3_3_Core* OpenGLFunctions;
+extern QOpenGLFunctions_3_3_Core* gl;
 
 #endif // MYOPENGLWIDGET_H

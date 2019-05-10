@@ -8,6 +8,8 @@
 
 #pragma comment( lib, "OpenGL32.lib" )
 
+QOpenGLFunctions_3_3_Core *gl = nullptr;
+
 MyOpenGLWidget::MyOpenGLWidget(QWidget *parent)
     : QOpenGLWidget (parent)
 {
@@ -22,6 +24,8 @@ MyOpenGLWidget::~MyOpenGLWidget()
 
 void MyOpenGLWidget::initializeGL()
 {
+    gl = this;
+
     initializeOpenGLFunctions();
 
     //Handle context destructions
@@ -203,7 +207,7 @@ Mesh* MyOpenGLWidget::initializeSphere()
     Vertex sphere[H][V + 1];
     for(int i = 0; i < H; ++i)
     {
-        for(int j = 0; j < V; ++j)
+        for(int j = 0; j < V + 1; ++j)
         {
             float nh = float(i) / H;
             float nv = float(j) / V - 0.5f;
@@ -219,7 +223,7 @@ Mesh* MyOpenGLWidget::initializeSphere()
     unsigned int sphereIndices[H][V][6];
     for (unsigned int i = 0; i < H; ++i)
     {
-        for (unsigned int j = 0; j < V; ++j)
+        for (unsigned int j = 0; j < V + 1; ++j)
         {
             sphereIndices[i][j][0] = (i+0)      * (V+1) + j;
             sphereIndices[i][j][1] = ((i+1)%H)  * (V+1) + j;
@@ -235,37 +239,37 @@ Mesh* MyOpenGLWidget::initializeSphere()
 
     Mesh *mesh = this->CreateMesh();
     //mesh->name = "Sphere";
+    mesh->addSubMesh(vertexFormat, sphere, sizeof(sphere), &sphereIndices[0][0][0], H*V*6);
 
-    QVector3D vertices[H * (V+1)];
-    for(int i = 0; i < H; ++i)
-    {
-        for(int j = 0; j < V + 1; ++j)
-        {
-            vertices[i * j] = sphere[i][j].pos;
-        }
-    }
-
-    mesh->addSubMesh(vertexFormat, vertices, sizeof(sphere), &sphereIndices[0][0][0], H*V*6);
-
-    vbo.create();
-    vbo.bind();
-    vbo.setUsagePattern(QOpenGLBuffer::UsagePattern::StaticDraw);
-    vbo.allocate(vertices, (H * (V + 1)) * sizeof(QVector3D));
-
-    vao.create();
-    vao.bind();
-    const GLint compCount = 3;
-    const int strideBytes = 2 * sizeof(QVector3D);
-    const int offsetBytes0 = 0;
-    const int offsetBytes1 = sizeof(QVector3D);
-    glEnableVertexAttribArray(0);
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(0, compCount, GL_FLOAT, GL_FALSE, strideBytes, (void*)(offsetBytes0));
-    glVertexAttribPointer(1, compCount, GL_FLOAT, GL_FALSE, strideBytes, (void*)(offsetBytes1));
-
-    vao.release();
-    program.release();
-    vbo.release();
+//    QVector3D vertices[H * (V+1)];
+//    for(int i = 0; i < H; ++i)
+//    {
+//        for(int j = 0; j < V + 1; ++j)
+//        {
+//            vertices[i * j] = sphere[i][j].pos;
+//        }
+//    }
+//
+//
+//    vbo.create();
+//    vbo.bind();
+//    vbo.setUsagePattern(QOpenGLBuffer::UsagePattern::StaticDraw);
+//    vbo.allocate(vertices, (H * (V + 1)) * sizeof(QVector3D));
+//
+//    vao.create();
+//    vao.bind();
+//    const GLint compCount = 3;
+//    const int strideBytes = 2 * sizeof(QVector3D);
+//    const int offsetBytes0 = 0;
+//    const int offsetBytes1 = sizeof(QVector3D);
+//    glEnableVertexAttribArray(0);
+//    glEnableVertexAttribArray(1);
+//    glVertexAttribPointer(0, compCount, GL_FLOAT, GL_FALSE, strideBytes, (void*)(offsetBytes0));
+//    glVertexAttribPointer(1, compCount, GL_FLOAT, GL_FALSE, strideBytes, (void*)(offsetBytes1));
+//
+//    vao.release();
+//    program.release();
+//    vbo.release();
 
     return mesh;
 }
