@@ -33,10 +33,15 @@ public:
 
     // Meshes //
     Mesh* CreateMesh();
-    Mesh* initializeTriangle();
-    Mesh* initializeSphere();
-    Mesh* initializeCube();
+    void UpdateMeshes();
+    void DrawMeshes();
     void CleanUpMeshes();
+
+    Mesh* initializeTriangle();
+    void initializeSphere();
+    void initializeCube();
+
+    void UseShader();
 
     void EnableVertexAttribArray(GLuint index);
     void VertexAttribPointer(GLuint index,
@@ -45,8 +50,6 @@ public:
                              GLboolean normalized,
                              GLsizei stride,
                              const GLvoid * pointer);
-
-    void DrawMeshes();
 
 signals:
     void messageLogged(const QOpenGLDebugMessage &);

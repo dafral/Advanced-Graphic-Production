@@ -25,7 +25,6 @@ MyOpenGLWidget::~MyOpenGLWidget()
 void MyOpenGLWidget::initializeGL()
 {
     gl = this;
-
     initializeOpenGLFunctions();
 
     //Handle context destructions
@@ -36,18 +35,23 @@ void MyOpenGLWidget::initializeGL()
     {
         QOpenGLDebugLogger* logger = new QOpenGLDebugLogger(this);
         logger->initialize();
+
         connect(logger, SIGNAL(messageLogged(const QOpenGLDebugMessage &)),
                 this, SLOT(handleLoggedMessage(const QOpenGLDebugMessage &)));
         logger->startLogging();
     }
 
+    //Shaders
+    program.create();
+    program.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/shaders/3DShader.vert");
+    program.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/shaders/3DShader.frag");
+    program.link();
+
     showInfo();
 
     // initializeTriangle();
-    //initializeSphere();
-    Mesh* mesh = initializeSphere();
-    meshes.push_back(mesh);
-
+    initializeSphere();
+    //initializeCube();
 }
 
 void MyOpenGLWidget::handleLoggedMessage(const QOpenGLDebugMessage &debugMessage)
@@ -61,33 +65,19 @@ void MyOpenGLWidget::resizeGL(int width, int height)
     this->resize(width, height);
 }
 
-void MyOpenGLWidget::DrawMeshes()
-{
-    for(std::list<Mesh*>::iterator it = meshes.begin(); it != meshes.end(); ++it)
-    {
-        //(*it)->update();
-        (*it)->draw();
-    }
-}
-
 void MyOpenGLWidget::paintGL()
 {
+    UpdateMeshes();
 
     glClearDepth(1.0f);
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glDisable(GL_CULL_FACE);
 
+    UseShader();
     DrawMeshes();
 
-    /*if(program.bind())
-    {
-        vao.bind();
-        glDrawArrays(GL_TRIANGLES, 0, 3);
-        vao.release();
-        program.release();
-    }*/
 }
 
 void MyOpenGLWidget::finalizeGL()
@@ -134,9 +124,57 @@ Mesh* MyOpenGLWidget::CreateMesh()
     return newMesh;
 }
 
-Mesh* MyOpenGLWidget::initializeCube()
+void MyOpenGLWidget::UpdateMeshes()
 {
-    Mesh* mesh = new Mesh();
+    for (std::list<Mesh*>::iterator it = meshes.begin(); it != meshes.end(); ++it)
+    {
+         if((*it)->needsUpdate)
+         {
+             (*it)->update();
+             (*it)->needsUpdate = false;
+         }
+    }
+}
+
+void MyOpenGLWidget::DrawMeshes()
+{
+    for (std::list<Mesh*>::iterator it = meshes.begin(); it != meshes.end(); ++it)
+    {
+        (*it)->draw();
+    }
+}
+
+void MyOpenGLWidget::UseShader()
+{
+    program.bind();
+
+    // Projection transformation
+    QMatrix4x4 projectionMatrix;
+    const float fovy = 60.0f;
+    const float aspectRatio = (float)width() / (float)height();
+    const float znear = 0.1;
+    const float zfar = 1000.0;
+    projectionMatrix.perspective(fovy, aspectRatio, znear, zfar);
+
+    // Camera transformation
+    QMatrix4x4 viewMatrix;
+    QVector3D eyePosition(0.0, 1.0, 3.0);
+    QVector3D center(0.0, 0.0, 0.0);
+    QVector3D up(0.0, 1.0, 0.0);
+    viewMatrix.lookAt(eyePosition, center, up);
+
+    // Object transformation
+    QMatrix4x4 worldMatrix;
+    QMatrix4x4 worldViewMatrix = viewMatrix * worldMatrix;
+
+    program.setUniformValue("projectionMatrix", projectionMatrix);
+    program.setUniformValue("worldViewMatrix", worldViewMatrix);
+}
+
+
+
+void MyOpenGLWidget::initializeCube()
+{
     QVector3D vertices[] = {
         QVector3D(-0.5f, -0.5f, 0.0f),
         QVector3D(-0.5f, 0.5f, 0.0f),
@@ -150,9 +188,11 @@ Mesh* MyOpenGLWidget::initializeCube()
 
     VertexFormat vertexFormat;
     vertexFormat.setVertexAttribute(0, 0, 3);
-    SubMesh* submesh = new SubMesh(vertexFormat, vertices, 4 * sizeof(QVector3D), indices, 6);
-    mesh->submeshes.push_back(submesh);
-    return mesh;
+
+    Mesh *mesh = this->CreateMesh();
+    //mesh->name = "Cube";
+    mesh->addSubMesh(vertexFormat, vertices, sizeof(vertices), indices, sizeof(indices));
+    mesh->needsUpdate = true;
 }
 
 Mesh* MyOpenGLWidget::initializeTriangle()
@@ -195,14 +235,8 @@ Mesh* MyOpenGLWidget::initializeTriangle()
     return nullptr;
 }
 
-Mesh* MyOpenGLWidget::initializeSphere()
+void MyOpenGLWidget::initializeSphere()
 {
-    //Program
-    program.create();
-    program.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/shaders/3DShader.vert");
-    program.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/shaders/3DShader.frag");
-    program.link();
-    program.bind();
 
     Vertex sphere[H][V + 1];
     for(int i = 0; i < H; ++i)
@@ -220,7 +254,9 @@ Mesh* MyOpenGLWidget::initializeSphere()
             sphere[i][j].norm = sphere[i][j].pos;
         }
     }
+
     unsigned int sphereIndices[H][V][6];
+
     for (unsigned int i = 0; i < H; ++i)
     {
         for (unsigned int j = 0; j < V + 1; ++j)
@@ -233,6 +269,7 @@ Mesh* MyOpenGLWidget::initializeSphere()
             sphereIndices[i][j][5] = (i+0)      * (V+1) + j+1;
         }
     }
+
     VertexFormat vertexFormat;
     vertexFormat.setVertexAttribute(0,0,3);
     vertexFormat.setVertexAttribute(1, sizeof(QVector3D), 3);
@@ -240,38 +277,7 @@ Mesh* MyOpenGLWidget::initializeSphere()
     Mesh *mesh = this->CreateMesh();
     //mesh->name = "Sphere";
     mesh->addSubMesh(vertexFormat, sphere, sizeof(sphere), &sphereIndices[0][0][0], H*V*6);
-
-//    QVector3D vertices[H * (V+1)];
-//    for(int i = 0; i < H; ++i)
-//    {
-//        for(int j = 0; j < V + 1; ++j)
-//        {
-//            vertices[i * j] = sphere[i][j].pos;
-//        }
-//    }
-//
-//
-//    vbo.create();
-//    vbo.bind();
-//    vbo.setUsagePattern(QOpenGLBuffer::UsagePattern::StaticDraw);
-//    vbo.allocate(vertices, (H * (V + 1)) * sizeof(QVector3D));
-//
-//    vao.create();
-//    vao.bind();
-//    const GLint compCount = 3;
-//    const int strideBytes = 2 * sizeof(QVector3D);
-//    const int offsetBytes0 = 0;
-//    const int offsetBytes1 = sizeof(QVector3D);
-//    glEnableVertexAttribArray(0);
-//    glEnableVertexAttribArray(1);
-//    glVertexAttribPointer(0, compCount, GL_FLOAT, GL_FALSE, strideBytes, (void*)(offsetBytes0));
-//    glVertexAttribPointer(1, compCount, GL_FLOAT, GL_FALSE, strideBytes, (void*)(offsetBytes1));
-//
-//    vao.release();
-//    program.release();
-//    vbo.release();
-
-    return mesh;
+    mesh->needsUpdate = true;
 }
 
 void MyOpenGLWidget::CleanUpMeshes()

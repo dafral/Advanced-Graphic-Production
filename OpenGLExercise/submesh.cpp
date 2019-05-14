@@ -13,71 +13,14 @@ SubMesh::SubMesh(VertexFormat vertexFormat, void *data, int size)
 
 }
 
-SubMesh::SubMesh(VertexFormat vertexFormat, void *data, int size, unsigned int *indices, int indices_count)
-    : vertexFormat(vertexFormat)
-    , data_size(size)
-    , indices_count(indices_count)
-    , vbo(QOpenGLBuffer::VertexBuffer)
-    , ibo(QOpenGLBuffer::IndexBuffer)
-
+SubMesh::SubMesh(VertexFormat vert_form, void* d, size_t d_size, uint* ind, uint num_ind) :
+                             vertexFormat(vert_form), data_size(d_size), indices_count(num_ind),
+                             ibo(QOpenGLBuffer::Type::IndexBuffer)
 {
-    program.create();
-    program.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/shaders/3DShader.vert");
-    program.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/shaders/3DShader.frag");
-    program.link();
-    program.bind();
-
-    this->vertices = new float[size/sizeof(float)];
-    memcpy(this->vertices, data, size);
-    this->indices = new unsigned int[indices_count];
-    memcpy(this->indices, indices, indices_count * sizeof(unsigned int));
-    vertices_count = data_size / vertexFormat.size;
-
-    this->data = (unsigned char*)data;
-
- // // VAO
- // vao.create();
- // vao.bind();
- //
- // if(this->vertices != nullptr)
- // {
- //     vbo.create();
- //     vbo.bind();
- //     vbo.setUsagePattern(QOpenGLBuffer::UsagePattern::StaticDraw);
- //     vbo.allocate(this->vertices, size);
- // }
- // else
- // {
- //     return;
- // }
- //
- // // IBO
- // if(this->indices != nullptr)
- // {
- //     ibo.create();
- //     ibo.bind();
- //     ibo.setUsagePattern(QOpenGLBuffer::UsagePattern::StaticDraw);
- //     ibo.allocate(this->indices, int(indices_count * sizeof(unsigned int)));
- // }
- //
- // // Vertex Attributes
- // for(int location = 0; location < MAX_VERTEX_ATTRIBUTES; ++location)
- // {
- //     VertexAttribute &att = vertexFormat.attribute[location];
- //     if(att.enabled)
- //     {
- //         w->uiOpenGL->EnableVertexAttribArray(GLuint(location));
- //         w->uiOpenGL->VertexAttribPointer(GLuint(location), att.ncomp, GL_FLOAT, GL_FALSE, vertexFormat.size, (void*) (att.offset));
- //     }
- // }
- //
- // // Release
- // vao.release();
- // vbo.release();
- // if(ibo.isCreated())
- //     ibo.release();
-
-
+    data = new byte[d_size];
+    memcpy(data, d, d_size);
+    indices = new unsigned int[num_ind];
+    memcpy(indices, ind, num_ind * sizeof(unsigned int));
 }
 
 SubMesh::~SubMesh()
@@ -93,7 +36,7 @@ void SubMesh::update()
     vao.bind();
 
     //VBO: Buffer with vertex data
-    if(vertices != nullptr)
+    if(data != nullptr)
     {
         vbo.create();
         vbo.bind();
@@ -115,8 +58,8 @@ void SubMesh::update()
         ibo.bind();
         ibo.setUsagePattern(QOpenGLBuffer::UsagePattern::StaticDraw);
         ibo.allocate(indices, int(indices_count * sizeof(unsigned int)));
-        //delete[] indices;
-        //indices = nullptr;
+        delete[] indices;
+        indices = nullptr;
     }
 
     //Vertex Attributes
@@ -126,8 +69,8 @@ void SubMesh::update()
 
         if(attr.enabled)
         {
-            w->uiOpenGL->EnableVertexAttribArray(GLuint(location));
-            w->uiOpenGL->VertexAttribPointer(GLuint(location), attr.ncomp, GL_FLOAT, GL_FALSE, vertexFormat.size, (void *)(attr.offset));
+            gl->glEnableVertexAttribArray(GLuint(location));
+            gl->glVertexAttribPointer(GLuint(location), attr.ncomp, GL_FLOAT, GL_FALSE, vertexFormat.size, (void *)(attr.offset));
 
         }
     }
@@ -146,13 +89,14 @@ void SubMesh::draw()
 {
     int num_vertices = data_size / vertexFormat.size;
     vao.bind();
+
     if(indices_count > 0)
     {
-        gl->glDrawElements(GL_TRIANGLES, indices_count * sizeof(unsigned int), GL_UNSIGNED_INT, nullptr);
+        gl->glDrawElements(GL_TRIANGLES, int(indices_count), GL_UNSIGNED_INT, nullptr);
     }
     else
     {
-        gl->glDrawArrays(GL_TRIANGLES, 0, num_vertices);
+        gl->glDrawArrays(GL_TRIANGLES, 0, int(num_vertices));
     }
 
     vao.release();

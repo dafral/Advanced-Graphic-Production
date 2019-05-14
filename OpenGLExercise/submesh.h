@@ -17,7 +17,7 @@ class SubMesh :
 public:
     SubMesh();
     SubMesh(VertexFormat vertexFormat, void *data, int size);
-    SubMesh(VertexFormat vertexFormat, void *vertices, int size, unsigned int *indices, int indices_count);
+    SubMesh(VertexFormat vertexFormat, void *vertices, size_t size, unsigned int *indices, unsigned int indices_count);
     ~SubMesh();
 
     void update();
@@ -28,9 +28,6 @@ private:
 
     unsigned char *data = nullptr;
     size_t data_size = 0;
-
-    float *vertices = nullptr;
-    size_t vertices_count = 0;
 
     unsigned int *indices = nullptr;
     size_t indices_count = 0;
