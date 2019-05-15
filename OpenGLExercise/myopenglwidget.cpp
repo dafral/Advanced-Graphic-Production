@@ -52,7 +52,7 @@ void MyOpenGLWidget::initializeGL()
     // initializeTriangle();
     //initializeSphere();
     //initializeCube();
-    initialize3DModel("debug/Resources/Patrick/Patrick.obj");
+    initialize3DModel("Resources/Patrick/Patrick.obj");
 
 }
 
@@ -160,7 +160,7 @@ void MyOpenGLWidget::UseShader()
 
     // Camera transformation
     QMatrix4x4 viewMatrix;
-    QVector3D eyePosition(0.0, 1.0, 3.0);
+    QVector3D eyePosition(0.0, 5.0, 10.0);
     QVector3D center(0.0, 0.0, 0.0);
     QVector3D up(0.0, 1.0, 0.0);
     viewMatrix.lookAt(eyePosition, center, up);
@@ -286,7 +286,7 @@ void MyOpenGLWidget::initialize3DModel(const char* filename)
 {
     Mesh *mesh = this->CreateMesh();
     //mesh->name = filename;
-    mesh->loadModel(filename);
+    mesh->loadModel(filename);  
 }
 
 void MyOpenGLWidget::CleanUpMeshes()

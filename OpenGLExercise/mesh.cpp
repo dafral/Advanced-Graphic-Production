@@ -66,7 +66,7 @@ void Mesh::loadModel(const char *filename)
                 aiProcess_Triangulate |
                 aiProcess_FlipUVs |
                 aiProcess_GenSmoothNormals |
-                //aiProcess_RemoveRedundantMaterials |
+                aiProcess_RemoveRedundantMaterials |
                 aiProcess_OptimizeMeshes |
                 aiProcess_PreTransformVertices |
                 aiProcess_ImproveCacheLocality ,
@@ -85,45 +85,45 @@ void Mesh::loadModel(const char *filename)
 SubMesh* Mesh::processMesh(aiMesh *mesh, const aiScene *scene)
 {
     QVector<float> vertices;
-        QVector<unsigned int> indices;
+    QVector<unsigned int> indices;
 
-        // Process vertices
-        for(unsigned int i = 0; i < mesh->mNumVertices; ++i)
-        {
-            vertices.push_back(mesh->mVertices[i].x);
-            vertices.push_back(mesh->mVertices[i].y);
-            vertices.push_back(mesh->mVertices[i].z);
-            vertices.push_back(mesh->mNormals[i].x);
-            vertices.push_back(mesh->mNormals[i].y);
-            vertices.push_back(mesh->mNormals[i].z);
-
-            if(mesh->mTextureCoords[0])
-            {
-                vertices.push_back(mesh->mTextureCoords[0][i].x);
-                vertices.push_back(mesh->mTextureCoords[0][i].y);
-            }
-        }
-
-        // Process indices
-        for(unsigned int i = 0; i < mesh->mNumFaces; ++i)
-        {
-            aiFace face = mesh->mFaces[i];
-            for(unsigned int j = 0; j < face.mNumIndices; ++j)
-            {
-                indices.push_back(face.mIndices[i]);
-            }
-        }
-
-        VertexFormat vertex_format;
-        vertex_format.setVertexAttribute(0, 0, 3);
-        vertex_format.setVertexAttribute(1, 3 * sizeof(float), 3);
+    // Process vertices
+    for(unsigned int i = 0; i < mesh->mNumVertices; ++i)
+    {
+        vertices.push_back(mesh->mVertices[i].x);
+        vertices.push_back(mesh->mVertices[i].y);
+        vertices.push_back(mesh->mVertices[i].z);
+        vertices.push_back(mesh->mNormals[i].x);
+        vertices.push_back(mesh->mNormals[i].y);
+        vertices.push_back(mesh->mNormals[i].z);
 
         if(mesh->mTextureCoords[0])
         {
-            vertex_format.setVertexAttribute(2, 6 *sizeof(float), 2);
+            vertices.push_back(mesh->mTextureCoords[0][i].x);
+            vertices.push_back(mesh->mTextureCoords[0][i].y);
         }
+    }
 
-        return new SubMesh(vertex_format, vertices.data(), sizeof(vertices), indices.data(), indices.size());
+    // Process indices
+    for(unsigned int i = 0; i < mesh->mNumFaces; ++i)
+    {
+        aiFace face = mesh->mFaces[i];
+        for(unsigned int j = 0; j < face.mNumIndices; ++j)
+        {
+            indices.push_back(face.mIndices[j]);
+        }
+    }
+
+    VertexFormat vertex_format;
+    vertex_format.setVertexAttribute(0, 0, 3);
+    vertex_format.setVertexAttribute(1, 3 * sizeof(float), 3);
+
+    if(mesh->mTextureCoords[0])
+    {
+        vertex_format.setVertexAttribute(2, 6 *sizeof(float), 2);
+    }
+
+    return new SubMesh(vertex_format, vertices.data(), vertices.size() * sizeof(float), indices.data(), indices.size());
 }
 
 void Mesh::draw()
