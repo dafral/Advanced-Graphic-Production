@@ -50,8 +50,10 @@ void MyOpenGLWidget::initializeGL()
     showInfo();
 
     // initializeTriangle();
-    initializeSphere();
+    //initializeSphere();
     //initializeCube();
+    initialize3DModel("debug/Resources/Patrick/Patrick.obj");
+
 }
 
 void MyOpenGLWidget::handleLoggedMessage(const QOpenGLDebugMessage &debugMessage)
@@ -278,6 +280,13 @@ void MyOpenGLWidget::initializeSphere()
     //mesh->name = "Sphere";
     mesh->addSubMesh(vertexFormat, sphere, sizeof(sphere), &sphereIndices[0][0][0], H*V*6);
     mesh->needsUpdate = true;
+}
+
+void MyOpenGLWidget::initialize3DModel(const char* filename)
+{
+    Mesh *mesh = this->CreateMesh();
+    //mesh->name = filename;
+    mesh->loadModel(filename);
 }
 
 void MyOpenGLWidget::CleanUpMeshes()

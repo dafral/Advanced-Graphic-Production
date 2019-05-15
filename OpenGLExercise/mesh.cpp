@@ -66,7 +66,7 @@ void Mesh::loadModel(const char *filename)
                 aiProcess_Triangulate |
                 aiProcess_FlipUVs |
                 aiProcess_GenSmoothNormals |
-                aiProcess_RemoveRedundantMaterials |
+                //aiProcess_RemoveRedundantMaterials |
                 aiProcess_OptimizeMeshes |
                 aiProcess_PreTransformVertices |
                 aiProcess_ImproveCacheLocality ,
@@ -79,7 +79,7 @@ void Mesh::loadModel(const char *filename)
     }
 
     processNode(scene->mRootNode, scene);
-    //needsUpdate = true;
+    needsUpdate = true;
 }
 
 SubMesh* Mesh::processMesh(aiMesh *mesh, const aiScene *scene)
