@@ -1,7 +1,7 @@
 #ifndef VERTEX_H
 #define VERTEX_H
 
-#define MAX_VERTEX_ATTRIBUTES 3
+#define MAX_VERTEX_ATTRIBUTES 4
 
 struct VertexAttribute
 {

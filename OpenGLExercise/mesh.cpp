@@ -69,7 +69,8 @@ void Mesh::loadModel(const char *filename)
                 aiProcess_RemoveRedundantMaterials |
                 aiProcess_OptimizeMeshes |
                 aiProcess_PreTransformVertices |
-                aiProcess_ImproveCacheLocality ,
+                aiProcess_ImproveCacheLocality |
+                aiProcess_CalcTangentSpace,
                 ".obj");
 
     if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
@@ -102,6 +103,16 @@ SubMesh* Mesh::processMesh(aiMesh *mesh, const aiScene *scene)
             vertices.push_back(mesh->mTextureCoords[0][i].x);
             vertices.push_back(mesh->mTextureCoords[0][i].y);
         }
+
+        if(mesh->mTangents != nullptr && mesh->mBitangents != nullptr)
+        {
+            vertices.push_back(mesh->mTangents[i].x);
+            vertices.push_back(mesh->mTangents[i].y);
+            vertices.push_back(mesh->mTangents[i].z);
+            vertices.push_back(mesh->mBitangents[i].x);
+            vertices.push_back(mesh->mBitangents[i].x);
+            vertices.push_back(mesh->mBitangents[i].x);
+        }
     }
 
     // Process indices
@@ -121,6 +132,11 @@ SubMesh* Mesh::processMesh(aiMesh *mesh, const aiScene *scene)
     if(mesh->mTextureCoords[0])
     {
         vertex_format.setVertexAttribute(2, 6 *sizeof(float), 2);
+    }
+
+    if(mesh->mTangents != nullptr && mesh->mBitangents != nullptr)
+    {
+        vertex_format.setVertexAttribute(3, 9 *sizeof(float), 6);
     }
 
     return new SubMesh(vertex_format, vertices.data(), vertices.size() * sizeof(float), indices.data(), indices.size());

@@ -7,6 +7,7 @@ in Data
 } FSIn;
 
 out vec4 outColor;
+float ambientTerm = 0.5;
 
 void main(void)
 {
@@ -14,7 +15,8 @@ void main(void)
     vec3 N = normalize(FSIn.normalViewspace);
     vec3 albedo = vec3(1, 0, 0);
     float kD = max(0.0, dot(L,N));
-    outColor.rgb = albedo * kD;
+    //outColor.rgb = albedo * kD;
+    outColor.rgb += albedo * ambientTerm;
     outColor.a = 1.0;
 
     // Gamma Correction

@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <QOpenGLDebugLogger>
+#include <QOpenGLFramebufferObject>
 
 #pragma comment( lib, "OpenGL32.lib" )
 
@@ -49,7 +50,7 @@ void MyOpenGLWidget::initializeGL()
 
     showInfo();
 
-    // initializeTriangle();
+    //initializeTriangle();
     //initializeSphere();
     //initializeCube();
     initialize3DModel("Resources/Patrick/Patrick.obj");
@@ -69,16 +70,20 @@ void MyOpenGLWidget::resizeGL(int width, int height)
 
 void MyOpenGLWidget::paintGL()
 {
+    //gl->glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+
     UpdateMeshes();
 
     glClearDepth(1.0f);
-    glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
+    glClearColor(0.4f, 0.4f, 0.5f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glDisable(GL_CULL_FACE);
 
     UseShader();
     DrawMeshes();
+
+    QOpenGLFramebufferObject::bindDefault();
 
 }
 
@@ -160,7 +165,7 @@ void MyOpenGLWidget::UseShader()
 
     // Camera transformation
     QMatrix4x4 viewMatrix;
-    QVector3D eyePosition(0.0, 5.0, 10.0);
+    QVector3D eyePosition(5.0, 5.0, 0.0);
     QVector3D center(0.0, 0.0, 0.0);
     QVector3D up(0.0, 1.0, 0.0);
     viewMatrix.lookAt(eyePosition, center, up);
