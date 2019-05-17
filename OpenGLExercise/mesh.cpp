@@ -110,8 +110,8 @@ SubMesh* Mesh::processMesh(aiMesh *mesh, const aiScene *scene)
             vertices.push_back(mesh->mTangents[i].y);
             vertices.push_back(mesh->mTangents[i].z);
             vertices.push_back(mesh->mBitangents[i].x);
-            vertices.push_back(mesh->mBitangents[i].x);
-            vertices.push_back(mesh->mBitangents[i].x);
+            vertices.push_back(mesh->mBitangents[i].y);
+            vertices.push_back(mesh->mBitangents[i].z);
         }
     }
 
