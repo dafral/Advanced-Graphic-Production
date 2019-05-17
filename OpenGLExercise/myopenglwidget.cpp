@@ -6,6 +6,7 @@
 #include <iostream>
 #include <QOpenGLDebugLogger>
 #include <QOpenGLFramebufferObject>
+#include <QOpenGLTexture>
 
 #pragma comment( lib, "OpenGL32.lib" )
 
@@ -42,6 +43,9 @@ void MyOpenGLWidget::initializeGL()
         logger->startLogging();
     }
 
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_TEXTURE_2D);
+
     //Shaders
     program.create();
     program.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/shaders/3DShader.vert");
@@ -53,7 +57,7 @@ void MyOpenGLWidget::initializeGL()
     //initializeTriangle();
     //initializeSphere();
     //initializeCube();
-    initialize3DModel("Resources/Patrick/Patrick.obj");
+    initialize3DModel("Resources/StoneFloor/StoneFloor.obj");
 
 }
 
@@ -153,29 +157,37 @@ void MyOpenGLWidget::DrawMeshes()
 
 void MyOpenGLWidget::UseShader()
 {
-    program.bind();
+    if(program.bind())
+    {
+        // Projection transformation
+        QMatrix4x4 projectionMatrix;
+        const float fovy = 60.0f;
+        const float aspectRatio = (float)width() / (float)height();
+        const float znear = 0.1;
+        const float zfar = 1000.0;
+        projectionMatrix.perspective(fovy, aspectRatio, znear, zfar);
 
-    // Projection transformation
-    QMatrix4x4 projectionMatrix;
-    const float fovy = 60.0f;
-    const float aspectRatio = (float)width() / (float)height();
-    const float znear = 0.1;
-    const float zfar = 1000.0;
-    projectionMatrix.perspective(fovy, aspectRatio, znear, zfar);
+        // Camera transformation
+        QMatrix4x4 viewMatrix;
+        QVector3D eyePosition(5.0, 5.0, 10.0);
+        QVector3D center(0.0, 0.0, 0.0);
+        QVector3D up(0.0, 1.0, 0.0);
+        viewMatrix.lookAt(eyePosition, center, up);
 
-    // Camera transformation
-    QMatrix4x4 viewMatrix;
-    QVector3D eyePosition(5.0, 5.0, 0.0);
-    QVector3D center(0.0, 0.0, 0.0);
-    QVector3D up(0.0, 1.0, 0.0);
-    viewMatrix.lookAt(eyePosition, center, up);
+        // Object transformation
+        QMatrix4x4 worldMatrix;
+        QMatrix4x4 worldViewMatrix = viewMatrix * worldMatrix;
 
-    // Object transformation
-    QMatrix4x4 worldMatrix;
-    QMatrix4x4 worldViewMatrix = viewMatrix * worldMatrix;
+        program.setUniformValue("projectionMatrix", projectionMatrix);
+        program.setUniformValue("worldViewMatrix", worldViewMatrix);
 
-    program.setUniformValue("projectionMatrix", projectionMatrix);
-    program.setUniformValue("worldViewMatrix", worldViewMatrix);
+        QImage img;
+        img.load("Resources/StoneFloor/StoneFloorNormals.png");
+        QOpenGLTexture normMapping(img);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, normMapping.textureId());
+        program.setUniformValue("normalMap", 0);
+    }
 }
 
 
