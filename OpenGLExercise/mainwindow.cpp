@@ -5,11 +5,16 @@
 #include <QMessageBox>
 #include <QFileDialog>
 
+#include <QKeyEvent>
+
+#include "input.h"
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
 
+    cameraSpeed = 0.5f;
     running = true;
 
     ui->setupUi(this);
@@ -24,15 +29,72 @@ MainWindow::MainWindow(QWidget *parent) :
     uiCustomWidget = new CustomWidget();
     uiOpenGL = new MyOpenGLWidget();
 
+    // [TODO] -> uncomment all "input"s
+    //input = new p2Input();
+    camera = new p2Camera();
+
     //Action triggers
     connect(ui->actionOpenProject, SIGNAL(triggered()), this, SLOT(openProject()));
     connect(ui->actionSaveProject, SIGNAL(triggered()), this, SLOT(saveProject()));
     connect(ui->actionExit, SIGNAL(triggered()), this, SLOT(quit()));
+
+    setMouseTracking(true);
+
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    if(input == nullptr) return;
+    input->keyPressEvent(event);
+
+    w->update();
+    w->uiOpenGL->update();
+}
+
+void MainWindow::keyReleaseEvent(QKeyEvent *event)
+{
+    if(input == nullptr) return;
+    input->keyReleaseEvent(event);
+
+    w->update();
+    w->uiOpenGL->update();
+}
+void MainWindow::mousePressEvent(QMouseEvent *event)
+{
+        if(input == nullptr) return;
+    input->mousePressEvent(event);
+
+    w->update();
+    w->uiOpenGL->update();
+}
+void MainWindow::mouseReleaseEvent(QMouseEvent *event)
+{
+        if(input == nullptr) return;
+    input->mouseReleaseEvent(event);
+
+    w->update();
+    w->uiOpenGL->update();
+}
+void MainWindow::mouseMoveEvent(QMouseEvent *event)
+{
+        if(input == nullptr) return;
+    input->mouseMoveEvent(event);
+
+    w->update();
+    w->uiOpenGL->update();
+}
+void MainWindow::enterEvent(QEvent *event)
+{
+    grabKeyboard();
+}
+void MainWindow::leaveEvent(QEvent *event)
+{
+    releaseKeyboard();
 }
 
 void MainWindow::openProject()

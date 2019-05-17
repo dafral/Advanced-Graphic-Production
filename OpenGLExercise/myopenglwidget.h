@@ -52,6 +52,10 @@ public:
                              GLsizei stride,
                              const GLvoid * pointer);
 
+    void TransformCamera();
+
+    //void update();
+
 signals:
     void messageLogged(const QOpenGLDebugMessage &);
 
@@ -60,6 +64,15 @@ public slots:
     //Not virtual
     void finalizeGL();
     void handleLoggedMessage(const QOpenGLDebugMessage &);
+
+public:
+    // Camera
+    QVector3D EyePosition;
+    QVector3D CameraCenter;
+    float fovy;
+    float aspectRatio;
+    float znear;
+    float zfar;
 
 private:
     QOpenGLBuffer vbo;

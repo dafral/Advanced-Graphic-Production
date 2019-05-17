@@ -16,6 +16,7 @@ int main(int argc, char *argv[])
     QSurfaceFormat::setDefaultFormat(format);
 
     w = new MainWindow();
+    w->setFocus();
     w->show();
 
     if(!w->running)

@@ -5,7 +5,8 @@
 #include "customwidget.h"
 #include "myopenglwidget.h"
 #include <QMainWindow>
-
+#include "customcamera.h"
+#include "input.h"
 namespace Ui {
 class MainWindow;
 }
@@ -24,6 +25,16 @@ public slots:
     void quit();
 
 public:
+    // Input Events
+    void keyPressEvent(QKeyEvent *event);
+    void keyReleaseEvent(QKeyEvent *event);
+    void mousePressEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+    void enterEvent(QEvent *event);
+    void leaveEvent(QEvent *event);
+
+public:
     Ui::MainWindow *ui;
     InspectorWidget *uiInspector;
     CustomWidget *uiCustomWidget;
@@ -31,6 +42,10 @@ public:
 
     bool running;
 
+    float cameraSpeed = 0.5f;
+
+    p2Input* input;
+    p2Camera* camera;
 
 };
 extern MainWindow* w;

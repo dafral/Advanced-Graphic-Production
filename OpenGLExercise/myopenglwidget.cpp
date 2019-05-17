@@ -3,9 +3,13 @@
 #include "submesh.h"
 #include "mesh.h"
 
+#include "mainwindow.h"
+
 #include <iostream>
 #include <QOpenGLDebugLogger>
 #include <QOpenGLFramebufferObject>
+
+#include <QKeyEvent>
 
 #pragma comment( lib, "OpenGL32.lib" )
 
@@ -15,6 +19,12 @@ MyOpenGLWidget::MyOpenGLWidget(QWidget *parent)
     : QOpenGLWidget (parent)
 {
     setMinimumSize(QSize(256, 256));
+    fovy = 60.0f;
+    znear = 0.1;
+    zfar = 1000.0;
+    EyePosition = {5.0, 5.0, 0.0};
+    CameraCenter = {0.0, 0.0, 0.0};
+
 }
 
 MyOpenGLWidget::~MyOpenGLWidget()
@@ -55,6 +65,8 @@ void MyOpenGLWidget::initializeGL()
     //initializeCube();
     initialize3DModel("Resources/Patrick/Patrick.obj");
 
+    UseShader();
+
 }
 
 void MyOpenGLWidget::handleLoggedMessage(const QOpenGLDebugMessage &debugMessage)
@@ -72,6 +84,8 @@ void MyOpenGLWidget::paintGL()
 {
     //gl->glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 
+    update();
+
     UpdateMeshes();
 
     glClearDepth(1.0f);
@@ -80,7 +94,7 @@ void MyOpenGLWidget::paintGL()
 
     glDisable(GL_CULL_FACE);
 
-    UseShader();
+    TransformCamera();
     DrawMeshes();
 
     QOpenGLFramebufferObject::bindDefault();
@@ -157,18 +171,18 @@ void MyOpenGLWidget::UseShader()
 
     // Projection transformation
     QMatrix4x4 projectionMatrix;
-    const float fovy = 60.0f;
-    const float aspectRatio = (float)width() / (float)height();
-    const float znear = 0.1;
-    const float zfar = 1000.0;
+    fovy = 60.0f;
+    aspectRatio = (float)width() / (float)height();
+    znear = 0.1;
+    zfar = 1000.0;
     projectionMatrix.perspective(fovy, aspectRatio, znear, zfar);
 
     // Camera transformation
     QMatrix4x4 viewMatrix;
-    QVector3D eyePosition(5.0, 5.0, 0.0);
-    QVector3D center(0.0, 0.0, 0.0);
+    EyePosition = {5.0, 5.0, 0.0};
+    CameraCenter = {0.0, 0.0, 0.0};
     QVector3D up(0.0, 1.0, 0.0);
-    viewMatrix.lookAt(eyePosition, center, up);
+    viewMatrix.lookAt(EyePosition, CameraCenter, up);
 
     // Object transformation
     QMatrix4x4 worldMatrix;
@@ -178,7 +192,45 @@ void MyOpenGLWidget::UseShader()
     program.setUniformValue("worldViewMatrix", worldViewMatrix);
 }
 
+void MyOpenGLWidget::TransformCamera()
+{
+    program.bind();
 
+    /*Qt::Key key = (Qt::Key)QKeyEvent::key();
+
+    if(key == Qt::Key::Key_W)
+    {
+        EyePosition += QVector3D(0.0, 1.0, 0.0);
+    }*/
+
+    // Projection transformation
+    QMatrix4x4 projectionMatrix;
+    aspectRatio = (float)width() / (float)height();
+    projectionMatrix.perspective(fovy, aspectRatio, znear, zfar);
+
+    // Camera transformation
+    QMatrix4x4 viewMatrix;
+
+    //QVector3D left(1.0, 0.0, 0.0);
+    //QVector3D eyeDir = w->uiOpenGL->CameraCenter - w->uiOpenGL->EyePosition;
+
+    QVector3D up(0.0, 1.0, 0.0);
+    //w->uiOpenGL->CameraCenter = w->uiOpenGL->EyePosition + QVector3D(1.0, 0.0, 0.0);
+
+    // Object transformation
+
+    viewMatrix.translate(w->uiOpenGL->EyePosition);
+    //viewMatrix.translate(-10.0, 0.0, 0.0);
+
+    //viewMatrix.lookAt(w->uiOpenGL->EyePosition, w->uiOpenGL->CameraCenter, up);
+
+    QMatrix4x4 worldMatrix;
+    QMatrix4x4 worldViewMatrix = viewMatrix * worldMatrix;
+
+
+    program.setUniformValue("projectionMatrix", projectionMatrix);
+    program.setUniformValue("worldViewMatrix", worldViewMatrix);
+}
 
 void MyOpenGLWidget::initializeCube()
 {
