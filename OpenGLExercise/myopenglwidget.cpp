@@ -44,7 +44,6 @@ void MyOpenGLWidget::initializeGL()
     }
 
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_TEXTURE_2D);
 
     //Shaders
     program.create();
@@ -183,9 +182,12 @@ void MyOpenGLWidget::UseShader()
 
         QImage img;
         img.load("Resources/StoneFloor/StoneFloorNormals.png");
-        QOpenGLTexture normMapping(img);
+        QOpenGLTexture *normMapping = new QOpenGLTexture(img.mirrored());
+        normMapping->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
+        normMapping->setMagnificationFilter(QOpenGLTexture::Linear);
+
         glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, normMapping.textureId());
+        glBindTexture(GL_TEXTURE_2D, normMapping->textureId());
         program.setUniformValue("normalMap", 0);
     }
 }

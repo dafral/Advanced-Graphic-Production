@@ -21,9 +21,10 @@ void main(void)
 {
     vec3 V = -normalize(FSIn.positionViewspace);
     vec3 L = normalize(FSIn.normalViewspace);
-    vec3 albedo = vec3(1, 1, 1);
+    vec3 albedo = vec3(0.7, 0.7, 0.7);
     float kD = max(0.0, dot(V,L));
     outColor.rgb = albedo * kD;
+    outColor.rgb = L;
     //outColor.rgb += albedo * ambientTerm;
     outColor.a = 1.0;
 

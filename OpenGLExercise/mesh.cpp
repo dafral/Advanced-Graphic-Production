@@ -136,7 +136,8 @@ SubMesh* Mesh::processMesh(aiMesh *mesh, const aiScene *scene)
 
     if(mesh->mTangents != nullptr && mesh->mBitangents != nullptr)
     {
-        vertex_format.setVertexAttribute(3, 8 *sizeof(float), 6);
+        vertex_format.setVertexAttribute(3, 8 *sizeof(float), 3);
+        vertex_format.setVertexAttribute(4, 11 *sizeof(float), 3);
     }
 
     return new SubMesh(vertex_format, vertices.data(), vertices.size() * sizeof(float), indices.data(), indices.size());
