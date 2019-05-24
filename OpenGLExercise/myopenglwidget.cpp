@@ -8,6 +8,8 @@
 #include <QOpenGLFramebufferObject>
 #include <QOpenGLTexture>
 
+#include "mainwindow.h"
+
 #pragma comment( lib, "OpenGL32.lib" )
 
 QOpenGLFunctions_3_3_Core *gl = nullptr;
@@ -56,7 +58,7 @@ void MyOpenGLWidget::initializeGL()
     //initializeTriangle();
     //initializeSphere();
     //initializeCube();
-    initialize3DModel("Resources/StoneFloor/StoneFloor.obj");
+    initialize3DModel("Resources/Patrick/Patrick.obj");
 
 }
 
@@ -76,6 +78,8 @@ void MyOpenGLWidget::paintGL()
     //gl->glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 
     UpdateMeshes();
+
+    w->camera->prepareMatrices();
 
     glClearDepth(1.0f);
     glClearColor(0.4f, 0.4f, 0.5f, 1.0f);
@@ -181,7 +185,7 @@ void MyOpenGLWidget::UseShader()
         program.setUniformValue("worldViewMatrix", worldViewMatrix);
 
         QImage img;
-        img.load("Resources/StoneFloor/StoneFloorNormals.png");
+        img.load("Resources/Patrick/Skin_Patrick.png");
         QOpenGLTexture *normMapping = new QOpenGLTexture(img.mirrored());
         normMapping->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
         normMapping->setMagnificationFilter(QOpenGLTexture::Linear);

@@ -32,7 +32,10 @@ SOURCES += \
     myopenglwidget.cpp \
     customwidget.cpp \
     submesh.cpp \
-    mesh.cpp
+    mesh.cpp \
+    camera.cpp \
+    input.cpp \
+    interaction.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -44,7 +47,10 @@ HEADERS += \
     submesh.h \
     vertex.h \
     mesh.h \
-    resource.h
+    resource.h \
+    camera.h \
+    input.h \
+    interaction.h
 
 FORMS += \
         mainwindow.ui \

@@ -5,6 +5,8 @@
 #include <QMessageBox>
 #include <QFileDialog>
 
+#include "input.h"
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -28,11 +30,35 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionOpenProject, SIGNAL(triggered()), this, SLOT(openProject()));
     connect(ui->actionSaveProject, SIGNAL(triggered()), this, SLOT(saveProject()));
     connect(ui->actionExit, SIGNAL(triggered()), this, SLOT(quit()));
+
+    camera = new Camera();
+
+    //interaction = new Interaction();
+
+    input = new Input();
+    setMouseTracking(true);
+
+    setFocus();
 }
 
 MainWindow::~MainWindow()
 {
+    SAFE_DELETE(camera);
+    SAFE_DELETE(input);
     delete ui;
+}
+
+void MainWindow::frame()
+{
+    // TODO
+    /*bool interacted = interaction->update();
+    if(interacted)
+    {
+        update();
+        uiOpenGL->update();
+    }
+    input->postUpdate();
+    */
 }
 
 void MainWindow::openProject()
@@ -67,4 +93,31 @@ void MainWindow::quit()
     }
 
 
+}
+
+void MainWindow::navigate()
+{
+
+}
+
+
+void MainWindow::keyPressEvent(QKeyEvent* aEvent)
+{
+    input->keyPress(aEvent);
+}
+void MainWindow::keyReleaseEvent(QKeyEvent* aEvent)
+{
+    input->keyRelease(aEvent);
+}
+void MainWindow::mousePressEvent(QMouseEvent* aEvent)
+{
+    input->mousePress(aEvent);
+}
+void MainWindow::mouseReleaseEvent(QMouseEvent* aEvent)
+{
+    input->mouseRelease(aEvent);
+}
+void MainWindow::mouseMoveEvent(QMouseEvent* aEvent)
+{
+    input->mouseMove(aEvent);
 }
