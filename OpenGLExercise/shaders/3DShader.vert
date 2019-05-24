@@ -21,6 +21,8 @@ out Data
 
 void main(void)
 {
+    //vec3 lightPos = vec3(0.5f, 1.0f, 0.3f);
+
     VSOut.positionViewspace = (worldViewMatrix * vec4(position, 1)).xyz;
     VSOut.normalViewspace = (worldViewMatrix * vec4(normal, 0)).xyz;
 
@@ -28,7 +30,13 @@ void main(void)
     VSOut.tangentLocalspace = tangent;
     VSOut.bitangentLocalspace = bitangent;
     VSOut.normalLocalspace = normal;
+
+   // mat3 TBN = transpose(mat3(tangent, bitangent, normal));
+
     VSOut.texCoords = texCoords;
     mat4 wvp = projectionMatrix * worldViewMatrix;
+
     gl_Position = wvp * vec4(position, 1.0);
+
+
 }
