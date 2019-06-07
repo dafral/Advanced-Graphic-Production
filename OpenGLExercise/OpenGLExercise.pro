@@ -36,7 +36,9 @@ SOURCES += \
     camera.cpp \
     input.cpp \
     interaction.cpp \
-    gbuffer.cpp
+    gbuffer.cpp \
+    dsgeometrypass.cpp \
+    shadermanager.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -52,7 +54,9 @@ HEADERS += \
     camera.h \
     input.h \
     interaction.h \
-    gbuffer.h
+    gbuffer.h \
+    dsgeometrypass.h \
+    shadermanager.h
 
 FORMS += \
         mainwindow.ui \
