@@ -35,7 +35,8 @@ SOURCES += \
     mesh.cpp \
     camera.cpp \
     input.cpp \
-    interaction.cpp
+    interaction.cpp \
+    gbuffer.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -50,7 +51,8 @@ HEADERS += \
     resource.h \
     camera.h \
     input.h \
-    interaction.h
+    interaction.h \
+    gbuffer.h
 
 FORMS += \
         mainwindow.ui \
