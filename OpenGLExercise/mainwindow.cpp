@@ -1,11 +1,11 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "input.h"
+#include "camera.h"
 
 #include <iostream>
 #include <QMessageBox>
 #include <QFileDialog>
-
-#include "input.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     camera = new Camera();
 
-    //interaction = new Interaction();
+    interaction = new Interaction();
 
     input = new Input();
     setMouseTracking(true);

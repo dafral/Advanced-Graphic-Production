@@ -4,9 +4,8 @@
 #include <QtMath>
 
 Interaction::Interaction()
-    : state(State::Idle)
 {
-
+    state = State::Idle;
 }
 
 bool Interaction::update()
@@ -46,8 +45,9 @@ bool Interaction::update()
 
 bool Interaction::idle()
 {
-    if(w->input->mouseButtons[Qt::RightButton] == MouseButtonState::Down)
+    if(w->input->mouseButtons[Qt::RightButton] == MouseButtonState::Pressed)
     {
+        w->input->mouse_prev = w->input->mouse;
         state = State::Navigating;
     }
     else if(w->input->mouseButtons[Qt::LeftButton] == MouseButtonState::Pressed)
@@ -62,19 +62,19 @@ bool Interaction::idle()
     {
         if(w->input->keys[Qt::Key_F] == KeyState::Pressed)
         {
-            state = State::Focusing;
+            //state = State::Focusing;
         }
         else if(w->input->keys[Qt::Key_T] == KeyState::Pressed)
         {
-            state = State::Translating;
+            //state = State::Translating;
         }
         else if(w->input->keys[Qt::Key_R] == KeyState::Pressed)
         {
-            state = State::Rotating;
+            //state = State::Rotating;
         }
         else if(w->input->keys[Qt::Key_S] == KeyState::Pressed)
         {
-            state = State::Scaling;
+            //state = State::Scaling;
         }
     }
 
@@ -82,16 +82,13 @@ bool Interaction::idle()
 }
 bool Interaction::navigate()
 {
-
     bool changed = false;
 
-    if(w->input->mouseButtons[Qt::RightButton] != MouseButtonState::Down)
+    if(w->input->mouseButtons[Qt::RightButton] != MouseButtonState::Pressed)
     {
         state = State::Idle;
         return false;
     }
-
-    bool cameraChanged = false;
 
     int dMX = w->input->mouse.x() - w->input->mouse_prev.x();
     int dMY = w->input->mouse.y() - w->input->mouse_prev.y();
@@ -99,41 +96,49 @@ bool Interaction::navigate()
     float &yaw = w->camera->yaw;
     float &pitch = w->camera->pitch;
 
-    if(dMX != 0 || dMY != 0)
+    float deltaRadius = 1.f;
+    float rotSpeed = 0.1f;
+
+    if(dMX > deltaRadius || dMY > deltaRadius || dMX < -deltaRadius || dMY < -deltaRadius)
     {
         changed = true;
-        yaw -= 0.3f * dMX;
-        pitch -= 0.3f * dMY;
+        yaw -= rotSpeed * dMX;
+        pitch -= rotSpeed * dMY;
         while(yaw < 0.0f) yaw += 360.0f;
         while(yaw > 360.0f) yaw -= 360.0f;
         if(pitch > 89.0f) pitch = 89.0f;
         if(pitch < -89.0f) pitch = -89.0f;
+        changed = true;
     }
 
     QVector3D dV;
-    if(w->input->keys[Qt::Key_W] == KeyState::Down)
+    if(w->input->keys[Qt::Key_W] == KeyState::Pressed)
     {
+        changed = true;
         dV += QVector3D(-sinf(qDegreesToRadians(yaw)) * cosf(qDegreesToRadians(pitch))
                         , sinf(qDegreesToRadians(pitch))
                         , -cosf(qDegreesToRadians(yaw)) * cosf(qDegreesToRadians(pitch)));
     }
-    if(w->input->keys[Qt::Key_A] == KeyState::Down)
+    if(w->input->keys[Qt::Key_A] == KeyState::Pressed)
     {
-        dV += QVector3D(-sinf(qDegreesToRadians(yaw)) * cosf(qDegreesToRadians(pitch))
-                        , sinf(qDegreesToRadians(pitch))
-                        , -cosf(qDegreesToRadians(yaw)) * cosf(qDegreesToRadians(pitch)));
+        changed = true;
+        dV += QVector3D(-cosf(qDegreesToRadians(yaw) * cosf(qDegreesToRadians(pitch))),
+                        sinf(qDegreesToRadians(pitch)),
+                        sinf(qDegreesToRadians(yaw)) * cosf(qDegreesToRadians(pitch)));
     }
-    if(w->input->keys[Qt::Key_S] == KeyState::Down)
+    if(w->input->keys[Qt::Key_S] == KeyState::Pressed)
     {
-        dV += QVector3D(-sinf(qDegreesToRadians(yaw)) * cosf(qDegreesToRadians(pitch))
-                        , sinf(qDegreesToRadians(pitch))
-                        , -cosf(qDegreesToRadians(yaw)) * cosf(qDegreesToRadians(pitch)));
+        changed = true;
+        dV +=  QVector3D(sinf(qDegreesToRadians(yaw)) * cosf(qDegreesToRadians(pitch)),
+                         -sinf(qDegreesToRadians(pitch)),
+                         cosf(qDegreesToRadians(yaw)) * cosf(qDegreesToRadians(pitch)));
     }
-    if(w->input->keys[Qt::Key_D] == KeyState::Down)
+    if(w->input->keys[Qt::Key_D] == KeyState::Pressed)
     {
-        dV += QVector3D(-sinf(qDegreesToRadians(yaw)) * cosf(qDegreesToRadians(pitch))
-                        , sinf(qDegreesToRadians(pitch))
-                        , -cosf(qDegreesToRadians(yaw)) * cosf(qDegreesToRadians(pitch)));
+        changed = true;
+        dV += QVector3D(cosf(qDegreesToRadians(yaw)) * cosf(qDegreesToRadians(pitch)),
+                        sinf(qDegreesToRadians(pitch)),
+                        -sinf(qDegreesToRadians(yaw)) * cosf(qDegreesToRadians(pitch)));
     }
 
     dV *= w->camera->speed / 60.0f;
@@ -145,17 +150,17 @@ bool Interaction::navigate()
 }
 bool Interaction::focus()
 {
-
+    return false;
 }
 bool Interaction::translate()
 {
-
+    return false;
 }
 bool Interaction::rotate()
 {
-
+    return false;
 }
 bool Interaction::scale()
 {
-
+    return false;
 }

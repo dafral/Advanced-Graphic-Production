@@ -47,6 +47,17 @@ void MyOpenGLWidget::initializeGL()
 
     glEnable(GL_DEPTH_TEST);
 
+    connect(&timer, SIGNAL(timeout()), this, SLOT(frame()));
+    if(format().swapInterval() == -1)
+    {
+        timer.setInterval(17);
+    }
+    else
+    {
+        timer.setInterval(0);
+    }
+    timer.start();
+
     //Shaders
     program.create();
     program.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/shaders/3DShader.vert");
@@ -162,7 +173,7 @@ void MyOpenGLWidget::UseShader()
 {
     if(program.bind())
     {
-        // Projection transformation
+        /*// Projection transformation
         QMatrix4x4 projectionMatrix;
         const float fovy = 60.0f;
         const float aspectRatio = (float)width() / (float)height();
@@ -175,13 +186,13 @@ void MyOpenGLWidget::UseShader()
         QVector3D eyePosition(5.0, 5.0, 10.0);
         QVector3D center(0.0, 0.0, 0.0);
         QVector3D up(0.0, 1.0, 0.0);
-        viewMatrix.lookAt(eyePosition, center, up);
+        viewMatrix.lookAt(eyePosition, center, up);*/
 
         // Object transformation
         QMatrix4x4 worldMatrix;
-        QMatrix4x4 worldViewMatrix = viewMatrix * worldMatrix;
+        QMatrix4x4 worldViewMatrix = w->camera->viewMatrix * worldMatrix;
 
-        program.setUniformValue("projectionMatrix", projectionMatrix);
+        program.setUniformValue("projectionMatrix", w->camera->projectionMatrix);
         program.setUniformValue("worldViewMatrix", worldViewMatrix);
 
         QImage img;
@@ -220,8 +231,19 @@ void MyOpenGLWidget::initializeCube()
     mesh->needsUpdate = true;
 }
 
+void MyOpenGLWidget::frame()
+{
+    bool interacted = w->interaction->update();
+    if(interacted)
+    {
+        update();
+    }
+    w->input->postUpdate();
+}
+
 Mesh* MyOpenGLWidget::initializeTriangle()
 {
+    /*
     //Program
     program.create();
     program.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/shaders/shader1.vert");
@@ -256,7 +278,7 @@ Mesh* MyOpenGLWidget::initializeTriangle()
     vao.release();
     program.release();
     vbo.release();
-
+*/
     return nullptr;
 }
 
