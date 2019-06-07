@@ -28,6 +28,8 @@ public slots:
     void saveProject();
     void quit();
 
+    void loadModel();
+
 public:
     Ui::MainWindow *ui;
     InspectorWidget *uiInspector;

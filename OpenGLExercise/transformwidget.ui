@@ -81,6 +81,13 @@
      </item>
     </layout>
    </item>
+   <item>
+    <widget class="QPushButton" name="loadMeshButton">
+     <property name="text">
+      <string>Load Mesh</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <resources/>

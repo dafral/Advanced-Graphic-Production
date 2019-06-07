@@ -31,6 +31,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionSaveProject, SIGNAL(triggered()), this, SLOT(saveProject()));
     connect(ui->actionExit, SIGNAL(triggered()), this, SLOT(quit()));
 
+    connect(ui->loadButton, SIGNAL(pressed()), this, SLOT(loadModel()));
+
     camera = new Camera();
 
     interaction = new Interaction();
@@ -48,6 +50,19 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::loadModel()
+{
+    QString path = QFileDialog::getOpenFileName(this, "Load Model");
+    if(!path.isEmpty())
+    {
+        std::cout << path.toStdString() << std::endl;
+    }
+    else
+    {
+        std::cout << "Error loading model -> empty path" << std::endl;
+    }
+    w->uiOpenGL->initialize3DModel(std::string(path.toStdString()).c_str());
+}
 void MainWindow::frame()
 {
     // TODO

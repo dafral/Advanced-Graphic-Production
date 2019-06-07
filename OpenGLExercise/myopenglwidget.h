@@ -10,6 +10,8 @@
 #include <QTimer>
 #include <QOpenGLDebugLogger>
 
+#include "gbuffer.h"
+
 #include "mesh.h"
 
 // Sphere //
@@ -69,6 +71,8 @@ private:
 
     std::list<Mesh*> meshes;
     QTimer timer;
+
+    GBuffer m_gbuffer;
 };
 
 extern QOpenGLFunctions_3_3_Core* gl;

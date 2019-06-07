@@ -59,6 +59,7 @@ void Mesh::loadModel(const char *filename)
         return;
     }
 
+    std::cout << "loadModel -> " << filename << std::endl;
     QByteArray data = file.readAll();
 
     const aiScene *scene = import.ReadFileFromMemory(
