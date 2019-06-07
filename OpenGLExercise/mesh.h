@@ -32,7 +32,9 @@ public:
     bool needsUpdate;
 
     QOpenGLTexture *diffuse;
+    int activateDiffuse;
     QOpenGLTexture *normalMap;
+    int activateNormalMap;
 
 private:
 

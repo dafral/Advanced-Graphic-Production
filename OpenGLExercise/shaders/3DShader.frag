@@ -4,6 +4,8 @@
 uniform mat4 worldViewMatrix;
 uniform sampler2D normalMap;
 uniform sampler2D diffuse_tex;
+uniform int activeDiffuse;
+uniform int activeNormalMap;
 
 in Data
 {
@@ -44,11 +46,18 @@ void main(void)
 
     // LIGHT
 
-    albedo = texture(diffuse_tex, FSIn.texCoords).rgb;
+    if(activeDiffuse == 1)
+    {
+        albedo = texture(diffuse_tex, FSIn.texCoords).rgb;
+    }
+    else
+    {
+        albedo = vec3(1,0,0);
+    }
 
     vec3 ambient = albedo * ambientTerm;
-    vec3 specular = /*white **/ lightColor * dot(normalView, normalize(V + L));
-    vec3 diffuse = albedo * lightColor *dot(normalView, L);
+    vec3 specular = /*white **/ lightColor * (dot(normalView, normalize(V + L)) * activeNormalMap);
+    vec3 diffuse = albedo * lightColor * (dot(normalView, L) * activeNormalMap);
 
 
     outColor.rgb = ambient + diffuse + specular;

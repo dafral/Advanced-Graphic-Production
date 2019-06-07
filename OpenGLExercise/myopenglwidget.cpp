@@ -218,12 +218,22 @@ void MyOpenGLWidget::UseShader()
                     glActiveTexture(GL_TEXTURE0);
                     glBindTexture(GL_TEXTURE_2D, (*it)->diffuse->textureId());
                     program.setUniformValue("diffuse_tex", 0);
+                    program.setUniformValue("activeDiffuse", (*it)->activateDiffuse);
+                }
+                else
+                {
+                    program.setUniformValue("activeDiffuse", 0);
                 }
                 if((*it)->normalMap != nullptr)
                 {
                     glActiveTexture(GL_TEXTURE1);
                     glBindTexture(GL_TEXTURE_2D, (*it)->normalMap->textureId());
                     program.setUniformValue("normalMap", 1);
+                    program.setUniformValue("activeNormalMap", (*it)->activateNormalMap);
+                }
+                else
+                {
+                    program.setUniformValue("activeNormalMap", 0);
                 }
             }
         }
