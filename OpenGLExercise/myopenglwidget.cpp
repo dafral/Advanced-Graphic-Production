@@ -51,6 +51,13 @@ void MyOpenGLWidget::initializeGL()
         std::cout << "Error loading GBuffer!" << std::endl;
     }
 
+    if (!m_DSGeometryPass.Init()) {
+        printf("Error initializing DSGeomPassTech\n");
+    }
+
+    m_DSGeometryPass.Enable();
+    m_DSGeometryPass.SetColorTextureUnit(COLOR_TEXTURE_UNIT_INDEX);
+
     glEnable(GL_DEPTH_TEST);
 
     connect(&timer, SIGNAL(timeout()), this, SLOT(frame()));

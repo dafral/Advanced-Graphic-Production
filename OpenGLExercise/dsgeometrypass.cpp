@@ -2,6 +2,7 @@
 
 #include <limits.h>
 #include <string.h>
+#include <QMatrix4x4>
 
 DSGeometryPass::DSGeometryPass()
 {
@@ -10,16 +11,18 @@ DSGeometryPass::DSGeometryPass()
 
 bool DSGeometryPass::Init()
 {
-    if(!ShaderObject::Init())
+    if(!ShaderManager::Init())
     {
         return false;
     }
 
-    if (!AddShader(GL_FRAGMENT_SHADER, "shaders/geometry_pass.fs")) {
+    if (!AddShader(GL_FRAGMENT_SHADER, "shaders/geometry_pass.fs"))
+    {
         return false;
     }
 
-    if (!Finalize()) {
+    if (!Finalize())
+    {
         return false;
     }
 
@@ -29,7 +32,8 @@ bool DSGeometryPass::Init()
 
     if (m_WVPLocation == INVALID_UNIFORM_LOCATION ||
         m_WorldMatrixLocation == INVALID_UNIFORM_LOCATION ||
-        m_colorTextureUnitLocation == INVALID_UNIFORM_LOCATION) {
+        m_colorTextureUnitLocation == INVALID_UNIFORM_LOCATION)
+    {
             return false;
     }
 
@@ -37,20 +41,20 @@ bool DSGeometryPass::Init()
 }
 
 
-void DSGeomPassTech::SetWVP(const Matrix4f& WVP)
+void DSGeometryPass::SetWVP(const QMatrix4x4& WVP)
 {
-    glUniformMatrix4fv(m_WVPLocation, 1, GL_TRUE, (const GLfloat*)WVP.m);
+    gl->glUniformMatrix4fv(m_WVPLocation, 1, GL_TRUE, (const GLfloat*)WVP.data());
 }
 
 
-void DSGeomPassTech::SetWorldMatrix(const Matrix4f& WorldInverse)
+void DSGeometryPass::SetWorldMatrix(const QMatrix4x4& WorldInverse)
 {
-    glUniformMatrix4fv(m_WorldMatrixLocation, 1, GL_TRUE, (const GLfloat*)WorldInverse.m);
+    gl->glUniformMatrix4fv(m_WorldMatrixLocation, 1, GL_TRUE, (const GLfloat*)WorldInverse.data());
 }
 
 
-void DSGeomPassTech::SetColorTextureUnit(unsigned int TextureUnit)
+void DSGeometryPass::SetColorTextureUnit(unsigned int TextureUnit)
 {
-    glUniform1i(m_colorTextureUnitLocation, TextureUnit);
+    gl->glUniform1i(m_colorTextureUnitLocation, TextureUnit);
 }
 

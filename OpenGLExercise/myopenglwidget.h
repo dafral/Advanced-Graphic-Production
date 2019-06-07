@@ -11,8 +11,12 @@
 #include <QOpenGLDebugLogger>
 
 #include "gbuffer.h"
-
+#include "dsgeometrypass.h"
 #include "mesh.h"
+
+// TEXTURES
+#define COLOR_TEXTURE_UNIT              GL_TEXTURE0
+#define COLOR_TEXTURE_UNIT_INDEX        0
 
 // Sphere //
 #define H 32
@@ -73,6 +77,7 @@ private:
     QTimer timer;
 
     GBuffer m_gbuffer;
+    DSGeometryPass m_DSGeometryPass;
 };
 
 extern QOpenGLFunctions_3_3_Core* gl;

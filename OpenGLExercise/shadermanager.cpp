@@ -1,5 +1,6 @@
 #include "shadermanager.h"
 //#include "ogldev_util.h"
+#include "myopenglwidget.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -17,12 +18,12 @@ ShaderManager::~ShaderManager()
     // was destroyed prior to linking.
     for (ShaderObjList::iterator it = m_shaderObjList.begin() ; it != m_shaderObjList.end() ; it++)
     {
-        glDeleteShader(*it);
+        gl->glDeleteShader(*it);
     }
 
     if (m_shaderProg != 0)
     {
-        glDeleteProgram(m_shaderProg);
+        gl->glDeleteProgram(m_shaderProg);
         m_shaderProg = 0;
     }
 }
@@ -30,7 +31,7 @@ ShaderManager::~ShaderManager()
 
 bool ShaderManager::Init()
 {
-    m_shaderProg = glCreateProgram();
+    m_shaderProg = gl->glCreateProgram();
 
     if (m_shaderProg == 0) {
         fprintf(stderr, "Error creating shader program\n");
@@ -43,13 +44,13 @@ bool ShaderManager::Init()
 // Use this method to add shaders to the program. When finished - call finalize()
 bool ShaderManager::AddShader(GLenum ShaderType, const char* pFilename)
 {
-    string s;
+    std::string s;
 
     if (!ReadFile(pFilename, s)) {
         return false;
     }
 
-    GLuint ShaderObj = glCreateShader(ShaderType);
+    GLuint ShaderObj = gl->glCreateShader(ShaderType);
 
     if (ShaderObj == 0) {
         fprintf(stderr, "Error creating shader type %d\n", ShaderType);
@@ -63,21 +64,21 @@ bool ShaderManager::AddShader(GLenum ShaderType, const char* pFilename)
     p[0] = s.c_str();
     GLint Lengths[1] = { (GLint)s.size() };
 
-    glShaderSource(ShaderObj, 1, p, Lengths);
+    gl->glShaderSource(ShaderObj, 1, p, Lengths);
 
-    glCompileShader(ShaderObj);
+    gl->glCompileShader(ShaderObj);
 
     GLint success;
-    glGetShaderiv(ShaderObj, GL_COMPILE_STATUS, &success);
+    gl->glGetShaderiv(ShaderObj, GL_COMPILE_STATUS, &success);
 
     if (!success) {
         GLchar InfoLog[1024];
-        glGetShaderInfoLog(ShaderObj, 1024, NULL, InfoLog);
+        gl->glGetShaderInfoLog(ShaderObj, 1024, NULL, InfoLog);
         fprintf(stderr, "Error compiling '%s': '%s'\n", pFilename, InfoLog);
         return false;
     }
 
-    glAttachShader(m_shaderProg, ShaderObj);
+    gl->glAttachShader(m_shaderProg, ShaderObj);
 
     return true;
 }
@@ -90,26 +91,26 @@ bool ShaderManager::Finalize()
     GLint Success = 0;
     GLchar ErrorLog[1024] = { 0 };
 
-    glLinkProgram(m_shaderProg);
+    gl->glLinkProgram(m_shaderProg);
 
-    glGetProgramiv(m_shaderProg, GL_LINK_STATUS, &Success);
+    gl->glGetProgramiv(m_shaderProg, GL_LINK_STATUS, &Success);
     if (Success == 0) {
-        glGetProgramInfoLog(m_shaderProg, sizeof(ErrorLog), NULL, ErrorLog);
+        gl->glGetProgramInfoLog(m_shaderProg, sizeof(ErrorLog), NULL, ErrorLog);
         fprintf(stderr, "Error linking shader program: '%s'\n", ErrorLog);
         return false;
     }
 
-    glValidateProgram(m_shaderProg);
-    glGetProgramiv(m_shaderProg, GL_VALIDATE_STATUS, &Success);
+    gl->glValidateProgram(m_shaderProg);
+    gl->glGetProgramiv(m_shaderProg, GL_VALIDATE_STATUS, &Success);
     if (!Success) {
-        glGetProgramInfoLog(m_shaderProg, sizeof(ErrorLog), NULL, ErrorLog);
+        gl->glGetProgramInfoLog(m_shaderProg, sizeof(ErrorLog), NULL, ErrorLog);
         fprintf(stderr, "Invalid shader program: '%s'\n", ErrorLog);
      //   return false;
     }
 
     // Delete the intermediate shader objects that have been added to the program
     for (ShaderObjList::iterator it = m_shaderObjList.begin() ; it != m_shaderObjList.end() ; it++) {
-        glDeleteShader(*it);
+        gl->glDeleteShader(*it);
     }
 
     m_shaderObjList.clear();
@@ -120,13 +121,13 @@ bool ShaderManager::Finalize()
 
 void ShaderManager::Enable()
 {
-    glUseProgram(m_shaderProg);
+    gl->glUseProgram(m_shaderProg);
 }
 
 
 GLint ShaderManager::GetUniformLocation(const char* pUniformName)
 {
-    GLuint Location = glGetUniformLocation(m_shaderProg, pUniformName);
+    GLuint Location = gl->glGetUniformLocation(m_shaderProg, pUniformName);
 
     if (Location == INVALID_UNIFORM_LOCATION) {
         fprintf(stderr, "Warning! Unable to get the location of uniform '%s'\n", pUniformName);
@@ -138,6 +139,6 @@ GLint ShaderManager::GetUniformLocation(const char* pUniformName)
 GLint ShaderManager::GetProgramParam(GLint param)
 {
     GLint ret;
-    glGetProgramiv(m_shaderProg, param, &ret);
+    gl->glGetProgramiv(m_shaderProg, param, &ret);
     return ret;
 }
