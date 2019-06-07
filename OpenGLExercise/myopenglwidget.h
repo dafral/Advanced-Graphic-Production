@@ -7,6 +7,7 @@
 #include <QOpenGLBuffer>
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLShaderProgram>
+#include <QTimer>
 #include <QOpenGLDebugLogger>
 
 #include "mesh.h"
@@ -56,7 +57,7 @@ signals:
     void messageLogged(const QOpenGLDebugMessage &);
 
 public slots:
-
+    void frame();
     //Not virtual
     void finalizeGL();
     void handleLoggedMessage(const QOpenGLDebugMessage &);
@@ -67,7 +68,7 @@ private:
     QOpenGLShaderProgram program;
 
     std::list<Mesh*> meshes;
-
+    QTimer timer;
 };
 
 extern QOpenGLFunctions_3_3_Core* gl;

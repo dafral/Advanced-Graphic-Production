@@ -4,7 +4,7 @@
 
 Camera::Camera()
     : fovy(60.0f)
-    , znear(10.0f)
+    , znear(1.0f)
     , zfar(1000.0f)
     , yaw(0.0f)
     , pitch(0.0f)

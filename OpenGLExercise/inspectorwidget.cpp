@@ -1,4 +1,4 @@
-#include "inspectorwidget.h"
+ #include "inspectorwidget.h"
 #include "transformwidget.h"
 #include "renderingwidget.h"
 
