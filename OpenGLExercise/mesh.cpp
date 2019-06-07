@@ -10,6 +10,8 @@
 Mesh::Mesh()
     : normalMap(nullptr)
     , diffuse(nullptr)
+    , activateDiffuse(0)
+    , activateNormalMap(1)
 {
     needsUpdate =true;
     if(diffuse == nullptr)
