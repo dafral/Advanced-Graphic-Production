@@ -24,6 +24,7 @@ MyOpenGLWidget::~MyOpenGLWidget()
 {
     makeCurrent();
     finalizeGL();
+    CleanUpMeshes();
 }
 
 void MyOpenGLWidget::initializeGL()
@@ -43,6 +44,11 @@ void MyOpenGLWidget::initializeGL()
         connect(logger, SIGNAL(messageLogged(const QOpenGLDebugMessage &)),
                 this, SLOT(handleLoggedMessage(const QOpenGLDebugMessage &)));
         logger->startLogging();
+    }
+
+    if(!m_gbuffer.Init(width(), height()))
+    {
+        std::cout << "Error loading GBuffer!" << std::endl;
     }
 
     glEnable(GL_DEPTH_TEST);
@@ -69,7 +75,7 @@ void MyOpenGLWidget::initializeGL()
     //initializeTriangle();
     //initializeSphere();
     //initializeCube();
-    initialize3DModel("Resources/Patrick/Patrick.obj");
+    initialize3DModel("Resources/StoneFloor/StoneFloor.obj");
 
 }
 
@@ -145,13 +151,13 @@ void MyOpenGLWidget::showInfo()
 Mesh* MyOpenGLWidget::CreateMesh()
 {
     Mesh* newMesh = new Mesh();
-    meshes.push_back(newMesh);
+    w->uiOpenGL->meshes.push_back(newMesh);
     return newMesh;
 }
 
 void MyOpenGLWidget::UpdateMeshes()
 {
-    for (std::list<Mesh*>::iterator it = meshes.begin(); it != meshes.end(); ++it)
+    for (std::list<Mesh*>::iterator it = w->uiOpenGL->meshes.begin(); it != w->uiOpenGL->meshes.end(); ++it)
     {
          if((*it)->needsUpdate)
          {
@@ -163,7 +169,7 @@ void MyOpenGLWidget::UpdateMeshes()
 
 void MyOpenGLWidget::DrawMeshes()
 {
-    for (std::list<Mesh*>::iterator it = meshes.begin(); it != meshes.end(); ++it)
+    for (std::list<Mesh*>::iterator it = w->uiOpenGL->meshes.begin(); it != w->uiOpenGL->meshes.end(); ++it)
     {
         (*it)->draw();
     }
@@ -196,7 +202,7 @@ void MyOpenGLWidget::UseShader()
         program.setUniformValue("worldViewMatrix", worldViewMatrix);
 
         QImage img;
-        img.load("Resources/Patrick/Skin_Patrick.png");
+        img.load("Resources/StoneFloor/StoneFloorNormals.png");
         QOpenGLTexture *normMapping = new QOpenGLTexture(img.mirrored());
         normMapping->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
         normMapping->setMagnificationFilter(QOpenGLTexture::Linear);
@@ -331,6 +337,7 @@ void MyOpenGLWidget::initialize3DModel(const char* filename)
 {
     Mesh *mesh = this->CreateMesh();
     //mesh->name = filename;
+    std::cout << "file -> " << filename << std::endl;
     mesh->loadModel(filename);  
 }
 
