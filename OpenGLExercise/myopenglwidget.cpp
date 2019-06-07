@@ -201,6 +201,8 @@ void MyOpenGLWidget::UseShader()
         program.setUniformValue("projectionMatrix", w->camera->projectionMatrix);
         program.setUniformValue("worldViewMatrix", worldViewMatrix);
 
+        glClear(GL_COLOR_BUFFER_BIT || GL_DEPTH_BUFFER_BIT);
+
         for(auto it = w->uiOpenGL->meshes.begin(); it != w->uiOpenGL->meshes.end(); ++it)
         {
             if((*it) != nullptr)
@@ -230,6 +232,8 @@ void MyOpenGLWidget::UseShader()
                 }
             }
         }
+
+
 
     }
 }

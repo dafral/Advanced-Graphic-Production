@@ -36,6 +36,8 @@ public:
     QOpenGLTexture *normalMap;
     int activateNormalMap;
 
+    QVector3D position;
+
 private:
 
     //Assimp

@@ -23,6 +23,15 @@ vec3 albedo = vec3(1,0,0);
 vec3 L = vec3(0,0,1);
 vec3 lightColor = vec3(0.7,0.7,0.7);
 
+const int NR_LIGHTS = 32;
+struct Light
+{
+    vec3 pos;
+    vec3 color;
+};
+uniform Light lights[NR_LIGHTS];
+uniform vec3 viewPos;
+
 void main(void)
 {
 
@@ -55,13 +64,24 @@ void main(void)
         albedo = vec3(1,0,0);
     }
 
+    vec3 normal =  texture(normalMap, FSIn.texCoords).rgb;
+
+    vec3 lighting = albedo * 0.1f;
+    vec3 viewDir = normalize(viewPos - gl_FragCoord);
+    for(int i = 0; i < NR_LIGHTS; ++i)
+    {
+        vec3 lightDir = normalize(lights[i].pos - gl_FragCoord);
+        vec3 d = max(dot(normal, lightDir), 0.0) * albedo * lights[i].color;
+        lighting += d;
+    }
+
     vec3 ambient = albedo * ambientTerm;
     vec3 specular = /*white **/ lightColor * (dot(normalView, normalize(V + L)) * activeNormalMap);
     vec3 diffuse = albedo * lightColor * (dot(normalView, L) * activeNormalMap);
 
 
-    outColor.rgb = ambient + diffuse + specular;
-
+    //outColor.rgb = ambient + diffuse + specular;
+    outColor.rgb = vec3(lighting);
     outColor.a = 1.0;
 
     // Gamma Correction
