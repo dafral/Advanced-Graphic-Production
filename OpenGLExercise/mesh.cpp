@@ -8,8 +8,26 @@
 #include <iostream>
 
 Mesh::Mesh()
+    : normalMap(nullptr)
+    , diffuse(nullptr)
 {
     needsUpdate =true;
+    if(diffuse == nullptr)
+    {
+        QImage img;
+        img.load("Resources/Patrick/Skin_Patrick.png");
+        diffuse = new QOpenGLTexture(img.mirrored());
+        diffuse->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
+        diffuse->setMagnificationFilter(QOpenGLTexture::Linear);
+    }
+    if(normalMap == nullptr)
+    {
+        QImage img;
+        img.load("Resources/StoneFloor/StoneFloorNormals.png");
+        normalMap = new QOpenGLTexture(img.mirrored());
+        normalMap->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
+        normalMap->setMagnificationFilter(QOpenGLTexture::Linear);
+    }
 }
 
 Mesh::~Mesh()
@@ -141,6 +159,22 @@ SubMesh* Mesh::processMesh(aiMesh *mesh, const aiScene *scene)
         vertex_format.setVertexAttribute(4, 11 *sizeof(float), 3);
     }
 
+    if(diffuse == nullptr)
+    {
+        QImage img;
+        img.load("Resources/Patrick/Patrick_Skin.png");
+        diffuse = new QOpenGLTexture(img.mirrored());
+        diffuse->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
+        diffuse->setMagnificationFilter(QOpenGLTexture::Linear);
+    }
+    if(normalMap == nullptr)
+    {
+        QImage img;
+        img.load("Resources/StoneFloor/StoneFloorNormals.png");
+        normalMap = new QOpenGLTexture(img.mirrored());
+        normalMap->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
+        normalMap->setMagnificationFilter(QOpenGLTexture::Linear);
+    }
     return new SubMesh(vertex_format, vertices.data(), vertices.size() * sizeof(float), indices.data(), indices.size());
 }
 

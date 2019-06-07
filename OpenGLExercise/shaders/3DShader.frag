@@ -3,6 +3,7 @@
 // Uniform inputs
 uniform mat4 worldViewMatrix;
 uniform sampler2D normalMap;
+uniform sampler2D diffuse_tex;
 
 in Data
 {
@@ -18,7 +19,7 @@ out vec4 outColor;
 float ambientTerm = 0.05;
 vec3 albedo = vec3(1,0,0);
 vec3 L = vec3(0,0,1);
-vec3 lightColor = vec3(1,1,1);
+vec3 lightColor = vec3(0.7,0.7,0.7);
 
 void main(void)
 {
@@ -42,6 +43,9 @@ void main(void)
     vec3 normalView = normalize(worldViewMatrix * vec4(normalLocal, 0.0)).xyz;
 
     // LIGHT
+
+    albedo = texture(diffuse_tex, FSIn.texCoords).rgb;
+
     vec3 ambient = albedo * ambientTerm;
     vec3 specular = /*white **/ lightColor * dot(normalView, normalize(V + L));
     vec3 diffuse = albedo * lightColor *dot(normalView, L);

@@ -7,6 +7,7 @@
 #include "assimp/scene.h"
 
 #include <QVector>
+#include <QOpenGLTexture>
 
 class Resource;
 
@@ -29,6 +30,9 @@ public:
 
     QVector<SubMesh*> submeshes;
     bool needsUpdate;
+
+    QOpenGLTexture *diffuse;
+    QOpenGLTexture *normalMap;
 
 private:
 

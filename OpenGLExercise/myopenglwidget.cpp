@@ -201,15 +201,26 @@ void MyOpenGLWidget::UseShader()
         program.setUniformValue("projectionMatrix", w->camera->projectionMatrix);
         program.setUniformValue("worldViewMatrix", worldViewMatrix);
 
-        QImage img;
-        img.load("Resources/StoneFloor/StoneFloorNormals.png");
-        QOpenGLTexture *normMapping = new QOpenGLTexture(img.mirrored());
-        normMapping->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
-        normMapping->setMagnificationFilter(QOpenGLTexture::Linear);
+        for(auto it = w->uiOpenGL->meshes.begin(); it != w->uiOpenGL->meshes.end(); ++it)
+        {
+            if((*it) != nullptr)
+            {
+                if((*it)->diffuse != nullptr)
+                {
+                    (*it)->diffuse->textureId();
+                    glActiveTexture(GL_TEXTURE0);
+                    glBindTexture(GL_TEXTURE_2D, (*it)->diffuse->textureId());
+                    program.setUniformValue("diffuse_tex", 0);
+                }
+                if((*it)->normalMap != nullptr)
+                {
+                    glActiveTexture(GL_TEXTURE1);
+                    glBindTexture(GL_TEXTURE_2D, (*it)->normalMap->textureId());
+                    program.setUniformValue("normalMap", 1);
+                }
+            }
+        }
 
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, normMapping->textureId());
-        program.setUniformValue("normalMap", 0);
     }
 }
 
@@ -338,7 +349,7 @@ void MyOpenGLWidget::initialize3DModel(const char* filename)
     Mesh *mesh = this->CreateMesh();
     //mesh->name = filename;
     std::cout << "file -> " << filename << std::endl;
-    mesh->loadModel(filename);  
+    mesh->loadModel(filename);
 }
 
 void MyOpenGLWidget::CleanUpMeshes()
