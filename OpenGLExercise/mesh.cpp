@@ -18,7 +18,8 @@ Mesh::Mesh()
     {
         QImage img;
         img.load("Resources/Patrick/Skin_Patrick.png");
-        diffuse = new QOpenGLTexture(img.mirrored());
+        //img.load("Resources/FL_CW_A_1.png");
+        diffuse = new QOpenGLTexture(img);
         diffuse->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
         diffuse->setMagnificationFilter(QOpenGLTexture::Linear);
     }
@@ -96,8 +97,23 @@ void Mesh::loadModel(const char *filename)
 
     if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
     {
-        std::cout << "ERROR:: ASSIMP::" << import.GetErrorString() << std::endl;
-        return;
+        const aiScene *scenefbx = import.ReadFileFromMemory(
+                    data.data(), data.size(),
+                    aiProcess_Triangulate |
+                    aiProcess_FlipUVs |
+                    aiProcess_GenSmoothNormals |
+                    aiProcess_RemoveRedundantMaterials |
+                    aiProcess_OptimizeMeshes |
+                    aiProcess_PreTransformVertices |
+                    aiProcess_ImproveCacheLocality |
+                    aiProcess_CalcTangentSpace,
+                    ".fbx");
+        if(!scenefbx || scenefbx->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scenefbx->mRootNode)
+        {
+            std::cout << "ERROR:: ASSIMP::" << import.GetErrorString() << std::endl;
+            return;
+        }
+        scene = scenefbx;
     }
 
     processNode(scene->mRootNode, scene);

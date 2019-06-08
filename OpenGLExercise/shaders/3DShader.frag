@@ -7,6 +7,10 @@ uniform sampler2D diffuse_tex;
 uniform int activeDiffuse;
 uniform int activeNormalMap;
 
+layout (location = 0) out vec3 gPosition;
+layout (location = 1) out vec3 gNormal;
+layout (location = 2) out vec4 gAlbedo;
+
 in Data
 {
     vec3 positionViewspace;
@@ -17,20 +21,11 @@ in Data
     vec2 texCoords;
 } FSIn;
 
-out vec4 outColor;
+//uniform sampler2D diffuse_tex;
+
 float ambientTerm = 0.05;
-vec3 albedo = vec3(1,0,0);
 vec3 L = vec3(0,0,1);
 vec3 lightColor = vec3(0.7,0.7,0.7);
-
-const int NR_LIGHTS = 32;
-struct Light
-{
-    vec3 pos;
-    vec3 color;
-};
-uniform Light lights[NR_LIGHTS];
-uniform vec3 viewPos;
 
 void main(void)
 {
@@ -54,7 +49,7 @@ void main(void)
     vec3 normalView = normalize(worldViewMatrix * vec4(normalLocal, 0.0)).xyz;
 
     // LIGHT
-
+    vec3 albedo = vec3(1, 0, 0);
     if(activeDiffuse == 1)
     {
         albedo = texture(diffuse_tex, FSIn.texCoords).rgb;
@@ -64,28 +59,22 @@ void main(void)
         albedo = vec3(1,0,0);
     }
 
+    gAlbedo.rgb = albedo.rgb;
+
     vec3 normal =  texture(normalMap, FSIn.texCoords).rgb;
+    gNormal = normal;
 
-    vec3 lighting = albedo * 0.1f;
-    vec3 viewDir = normalize(viewPos - gl_FragCoord);
-    for(int i = 0; i < NR_LIGHTS; ++i)
-    {
-        vec3 lightDir = normalize(lights[i].pos - gl_FragCoord);
-        vec3 d = max(dot(normal, lightDir), 0.0) * albedo * lights[i].color;
-        lighting += d;
-    }
+    gPosition = FSIn.positionViewspace;
 
-    vec3 ambient = albedo * ambientTerm;
-    vec3 specular = /*white **/ lightColor * (dot(normalView, normalize(V + L)) * activeNormalMap);
-    vec3 diffuse = albedo * lightColor * (dot(normalView, L) * activeNormalMap);
-
+    //vec3 ambient = albedo * ambientTerm;
+    //vec3 specular = /*white **/ lightColor * (dot(normalView, normalize(V + L)) * activeNormalMap);
+    //vec3 diffuse = albedo * lightColor * (dot(normalView, L) * activeNormalMap);
 
     //outColor.rgb = ambient + diffuse + specular;
-    outColor.rgb = vec3(lighting);
-    outColor.a = 1.0;
+    //outColor.a = 1.0;
 
     // Gamma Correction
-    outColor.rgb = pow(outColor.rgb, vec3(1.0/2.4));
+    //outColor.rgb = pow(outColor.rgb, vec3(1.0/2.4));
 
 
 }

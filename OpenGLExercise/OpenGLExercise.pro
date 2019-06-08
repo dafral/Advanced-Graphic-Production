@@ -35,10 +35,7 @@ SOURCES += \
     mesh.cpp \
     camera.cpp \
     input.cpp \
-    interaction.cpp \
-    gbuffer.cpp \
-    dsgeometrypass.cpp \
-    shadermanager.cpp
+    interaction.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -53,10 +50,7 @@ HEADERS += \
     resource.h \
     camera.h \
     input.h \
-    interaction.h \
-    gbuffer.h \
-    dsgeometrypass.h \
-    shadermanager.h
+    interaction.h
 
 FORMS += \
         mainwindow.ui \
@@ -74,7 +68,11 @@ QT      += opengl
 # Opens a console during execution to show debug logs
 CONFIG += console
 
-DISTFILES +=
+DISTFILES += \
+    geometry.frag \
+    geometry.vert \
+    lighting.frag \
+    lighting.vert
 
 # Assimp
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/ThirdParty/Assimp/lib/ -lassimp

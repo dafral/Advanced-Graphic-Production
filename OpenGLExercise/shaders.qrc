@@ -2,5 +2,9 @@
     <qresource prefix="/shaders">
         <file>shaders/3DShader.frag</file>
         <file>shaders/3DShader.vert</file>
+        <file>lighting.frag</file>
+        <file>lighting.vert</file>
+        <file>geometry.frag</file>
+        <file>geometry.vert</file>
     </qresource>
 </RCC>

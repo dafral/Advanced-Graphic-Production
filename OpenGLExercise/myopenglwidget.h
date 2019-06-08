@@ -10,8 +10,6 @@
 #include <QTimer>
 #include <QOpenGLDebugLogger>
 
-#include "gbuffer.h"
-
 #include "mesh.h"
 
 // Sphere //
@@ -39,6 +37,8 @@ public:
     void UpdateMeshes();
     void DrawMeshes();
     void CleanUpMeshes();
+
+    void InitGBuffer();
 
     Mesh* initializeTriangle();
     void initializeSphere();
@@ -68,11 +68,25 @@ private:
     QOpenGLBuffer vbo;
     QOpenGLVertexArrayObject vao;
     QOpenGLShaderProgram program;
+    QOpenGLShaderProgram lightingProg;
 
     std::list<Mesh*> meshes;
     QTimer timer;
 
-    GBuffer m_gbuffer;
+    unsigned int gBuffer;
+    unsigned int gAlbedo;
+    unsigned int gNormal;
+    unsigned int gPosition;
+
+    GLuint diffuse;
+    GLuint normal;
+
+    void UseLightingShader();
+
+    void RenderQuad();
+    unsigned int QuadVAO = 0;
+    unsigned int QuadVBO = 0;
+
 };
 
 extern QOpenGLFunctions_3_3_Core* gl;

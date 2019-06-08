@@ -16,6 +16,8 @@ QOpenGLFunctions_3_3_Core *gl = nullptr;
 
 MyOpenGLWidget::MyOpenGLWidget(QWidget *parent)
     : QOpenGLWidget (parent)
+    , QuadVAO(0)
+    , QuadVBO(0)
 {
     setMinimumSize(QSize(256, 256));
 }
@@ -25,6 +27,55 @@ MyOpenGLWidget::~MyOpenGLWidget()
     makeCurrent();
     finalizeGL();
     CleanUpMeshes();
+}
+
+void MyOpenGLWidget::InitGBuffer()
+{
+    glGenFramebuffers(1, &gBuffer);
+    glBindFramebuffer(GL_FRAMEBUFFER, gBuffer);
+    // pos
+    glGenTextures(1, &gPosition);
+    glBindTexture(GL_TEXTURE_2D, gPosition);
+    glTexImage2D(GL_TEXTURE_2D, NULL, GL_RGB16F, width(), height(), 0, GL_RGB, GL_FLOAT, NULL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, gPosition, 0);
+
+    // normals
+    glGenTextures(1, &gNormal);
+    glBindTexture(GL_TEXTURE_2D, gNormal);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, this->width(), this->height(), 0, GL_RGB, GL_FLOAT, NULL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, gNormal, 0);
+
+    // albedo
+    glGenTextures(1, &gAlbedo);
+    glBindTexture(GL_TEXTURE_2D, gAlbedo);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, this->width(), this->height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, gAlbedo, 0);
+
+    unsigned int attachments[3] = {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2};
+    glDrawBuffers(3, attachments);
+
+    unsigned int rboDepth;
+    glGenRenderbuffers(1, &rboDepth);
+    glBindRenderbuffer(GL_RENDERBUFFER, rboDepth);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, this->width(), this->height());
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rboDepth);
+    // finally check if framebuffer is complete
+    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+         std::cout << "Framebuffer not complete!" << std::endl;
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+
+    lightingProg.bind();
+    glUniform1i(glGetUniformLocation(lightingProg.programId(),"gPosition"),0);
+    glUniform1i(glGetUniformLocation(lightingProg.programId(),"gNormal"),1);
+    glUniform1i(glGetUniformLocation(lightingProg.programId(),"gAlbedo"),2);
+
 }
 
 void MyOpenGLWidget::initializeGL()
@@ -46,11 +97,6 @@ void MyOpenGLWidget::initializeGL()
         logger->startLogging();
     }
 
-    if(!m_gbuffer.Init(width(), height()))
-    {
-        std::cout << "Error loading GBuffer!" << std::endl;
-    }
-
     glEnable(GL_DEPTH_TEST);
 
     connect(&timer, SIGNAL(timeout()), this, SLOT(frame()));
@@ -65,17 +111,27 @@ void MyOpenGLWidget::initializeGL()
     timer.start();
 
     //Shaders
+    lightingProg.create();
+    lightingProg.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/lighting.vert");
+    lightingProg.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/lighting.frag");
+    lightingProg.link();
+
     program.create();
-    program.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/shaders/3DShader.vert");
-    program.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/shaders/3DShader.frag");
+    program.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/geometry.vert");
+    program.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/geometry.frag");
     program.link();
+
+    diffuse = glGetUniformLocation(lightingProg.programId(), "Albedo");
+    normal = glGetUniformLocation(lightingProg.programId(), "NormalMap");
+
+    InitGBuffer();
 
     showInfo();
 
     //initializeTriangle();
     //initializeSphere();
     //initializeCube();
-    initialize3DModel("Resources/StoneFloor/StoneFloor.obj");
+    //initialize3DModel("Resources/StoneFloor/StoneFloor.obj");
 
 }
 
@@ -96,19 +152,41 @@ void MyOpenGLWidget::paintGL()
 
     UpdateMeshes();
 
-    w->camera->prepareMatrices();
+    //w->camera->prepareMatrices();
 
     glClearDepth(1.0f);
-    glClearColor(0.4f, 0.4f, 0.5f, 1.0f);
+    glEnable(GL_DEPTH_TEST);
+    glClearColor(0.5f, 0.5f, 0.5f, 1.f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    glDisable(GL_CULL_FACE);
+    //glDisable(GL_CULL_FACE);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, gBuffer);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     UseShader();
     DrawMeshes();
 
     QOpenGLFramebufferObject::bindDefault();
+    // use geo shader
+    //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    //UseShader();
+    //DrawMeshes();
+    //QOpenGLFramebufferObject::bindDefault();
 
+    //Use lightning shader
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    //glEnable(GL_BLEND);
+    //glBlendFunc(GL_ONE,GL_ONE);
+    //glDepthMask(false);
+    UseLightingShader();
+    //Render quad
+    RenderQuad();
+
+    glBindFramebuffer(GL_READ_FRAMEBUFFER, gBuffer);
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+    glBlitFramebuffer(0,0, this->width(), this->height(), 0,0,this->width(), this->height(), GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void MyOpenGLWidget::finalizeGL()
@@ -171,6 +249,13 @@ void MyOpenGLWidget::DrawMeshes()
 {
     for (std::list<Mesh*>::iterator it = w->uiOpenGL->meshes.begin(); it != w->uiOpenGL->meshes.end(); ++it)
     {
+        if((*it)->diffuse != nullptr)
+        {
+            diffuse = glGetUniformLocation(lightingProg.programId(), "diffuseTex");
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, (*it)->diffuse->textureId());
+            glUniform1i(diffuse, 0);
+        }
         (*it)->draw();
     }
 }
@@ -195,13 +280,17 @@ void MyOpenGLWidget::UseShader()
         viewMatrix.lookAt(eyePosition, center, up);*/
 
         // Object transformation
+
         QMatrix4x4 worldMatrix;
-        QMatrix4x4 worldViewMatrix = w->camera->viewMatrix * worldMatrix;
+        worldMatrix.setToIdentity();
+        w->camera->prepareMatrices();
 
         program.setUniformValue("projectionMatrix", w->camera->projectionMatrix);
-        program.setUniformValue("worldViewMatrix", worldViewMatrix);
+        program.setUniformValue("modelMatrix", worldMatrix);
+        program.setUniformValue("viewMatrix", w->camera->viewMatrix);
 
-        glClear(GL_COLOR_BUFFER_BIT || GL_DEPTH_BUFFER_BIT);
+
+        /*glClear(GL_COLOR_BUFFER_BIT || GL_DEPTH_BUFFER_BIT);
 
         for(auto it = w->uiOpenGL->meshes.begin(); it != w->uiOpenGL->meshes.end(); ++it)
         {
@@ -233,11 +322,23 @@ void MyOpenGLWidget::UseShader()
             }
         }
 
-
+*/
 
     }
 }
 
+void MyOpenGLWidget::UseLightingShader()
+{
+    if(lightingProg.bind())
+    {
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, gPosition);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, gNormal);
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture(GL_TEXTURE_2D, gAlbedo);
+    }
+}
 
 
 void MyOpenGLWidget::initializeCube()
@@ -383,6 +484,33 @@ void MyOpenGLWidget::EnableVertexAttribArray(GLuint index)
 void MyOpenGLWidget::VertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid * pointer)
 {
     glVertexAttribPointer(index, size, type, normalized, stride, pointer);
+}
+
+void MyOpenGLWidget::RenderQuad()
+{
+    if(QuadVAO == 0)
+    {
+        float QuadV[] = {
+            -1.0f,  1.0f, 0.0f, 0.0f, 1.0f,
+            -1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
+             1.0f,  1.0f, 0.0f, 1.0f, 1.0f,
+             1.0f, -1.0f, 0.0f, 1.0f, 0.0f
+        };
+
+        glGenVertexArrays(1,&QuadVAO);
+        glGenBuffers(1, &QuadVBO);
+        glBindVertexArray(QuadVAO);
+        glBindBuffer(GL_ARRAY_BUFFER, QuadVBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(QuadV), &QuadV, GL_STATIC_DRAW);
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,5*sizeof(float), (void*)0);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1,2,GL_FLOAT,GL_FALSE, 5*sizeof(float), (void*)(3 * sizeof (float)));
+
+    }
+    gl->glBindVertexArray(QuadVAO);
+    gl->glDrawArrays(GL_TRIANGLE_STRIP, 0,4);
+    gl->glBindVertexArray(0);
 }
 
 
