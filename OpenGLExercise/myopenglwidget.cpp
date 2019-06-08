@@ -121,9 +121,6 @@ void MyOpenGLWidget::initializeGL()
     program.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/geometry.frag");
     program.link();
 
-    diffuse = glGetUniformLocation(lightingProg.programId(), "Albedo");
-    normal = glGetUniformLocation(lightingProg.programId(), "NormalMap");
-
     InitGBuffer();
 
     showInfo();
@@ -131,7 +128,7 @@ void MyOpenGLWidget::initializeGL()
     //initializeTriangle();
     //initializeSphere();
     //initializeCube();
-    //initialize3DModel("Resources/StoneFloor/StoneFloor.obj");
+    initialize3DModel("Resources/Patrick/Patrick.obj");
 
 }
 
@@ -249,14 +246,34 @@ void MyOpenGLWidget::DrawMeshes()
 {
     for (std::list<Mesh*>::iterator it = w->uiOpenGL->meshes.begin(); it != w->uiOpenGL->meshes.end(); ++it)
     {
-        if((*it)->diffuse != nullptr)
+        if((*it)->diffuse != nullptr && (*it)->activateDiffuse == 1)
         {
-            diffuse = glGetUniformLocation(lightingProg.programId(), "diffuseTex");
+            diffuse = glGetUniformLocation(program.programId(), "diffuseTex");
             glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_2D, (*it)->diffuse->textureId());
             glUniform1i(diffuse, 0);
         }
+        else
+        {
+            (*it)->activateDiffuse = 0;
+        }
+        if((*it)->normalMap != nullptr && (*it)->activateNormalMap == 1)
+        {
+            normal = glGetUniformLocation(program.programId(), "normalMap");
+            glActiveTexture(GL_TEXTURE1);
+            glBindTexture(GL_TEXTURE_2D, (*it)->normalMap->textureId());
+            glUniform1i(normal, 1);
+        }
+        else
+        {
+            (*it)->activateNormalMap = 0;
+        }
+
+        glUniform1i(glGetUniformLocation(program.programId(), "diffuseEnabled"), (*it)->activateDiffuse);
+        glUniform1i(glGetUniformLocation(program.programId(), "normalEnabled"), (*it)->activateNormalMap);
+
         (*it)->draw();
+
     }
 }
 

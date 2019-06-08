@@ -32,9 +32,9 @@ public:
     bool needsUpdate;
 
     QOpenGLTexture *diffuse;
-    int activateDiffuse;
+    int activateDiffuse = 1;
     QOpenGLTexture *normalMap;
-    int activateNormalMap;
+    int activateNormalMap = 1;
 
     QVector3D position;
 

@@ -28,6 +28,9 @@ void main()
     mat3 normalMatrix = transpose(inverse(mat3(modelMatrix)));
     VSOut.normalViewspace = normalMatrix * normal;
 
+    VSOut.tangentLocalspace = tangent;
+    VSOut.bitangentLocalspace = bitangent;
+    VSOut.normalLocalspace = normal;
 
     gl_Position = projectionMatrix * viewMatrix * worldPos;
 }

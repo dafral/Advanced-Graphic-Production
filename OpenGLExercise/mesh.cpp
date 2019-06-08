@@ -17,8 +17,9 @@ Mesh::Mesh()
     if(diffuse == nullptr)
     {
         QImage img;
-        img.load("Resources/Patrick/Skin_Patrick.png");
+        //img.load("Resources/Patrick/Skin_Patrick.png");
         //img.load("Resources/FL_CW_A_1.png");
+        img.load("Resources/StoneFloor/StoneFloorDiffuse.png");
         diffuse = new QOpenGLTexture(img);
         diffuse->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
         diffuse->setMagnificationFilter(QOpenGLTexture::Linear);
@@ -27,7 +28,7 @@ Mesh::Mesh()
     {
         QImage img;
         img.load("Resources/StoneFloor/StoneFloorNormals.png");
-        normalMap = new QOpenGLTexture(img.mirrored());
+        normalMap = new QOpenGLTexture(img);
         normalMap->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
         normalMap->setMagnificationFilter(QOpenGLTexture::Linear);
     }

@@ -24,15 +24,14 @@ void main(void)
 
 
     vec3 ambient = fragDiffuse * ambientTerm;
-
-    vec3 diffuse = fragDiffuse * dot(fragNormal, L);
+    vec3 diffuse = fragDiffuse * dot(L, fragNormal) * lightColor;
 
     FragColor.rgb = ambient + diffuse;
 
-    vec3 N = normalize(fragNormal);
-    float kD = max(0.0, dot(L,N));
-    FragColor.rgb = fragDiffuse*kD;
-    FragColor.a = 1.0;
+    //vec3 N = normalize(fragNormal);
+    //float kD = max(0.0, dot(L,N));
+    //FragColor.rgb = fragDiffuse*kD;
+    //FragColor.a = 1.0;
 
     //GammaCorrection
     FragColor.rgb = pow(FragColor.rgb, vec3(1.0/2.4));

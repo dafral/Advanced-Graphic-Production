@@ -14,13 +14,48 @@ in Data
 } FSIn;
 
 uniform sampler2D diffuseTex;
+uniform sampler2D normalMap;
+uniform mat4 modelMatrix;
+
+uniform int diffuseEnabled;
+uniform int normalEnabled;
 
 void main()
 {
     // store the fragment position vector in the first gbuffer texture
     gPosition = FSIn.positionViewspace;
-    // also store the per-fragment normals into the gbuffer
-    gNormal = normalize(FSIn.normalViewspace);
-    // and the diffuse per-fragment color
-    gAlbedo.rgb = texture(diffuseTex, FSIn.texCoords).rgb;
+
+    if(normalEnabled == 1)
+    {
+        vec3 T = normalize(FSIn.tangentLocalspace);
+        vec3 B = normalize(FSIn.bitangentLocalspace);
+        vec3 N = normalize(FSIn.normalLocalspace);
+
+        mat3 TBN = mat3(T, B, N);
+        vec3 normalTangent = texture(normalMap, FSIn.texCoords).rgb;
+        normalTangent = normalize(normalTangent * 2.0 - 1.0);
+
+        vec3 normalLocal = normalize(TBN * normalTangent);
+        vec3 normalView = normalize(modelMatrix * vec4(normalLocal, 0.0)).xyz;
+
+        // also store the per-fragment normals into the gbuffer
+        gNormal = normalView;
+
+    }
+    else
+    {
+        // also store the per-fragment normals into the gbuffer
+        gNormal = normalize(FSIn.normalViewspace);
+        //gNormal = vec3(1.0, normalEnabled, 0.0);
+    }
+
+    if(diffuseEnabled == 1)
+    {
+        gAlbedo.rgb = texture(diffuseTex, FSIn.texCoords).rgb;
+    }
+    else
+    {
+        // and the diffuse per-fragment color
+        gAlbedo.rgb = vec3(1.0, 0.0, 0.0);
+    }
 }
