@@ -2,6 +2,7 @@
 
 #include "mainwindow.h"
 #include <QtMath>
+#include <QQuaternion>
 
 #define TRANSLATE_SPEED 0.5f
 #define ROTATION_SPEED 1.0f
@@ -40,6 +41,10 @@ bool Interaction::update()
 
     case State::Scaling:
         changed = scale();
+        break;
+
+    case State::LightChanging:
+        changed = lightchange();
         break;
     }
 
@@ -81,6 +86,10 @@ bool Interaction::idle()
         {
             state = State::Scaling;
         }
+        else if(w->input->keys[Qt::Key_L] == KeyState::Pressed)
+        {
+            state = State::LightChanging;
+        }
         else if(w->input->keys[Qt::Key_U] == KeyState::Pressed)
         {
             for(auto it = w->uiOpenGL->meshes.begin(); it != w->uiOpenGL->meshes.end(); ++it)
@@ -95,6 +104,52 @@ bool Interaction::idle()
 
     return false;
 }
+
+bool Interaction::lightchange()
+{
+    bool changed = false;
+    if(w->input->keys[Qt::Key_L] == KeyState::Up)
+    {
+        state = State::Idle;
+        return false;
+    }
+
+    QVector3D rot = QVector3D(0, 0, 0);
+
+    if(w->input->keys[Qt::Key_W] == KeyState::Pressed)
+    {
+        rot += QVector3D(1, 0, 0) * ROTATION_SPEED;
+    }
+    if(w->input->keys[Qt::Key_S] == KeyState::Pressed)
+    {
+        rot += QVector3D(-1, 0, 0) * ROTATION_SPEED;
+    }
+    if(w->input->keys[Qt::Key_A] == KeyState::Pressed)
+    {
+        rot += QVector3D(0, 1, 0) * ROTATION_SPEED;
+    }
+    if(w->input->keys[Qt::Key_D] == KeyState::Pressed)
+    {
+        rot += QVector3D(0, -1, 0) * ROTATION_SPEED;
+    }
+    if(w->input->keys[Qt::Key_Q] == KeyState::Pressed)
+    {
+        rot += QVector3D(0, 0, -1) * ROTATION_SPEED;
+    }
+    if(w->input->keys[Qt::Key_E] == KeyState::Pressed)
+    {
+        rot += QVector3D(0, 0, 1) * ROTATION_SPEED;
+    }
+
+    if(rot != QVector3D(0, 0, 0))
+    {
+        w->uiOpenGL->lightDirection = QQuaternion::fromEulerAngles(rot) * w->uiOpenGL->lightDirection;
+        changed = true;
+    }
+
+    return changed;
+}
+
 bool Interaction::navigate()
 {
     bool changed = false;

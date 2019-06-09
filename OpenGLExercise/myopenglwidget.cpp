@@ -20,6 +20,7 @@ MyOpenGLWidget::MyOpenGLWidget(QWidget *parent)
     , QuadVBO(0)
 {
     setMinimumSize(QSize(256, 256));
+    lightDirection = QVector3D(0, 0, 1);
 }
 
 MyOpenGLWidget::~MyOpenGLWidget()
@@ -340,6 +341,13 @@ void MyOpenGLWidget::UseShader()
         glUniform1f(glGetUniformLocation(program.programId(), "viewPosX"), w->camera->position.x());
         glUniform1f(glGetUniformLocation(program.programId(), "viewPosY"), w->camera->position.y());
         glUniform1f(glGetUniformLocation(program.programId(), "viewPosZ"), w->camera->position.z());
+
+        glUniform1f(glGetUniformLocation(program.programId(), "Lx"), w->uiOpenGL->lightDirection.x());
+        glUniform1f(glGetUniformLocation(program.programId(), "Ly"), w->uiOpenGL->lightDirection.y());
+        glUniform1f(glGetUniformLocation(program.programId(), "Lz"), w->uiOpenGL->lightDirection.z());
+        glUniform1f(glGetUniformLocation(lightingProg.programId(), "Lx"), w->uiOpenGL->lightDirection.x());
+        glUniform1f(glGetUniformLocation(lightingProg.programId(), "Ly"), w->uiOpenGL->lightDirection.y());
+        glUniform1f(glGetUniformLocation(lightingProg.programId(), "Lz"), w->uiOpenGL->lightDirection.z());
 
         /*glClear(GL_COLOR_BUFFER_BIT || GL_DEPTH_BUFFER_BIT);
 

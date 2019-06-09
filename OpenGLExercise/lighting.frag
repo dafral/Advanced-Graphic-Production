@@ -12,12 +12,19 @@ uniform sampler2D gNormal;
 uniform sampler2D gAlbedo;
 uniform sampler2D gSpecular;
 
+uniform float Lx;
+uniform float Ly;
+uniform float Lz;
+
 float ambientTerm = 0.05;
 vec3 L = vec3(0,0,1);
 vec3 lightColor = vec3(1,1,1);
 
 void main(void)
 {
+
+    L = vec3(Lx, Ly, Lz);
+
     vec3 fragPos = texture(gPosition, FSIn.TexCoords).rgb;
     vec3 fragNormal = texture(gNormal, FSIn.TexCoords).rgb;
     vec3 fragDiffuse = texture(gAlbedo, FSIn.TexCoords).rgb;

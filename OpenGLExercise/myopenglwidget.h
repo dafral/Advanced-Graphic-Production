@@ -66,6 +66,7 @@ public slots:
 
 public:
     std::list<Mesh*> meshes;
+    QVector3D lightDirection;
 
 private:
     QOpenGLBuffer vbo;

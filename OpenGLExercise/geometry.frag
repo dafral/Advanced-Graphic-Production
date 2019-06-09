@@ -26,12 +26,18 @@ uniform float viewPosX;
 uniform float viewPosY;
 uniform float viewPosZ;
 
+uniform float Lx;
+uniform float Ly;
+uniform float Lz;
+
 vec3 L = vec3(0, 0, 1);
 
 float SpecStrength = 0.5;
 
 void main()
 {
+
+    L = vec3(Lx, Ly, Lz);
 
     vec3 viewPos = vec3(viewPosX, viewPosY, viewPosZ);
 
