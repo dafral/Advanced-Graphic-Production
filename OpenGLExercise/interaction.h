@@ -16,8 +16,9 @@ private:
     bool translate();
     bool rotate();
     bool scale();
+    bool lightchange();
 
-    enum State { Idle, Navigating, Focusing, Translating, Rotating, Scaling};
+    enum State { Idle, Navigating, Focusing, Translating, Rotating, Scaling, LightChanging};
     State state = State::Idle;
 };
 
