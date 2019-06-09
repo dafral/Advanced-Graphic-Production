@@ -23,11 +23,11 @@ void main(void)
     vec3 fragDiffuse = texture(gAlbedo, FSIn.TexCoords).rgb;
     vec3 fragSpecular = texture(gSpecular, FSIn.TexCoords).rgb;
 
-    vec3 ambient = fragDiffuse * ambientTerm;
-    vec3 diffuse = fragDiffuse * dot(L, fragNormal) * lightColor;
+    vec3 ambient = ambientTerm * lightColor;
+    vec3 diffuse = dot(L, fragNormal) * lightColor;
     vec3 specular = lightColor * fragSpecular.x;
 
-    FragColor.rgb = fragSpecular;//(ambient + diffuse + specular);
+    FragColor.rgb = (ambient + diffuse + specular) * fragDiffuse;
 
     //vec3 N = normalize(fragNormal);
     //float kD = max(0.0, dot(L,N));
