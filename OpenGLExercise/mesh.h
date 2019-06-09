@@ -36,6 +36,15 @@ public:
     QOpenGLTexture *normalMap;
     int activateNormalMap = 1;
 
+    int activateSpecular = 1;
+
+    struct Specular
+    {
+        float Interior;
+        float Hard;
+    };
+    Specular specular;
+
     QVector3D position;
 
 private:

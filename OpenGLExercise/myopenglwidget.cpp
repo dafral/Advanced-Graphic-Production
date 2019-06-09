@@ -57,8 +57,16 @@ void MyOpenGLWidget::InitGBuffer()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, gAlbedo, 0);
 
-    unsigned int attachments[3] = {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2};
-    glDrawBuffers(3, attachments);
+    // specular
+    glGenTextures(1, &gSpecular);
+    glBindTexture(GL_TEXTURE_2D, gSpecular);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, this->width(), this->height(), 0, GL_RGB, GL_FLOAT, NULL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT3, GL_TEXTURE_2D, gSpecular, 0);
+
+    unsigned int attachments[4] = {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3};
+    glDrawBuffers(4, attachments);
 
     unsigned int rboDepth;
     glGenRenderbuffers(1, &rboDepth);
@@ -75,6 +83,7 @@ void MyOpenGLWidget::InitGBuffer()
     glUniform1i(glGetUniformLocation(lightingProg.programId(),"gPosition"),0);
     glUniform1i(glGetUniformLocation(lightingProg.programId(),"gNormal"),1);
     glUniform1i(glGetUniformLocation(lightingProg.programId(),"gAlbedo"),2);
+    glUniform1i(glGetUniformLocation(lightingProg.programId(), "gSpecular"), 3);
 
 }
 
@@ -153,7 +162,7 @@ void MyOpenGLWidget::paintGL()
 
     glClearDepth(1.0f);
     glEnable(GL_DEPTH_TEST);
-    glClearColor(0.5f, 0.5f, 0.5f, 1.f);
+    glClearColor(0.1f, 0.1f, 0.5f, 1.f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     //glDisable(GL_CULL_FACE);
@@ -271,6 +280,9 @@ void MyOpenGLWidget::DrawMeshes()
 
         glUniform1i(glGetUniformLocation(program.programId(), "diffuseEnabled"), (*it)->activateDiffuse);
         glUniform1i(glGetUniformLocation(program.programId(), "normalEnabled"), (*it)->activateNormalMap);
+        glUniform1i(glGetUniformLocation(program.programId(), "specularEnabled"), (*it)->activateSpecular);
+
+
 
         (*it)->draw();
 
@@ -306,6 +318,9 @@ void MyOpenGLWidget::UseShader()
         program.setUniformValue("modelMatrix", worldMatrix);
         program.setUniformValue("viewMatrix", w->camera->viewMatrix);
 
+        glUniform1f(glGetUniformLocation(program.programId(), "viewPosX"), w->camera->position.x());
+        glUniform1f(glGetUniformLocation(program.programId(), "viewPosY"), w->camera->position.y());
+        glUniform1f(glGetUniformLocation(program.programId(), "viewPosZ"), w->camera->position.z());
 
         /*glClear(GL_COLOR_BUFFER_BIT || GL_DEPTH_BUFFER_BIT);
 
@@ -354,6 +369,8 @@ void MyOpenGLWidget::UseLightingShader()
         glBindTexture(GL_TEXTURE_2D, gNormal);
         glActiveTexture(GL_TEXTURE2);
         glBindTexture(GL_TEXTURE_2D, gAlbedo);
+        glActiveTexture(GL_TEXTURE3);
+        glBindTexture(GL_TEXTURE_2D, gSpecular);
     }
 }
 

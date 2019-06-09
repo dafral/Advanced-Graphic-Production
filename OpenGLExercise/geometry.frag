@@ -2,6 +2,7 @@
 layout (location = 0) out vec3 gPosition;
 layout (location = 1) out vec3 gNormal;
 layout (location = 2) out vec4 gAlbedo;
+layout (location = 3) out vec3 gSpecular;
 
 in Data
 {
@@ -19,9 +20,21 @@ uniform mat4 modelMatrix;
 
 uniform int diffuseEnabled;
 uniform int normalEnabled;
+uniform int specularEnabled;
+
+uniform float viewPosX;
+uniform float viewPosY;
+uniform float viewPosZ;
+
+vec3 L = vec3(0, 0, 1);
+
+float SpecStrength = 0.5;
 
 void main()
 {
+
+    vec3 viewPos = vec3(viewPosX, viewPosY, viewPosZ);
+
     // store the fragment position vector in the first gbuffer texture
     gPosition = FSIn.positionViewspace;
 
@@ -49,6 +62,20 @@ void main()
         //gNormal = vec3(1.0, normalEnabled, 0.0);
     }
 
+    if(specularEnabled == 1)
+    {
+        vec3 fragPos = vec3(modelMatrix * vec4(gPosition, 1.0));
+
+        vec3 V = normalize(viewPos - fragPos);
+        vec3 R = reflect(-L, gNormal);
+        float spec = pow(max(dot(V, R), 0.0), 32);
+        vec3 specular = vec3(SpecStrength * spec);
+        gSpecular = specular;
+    }
+    else
+    {
+        gSpecular = vec3(0);
+    }
     if(diffuseEnabled == 1)
     {
         gAlbedo.rgb = texture(diffuseTex, FSIn.texCoords).rgb;

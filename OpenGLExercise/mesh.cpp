@@ -12,6 +12,7 @@ Mesh::Mesh()
     , diffuse(nullptr)
     , activateDiffuse(1)
     , activateNormalMap(1)
+    , activateSpecular(1)
 {
     needsUpdate =true;
     if(diffuse == nullptr)
@@ -32,6 +33,8 @@ Mesh::Mesh()
         normalMap->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
         normalMap->setMagnificationFilter(QOpenGLTexture::Linear);
     }
+    specular.Interior = 1.0;
+    specular.Hard = 100;
 }
 
 Mesh::~Mesh()

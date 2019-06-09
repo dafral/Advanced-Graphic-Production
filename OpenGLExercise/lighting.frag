@@ -6,7 +6,7 @@ in Data
 } FSIn;
 
 out vec4 FragColor;
-
+uniform sampler2D gSpecular;
 uniform sampler2D gPosition;
 uniform sampler2D gNormal;
 uniform sampler2D gAlbedo;
@@ -21,12 +21,13 @@ void main(void)
     vec3 fragPos = texture(gPosition, FSIn.TexCoords).rgb;
     vec3 fragNormal = texture(gNormal, FSIn.TexCoords).rgb;
     vec3 fragDiffuse = texture(gAlbedo, FSIn.TexCoords).rgb;
-
+    vec3 fragSpecular = texture(gSpecular, FSIn.TexCoords).rgb;
 
     vec3 ambient = fragDiffuse * ambientTerm;
     vec3 diffuse = fragDiffuse * dot(L, fragNormal) * lightColor;
+    vec3 specular = lightColor * fragSpecular.x;
 
-    FragColor.rgb = ambient + diffuse;
+    FragColor.rgb = fragSpecular;//(ambient + diffuse + specular);
 
     //vec3 N = normalize(fragNormal);
     //float kD = max(0.0, dot(L,N));

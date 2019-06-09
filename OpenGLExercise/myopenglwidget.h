@@ -77,6 +77,7 @@ private:
     unsigned int gAlbedo;
     unsigned int gNormal;
     unsigned int gPosition;
+    unsigned int gSpecular;
 
     GLuint diffuse;
     GLuint normal;
