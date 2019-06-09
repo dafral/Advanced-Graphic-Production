@@ -342,12 +342,11 @@ void MyOpenGLWidget::UseShader()
         glUniform1f(glGetUniformLocation(program.programId(), "viewPosY"), w->camera->position.y());
         glUniform1f(glGetUniformLocation(program.programId(), "viewPosZ"), w->camera->position.z());
 
+        std::cout << "L: " << w->uiOpenGL->lightDirection.x() << " - " << w->uiOpenGL->lightDirection.y() << " - " << w->uiOpenGL->lightDirection.z() << std::endl;
+
         glUniform1f(glGetUniformLocation(program.programId(), "Lx"), w->uiOpenGL->lightDirection.x());
         glUniform1f(glGetUniformLocation(program.programId(), "Ly"), w->uiOpenGL->lightDirection.y());
         glUniform1f(glGetUniformLocation(program.programId(), "Lz"), w->uiOpenGL->lightDirection.z());
-        glUniform1f(glGetUniformLocation(lightingProg.programId(), "Lx"), w->uiOpenGL->lightDirection.x());
-        glUniform1f(glGetUniformLocation(lightingProg.programId(), "Ly"), w->uiOpenGL->lightDirection.y());
-        glUniform1f(glGetUniformLocation(lightingProg.programId(), "Lz"), w->uiOpenGL->lightDirection.z());
 
         /*glClear(GL_COLOR_BUFFER_BIT || GL_DEPTH_BUFFER_BIT);
 
@@ -398,6 +397,11 @@ void MyOpenGLWidget::UseLightingShader()
         glBindTexture(GL_TEXTURE_2D, gAlbedo);
         glActiveTexture(GL_TEXTURE3);
         glBindTexture(GL_TEXTURE_2D, gSpecular);
+
+        glUniform1f(glGetUniformLocation(lightingProg.programId(), "Lx"), w->uiOpenGL->lightDirection.x());
+        glUniform1f(glGetUniformLocation(lightingProg.programId(), "Ly"), w->uiOpenGL->lightDirection.y());
+        glUniform1f(glGetUniformLocation(lightingProg.programId(), "Lz"), w->uiOpenGL->lightDirection.z());
+
     }
 }
 
