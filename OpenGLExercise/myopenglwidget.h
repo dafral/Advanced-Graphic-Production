@@ -72,6 +72,7 @@ private:
     QOpenGLVertexArrayObject vao;
     QOpenGLShaderProgram program;
     QOpenGLShaderProgram lightingProg;
+    QOpenGLShaderProgram hdrProg;
 
     QTimer timer;
 
@@ -80,6 +81,7 @@ private:
     unsigned int gNormal;
     unsigned int gPosition;
     unsigned int gSpecular;
+    unsigned int gHDR;
 
     GLuint diffuse;
     GLuint normal;

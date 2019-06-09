@@ -6,5 +6,7 @@
         <file>lighting.vert</file>
         <file>geometry.frag</file>
         <file>geometry.vert</file>
+        <file>hdr.frag</file>
+        <file>hdr.vert</file>
     </qresource>
 </RCC>

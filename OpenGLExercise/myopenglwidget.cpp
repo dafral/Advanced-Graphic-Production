@@ -130,7 +130,17 @@ void MyOpenGLWidget::initializeGL()
     program.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/geometry.frag");
     program.link();
 
+    hdrProg.create();
+    hdrProg.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/hdr.vert");
+    hdrProg.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/hdr.frag");
+    hdrProg.link();
+
     InitGBuffer();
+
+    glGenFramebuffers(1, &gHDR);
+    glBindFramebuffer(GL_FRAMEBUFFER, gHDR);
+    hdrProg.bind();
+    glUniform1i(glGetUniformLocation(hdrProg.programId(),"hdrBuffer"),0);
 
     showInfo();
 
@@ -193,6 +203,10 @@ void MyOpenGLWidget::paintGL()
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
     glBlitFramebuffer(0,0, this->width(), this->height(), 0,0,this->width(), this->height(), GL_DEPTH_BUFFER_BIT, GL_NEAREST);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    //Use HDR shader
+    glUniform1f(glGetUniformLocation(hdrProg.programId(),"gPosition"),1);
+    glUniform1i(glGetUniformLocation(hdrProg.programId(),"gPosition"),5);
 }
 
 void MyOpenGLWidget::finalizeGL()
