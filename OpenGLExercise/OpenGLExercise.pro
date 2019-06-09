@@ -71,6 +71,8 @@ CONFIG += console
 DISTFILES += \
     geometry.frag \
     geometry.vert \
+    hdr.frag \
+    hdr.vert \
     lighting.frag \
     lighting.vert
 
