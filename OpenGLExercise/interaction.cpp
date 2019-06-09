@@ -3,6 +3,9 @@
 #include "mainwindow.h"
 #include <QtMath>
 
+#define TRANSLATE_SPEED 0.5f
+#define ROTATION_SPEED 1.0f
+
 Interaction::Interaction()
 {
     state = State::Idle;
@@ -54,7 +57,8 @@ bool Interaction::idle()
     {
         // TODO -> Mouse Selection
         QVector3D rayWS = w->camera->screenPointToWorldRay(w->input->mouse.x(), w->input->mouse.y());
-        // ...
+        Mesh* mesh = nullptr;
+
 
         return true;
     }
@@ -62,19 +66,29 @@ bool Interaction::idle()
     {
         if(w->input->keys[Qt::Key_F] == KeyState::Pressed)
         {
-            //state = State::Focusing;
+            state = State::Focusing;
         }
         else if(w->input->keys[Qt::Key_T] == KeyState::Pressed)
         {
-            //state = State::Translating;
+            state = State::Translating;
         }
         else if(w->input->keys[Qt::Key_R] == KeyState::Pressed)
         {
-            //state = State::Rotating;
+            state = State::Rotating;
         }
-        else if(w->input->keys[Qt::Key_S] == KeyState::Pressed)
+        else if(w->input->keys[Qt::Key_G] == KeyState::Pressed)
         {
-            //state = State::Scaling;
+            state = State::Scaling;
+        }
+        else if(w->input->keys[Qt::Key_U] == KeyState::Pressed)
+        {
+            for(auto it = w->uiOpenGL->meshes.begin(); it != w->uiOpenGL->meshes.end(); ++it)
+            {
+                (*it)->position = QVector3D(0, 0, 0);
+                (*it)->rotation = QVector3D(0, 0, 0);
+                (*it)->scale = QVector3D(1, 1, 1);
+            }
+            return true;
         }
     }
 
@@ -150,17 +164,152 @@ bool Interaction::navigate()
 }
 bool Interaction::focus()
 {
-    return false;
+    w->camera->position = QVector3D(0, 0, 10);
+    if(w->input->keys[Qt::Key_F] == KeyState::Up)
+    {
+        state = State::Idle;
+        return false;
+    }
+    return true;
 }
 bool Interaction::translate()
 {
-    return false;
+    bool changed = false;
+
+    if(w->input->keys[Qt::Key_T] == KeyState::Up)
+    {
+        state = State::Idle;
+        return false;
+    }
+
+    QVector3D trans = QVector3D(0, 0, 0);
+
+    if(w->input->keys[Qt::Key_W] == KeyState::Pressed)
+    {
+        trans += QVector3D(0, 1, 0) * TRANSLATE_SPEED;
+    }
+    if(w->input->keys[Qt::Key_S] == KeyState::Pressed)
+    {
+        trans += QVector3D(0, -1, 0) * TRANSLATE_SPEED;
+    }
+    if(w->input->keys[Qt::Key_A] == KeyState::Pressed)
+    {
+        trans += QVector3D(-1, 0, 0) * TRANSLATE_SPEED;
+    }
+    if(w->input->keys[Qt::Key_D] == KeyState::Pressed)
+    {
+        trans += QVector3D(1, 0, 0) * TRANSLATE_SPEED;
+    }
+    if(w->input->keys[Qt::Key_Q] == KeyState::Pressed)
+    {
+        trans += QVector3D(0, 0, -1) * TRANSLATE_SPEED;
+    }
+    if(w->input->keys[Qt::Key_E] == KeyState::Pressed)
+    {
+        trans += QVector3D(0, 0, 1) * TRANSLATE_SPEED;
+    }
+
+    if(trans != QVector3D(0, 0, 0))
+    {
+        for(auto it = w->uiOpenGL->meshes.begin(); it != w->uiOpenGL->meshes.end(); ++it)
+        {
+            (*it)->position += trans;
+        }
+        changed = true;
+    }
+    return changed;
 }
 bool Interaction::rotate()
 {
-    return false;
+    bool changed = false;
+    if(w->input->keys[Qt::Key_R] == KeyState::Up)
+    {
+        state = State::Idle;
+        return false;
+    }
+
+    QVector3D rot = QVector3D(0, 0, 0);
+
+    if(w->input->keys[Qt::Key_W] == KeyState::Pressed)
+    {
+        rot += QVector3D(1, 0, 0) * ROTATION_SPEED;
+    }
+    if(w->input->keys[Qt::Key_S] == KeyState::Pressed)
+    {
+        rot += QVector3D(-1, 0, 0) * ROTATION_SPEED;
+    }
+    if(w->input->keys[Qt::Key_A] == KeyState::Pressed)
+    {
+        rot += QVector3D(0, 1, 0) * ROTATION_SPEED;
+    }
+    if(w->input->keys[Qt::Key_D] == KeyState::Pressed)
+    {
+        rot += QVector3D(0, -1, 0) * ROTATION_SPEED;
+    }
+    if(w->input->keys[Qt::Key_Q] == KeyState::Pressed)
+    {
+        rot += QVector3D(0, 0, -1) * ROTATION_SPEED;
+    }
+    if(w->input->keys[Qt::Key_E] == KeyState::Pressed)
+    {
+        rot += QVector3D(0, 0, 1) * ROTATION_SPEED;
+    }
+
+    if(rot != QVector3D(0, 0, 0))
+    {
+        for(auto it = w->uiOpenGL->meshes.begin(); it != w->uiOpenGL->meshes.end(); ++it)
+        {
+            (*it)->rotation += rot;
+        }
+        changed = true;
+    }
+
+    return changed;
 }
 bool Interaction::scale()
 {
-    return false;
+    bool changed = false;
+    if(w->input->keys[Qt::Key_G] == KeyState::Up)
+    {
+        state = State::Idle;
+        return false;
+    }
+
+    QVector3D scale = QVector3D(0, 0, 0);
+
+    if(w->input->keys[Qt::Key_W] == KeyState::Pressed)
+    {
+        scale += QVector3D(0, 1, 0) * SCALING_SPEED;
+    }
+    if(w->input->keys[Qt::Key_S] == KeyState::Pressed)
+    {
+        scale += QVector3D(0, -1, 0) * SCALING_SPEED;
+    }
+    if(w->input->keys[Qt::Key_A] == KeyState::Pressed)
+    {
+        scale += QVector3D(-1, 0, 0) * SCALING_SPEED;
+    }
+    if(w->input->keys[Qt::Key_D] == KeyState::Pressed)
+    {
+        scale += QVector3D(1, 0, 0) * SCALING_SPEED;
+    }
+    if(w->input->keys[Qt::Key_Q] == KeyState::Pressed)
+    {
+        scale += QVector3D(0, 0, -1) * SCALING_SPEED;
+    }
+    if(w->input->keys[Qt::Key_E] == KeyState::Pressed)
+    {
+        scale += QVector3D(0, 0, 1) * SCALING_SPEED;
+    }
+
+    if(scale != QVector3D(0, 0, 0))
+    {
+        for(auto it = w->uiOpenGL->meshes.begin(); it != w->uiOpenGL->meshes.end(); ++it)
+        {
+            (*it)->scale += scale;
+        }
+        changed = true;
+    }
+
+    return changed;
 }

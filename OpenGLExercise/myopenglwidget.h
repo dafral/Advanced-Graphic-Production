@@ -64,13 +64,15 @@ public slots:
     void finalizeGL();
     void handleLoggedMessage(const QOpenGLDebugMessage &);
 
+public:
+    std::list<Mesh*> meshes;
+
 private:
     QOpenGLBuffer vbo;
     QOpenGLVertexArrayObject vao;
     QOpenGLShaderProgram program;
     QOpenGLShaderProgram lightingProg;
 
-    std::list<Mesh*> meshes;
     QTimer timer;
 
     unsigned int gBuffer;

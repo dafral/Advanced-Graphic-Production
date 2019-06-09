@@ -46,6 +46,8 @@ public:
     Specular specular;
 
     QVector3D position;
+    QVector3D scale;
+    QVector3D rotation;
 
 private:
 

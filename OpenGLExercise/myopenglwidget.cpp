@@ -282,7 +282,15 @@ void MyOpenGLWidget::DrawMeshes()
         glUniform1i(glGetUniformLocation(program.programId(), "normalEnabled"), (*it)->activateNormalMap);
         glUniform1i(glGetUniformLocation(program.programId(), "specularEnabled"), (*it)->activateSpecular);
 
+        QMatrix4x4 modelMatrix;
+        modelMatrix.setToIdentity();
+        modelMatrix.translate((*it)->position);
+        modelMatrix.scale((*it)->scale);
+        modelMatrix.rotate((*it)->rotation.x(), QVector3D(1, 0, 0));
+        modelMatrix.rotate((*it)->rotation.y(), QVector3D(0, 1, 0));
+        modelMatrix.rotate((*it)->rotation.z(), QVector3D(0, 0, 1));
 
+        program.setUniformValue("modelMatrix", modelMatrix);
 
         (*it)->draw();
 
@@ -310,12 +318,9 @@ void MyOpenGLWidget::UseShader()
 
         // Object transformation
 
-        QMatrix4x4 worldMatrix;
-        worldMatrix.setToIdentity();
         w->camera->prepareMatrices();
 
         program.setUniformValue("projectionMatrix", w->camera->projectionMatrix);
-        program.setUniformValue("modelMatrix", worldMatrix);
         program.setUniformValue("viewMatrix", w->camera->viewMatrix);
 
         glUniform1f(glGetUniformLocation(program.programId(), "viewPosX"), w->camera->position.x());

@@ -44,6 +44,8 @@ public:
 
     bool running;
 
+    Mesh* SelectedMesh;
+
 public slots:
     void frame();
 

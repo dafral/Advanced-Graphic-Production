@@ -35,6 +35,10 @@ Mesh::Mesh()
     }
     specular.Interior = 1.0;
     specular.Hard = 100;
+
+    position = QVector3D(0, 0, 0);
+    scale = QVector3D(1, 1, 1);
+    rotation = QVector3D(0, 0, 0);
 }
 
 Mesh::~Mesh()
