@@ -6,11 +6,11 @@ in Data
 } FSIn;
 
 out vec4 FragColor;
-uniform sampler2D gSpecular;
+
 uniform sampler2D gPosition;
 uniform sampler2D gNormal;
 uniform sampler2D gAlbedo;
-
+uniform sampler2D gSpecular;
 
 float ambientTerm = 0.05;
 vec3 L = vec3(0,0,1);
