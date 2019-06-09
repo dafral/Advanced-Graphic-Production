@@ -5,6 +5,7 @@
 
 #define TRANSLATE_SPEED 0.5f
 #define ROTATION_SPEED 1.0f
+#define SCALING_SPEED 0.05f
 
 Interaction::Interaction()
 {
