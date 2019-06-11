@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>156</width>
-    <height>173</height>
+    <height>239</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,12 +17,30 @@
    <item>
     <widget class="QLabel" name="labelRendering">
      <property name="text">
-      <string>&lt;b&gt;Render output&lt;/b&gt;</string>
+      <string>&lt;b&gt;Deferred Shading&lt;/b&gt;</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QComboBox" name="comboRendering"/>
+    <widget class="QCheckBox" name="boxDiffuseR">
+     <property name="text">
+      <string>Diffuse</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="boxNormalsR">
+     <property name="text">
+      <string>Normals</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="boxSpecularR">
+     <property name="text">
+      <string>Specular</string>
+     </property>
+    </widget>
    </item>
    <item>
     <widget class="Line" name="lineRendering1">
@@ -32,23 +50,23 @@
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="boxNormalMapping">
+     <property name="text">
+      <string>Normal Mapping</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="boxHDR">
+     <property name="text">
+      <string>HDR</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QCheckBox" name="boxBloom">
      <property name="text">
       <string>Bloom</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="boxSSAO">
-     <property name="text">
-      <string>SSAO</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="boxShadowmap">
-     <property name="text">
-      <string>Shadow mapping</string>
      </property>
     </widget>
    </item>
@@ -65,6 +83,19 @@
       <string>Reload shaders</string>
      </property>
     </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>
