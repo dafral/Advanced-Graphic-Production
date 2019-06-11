@@ -206,8 +206,8 @@ void MyOpenGLWidget::paintGL()
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
     //Use HDR shader
-    glUniform1f(glGetUniformLocation(hdrProg.programId(),"hdr"),1);
-    glUniform1i(glGetUniformLocation(hdrProg.programId(),"exposure"),5);
+    glUniform1i(glGetUniformLocation(hdrProg.programId(),"hdr"),1);
+    glUniform1f(glGetUniformLocation(hdrProg.programId(),"exposure"),5);
 }
 
 void MyOpenGLWidget::finalizeGL()
