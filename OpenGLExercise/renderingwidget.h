@@ -25,6 +25,11 @@ public slots:
 
 private:
     Ui::RenderingWidget *ui;
+
+    bool activeDiff;
+    bool activeNormal;
+    bool activeSpecular;
+
 };
 
 #endif // RENDERINGWIDGET_H
