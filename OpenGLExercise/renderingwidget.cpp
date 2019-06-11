@@ -41,6 +41,7 @@ void RenderingWidget::SwitchRDiffuse()
             (*it)->activateDiffuse = this->activeDiff;
         }
     }
+    w->uiOpenGL->changed = true;
 }
 
 void RenderingWidget::SwitchRNormals()
@@ -53,6 +54,7 @@ void RenderingWidget::SwitchRNormals()
             (*it)->activateNormalMap = this->activeNormal;
         }
     }
+    w->uiOpenGL->changed = true;
 }
 
 void RenderingWidget::SwitchRSpecular()
@@ -65,6 +67,7 @@ void RenderingWidget::SwitchRSpecular()
             (*it)->activateSpecular = this->activeSpecular;
         }
     }
+    w->uiOpenGL->changed = true;
 }
 
 void RenderingWidget::SwitchNormalMapping()

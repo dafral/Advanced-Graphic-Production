@@ -68,6 +68,8 @@ public:
     std::list<Mesh*> meshes;
     QVector3D lightDirection;
 
+    bool changed = false;
+
 private:
     QOpenGLBuffer vbo;
     QOpenGLVertexArrayObject vao;

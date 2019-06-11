@@ -89,6 +89,6 @@ void main()
     else
     {
         // and the diffuse per-fragment color
-        gAlbedo.rgb = vec3(1.0, 0.0, 0.0);
+        gAlbedo.rgb = vec3(0.5, 0.5, 0.5);
     }
 }
