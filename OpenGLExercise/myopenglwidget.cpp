@@ -21,6 +21,7 @@ MyOpenGLWidget::MyOpenGLWidget(QWidget *parent)
 {
     setMinimumSize(QSize(256, 256));
     lightDirection = QVector3D(0, 0, 1);
+    changed = false;
 }
 
 MyOpenGLWidget::~MyOpenGLWidget()
@@ -161,6 +162,13 @@ void MyOpenGLWidget::handleLoggedMessage(const QOpenGLDebugMessage &debugMessage
 void MyOpenGLWidget::resizeGL(int width, int height)
 {
     this->resize(width, height);
+    int view_side = qMin(width, height);
+    glViewport((width - view_side) / 2, (height - view_side) / 2, view_side, view_side);
+    // Reset GBuffer
+    gl->glDeleteTextures(1, &gPosition);
+    gl->glDeleteTextures(1, &gNormal);
+    gl->glDeleteTextures(1, &gAlbedo);
+    InitGBuffer();
 }
 
 void MyOpenGLWidget::paintGL()
@@ -431,9 +439,10 @@ void MyOpenGLWidget::initializeCube()
 void MyOpenGLWidget::frame()
 {
     bool interacted = w->interaction->update();
-    if(interacted)
+    if(interacted || changed)
     {
         update();
+        changed = false;
     }
     w->input->postUpdate();
 }

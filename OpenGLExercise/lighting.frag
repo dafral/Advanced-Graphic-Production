@@ -26,7 +26,7 @@ vec3 plPos = vec3(0, 0, 0);
 float plRadius = 15f;
 vec3 plColor = vec3(1, 0, 0);
 
-float plIntensity = 1.5f;
+float plIntensity = 0f; // change
 
 void main(void)
 {

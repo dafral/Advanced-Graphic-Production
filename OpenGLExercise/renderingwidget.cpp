@@ -8,7 +8,14 @@ RenderingWidget::RenderingWidget(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    activeDiff = true;
+    activeNormal = true;
+    activeSpecular = true;
+
     //Deferred checkboxes
+    ui->boxDiffuseR->setChecked(true);
+    ui->boxNormalsR->setChecked(true);
+    ui->boxSpecularR->setChecked(true);
     connect(ui->boxDiffuseR, SIGNAL(clicked(bool)), this, SLOT(SwitchRDiffuse()));
     connect(ui->boxNormalsR, SIGNAL(clicked(bool)), this, SLOT(SwitchRNormals()));
     connect(ui->boxSpecularR, SIGNAL(clicked(bool)), this, SLOT(SwitchRSpecular()));
@@ -26,17 +33,41 @@ RenderingWidget::~RenderingWidget()
 
 void RenderingWidget::SwitchRDiffuse()
 {
-
+    this->activeDiff = !activeDiff;
+    for(auto it = w->uiOpenGL->meshes.begin(); it != w->uiOpenGL->meshes.end(); ++it)
+    {
+        if((*it) != nullptr)
+        {
+            (*it)->activateDiffuse = this->activeDiff;
+        }
+    }
+    w->uiOpenGL->changed = true;
 }
 
 void RenderingWidget::SwitchRNormals()
 {
-
+    activeNormal = !activeNormal;
+    for(auto it = w->uiOpenGL->meshes.begin(); it != w->uiOpenGL->meshes.end(); ++it)
+    {
+        if((*it) != nullptr)
+        {
+            (*it)->activateNormalMap = this->activeNormal;
+        }
+    }
+    w->uiOpenGL->changed = true;
 }
 
 void RenderingWidget::SwitchRSpecular()
 {
-
+    this->activeSpecular = !activeSpecular;
+    for(auto it = w->uiOpenGL->meshes.begin(); it != w->uiOpenGL->meshes.end(); ++it)
+    {
+        if((*it) != nullptr)
+        {
+            (*it)->activateSpecular = this->activeSpecular;
+        }
+    }
+    w->uiOpenGL->changed = true;
 }
 
 void RenderingWidget::SwitchNormalMapping()
