@@ -27,10 +27,6 @@ MainWindow::MainWindow(QWidget *parent) :
     uiOpenGL = new MyOpenGLWidget();
 
     //Action triggers
-    connect(ui->actionOpenProject, SIGNAL(triggered()), this, SLOT(openProject()));
-    connect(ui->actionSaveProject, SIGNAL(triggered()), this, SLOT(saveProject()));
-    connect(ui->actionExit, SIGNAL(triggered()), this, SLOT(quit()));
-
     connect(ui->loadButton, SIGNAL(pressed()), this, SLOT(loadModel()));
 
     camera = new Camera();

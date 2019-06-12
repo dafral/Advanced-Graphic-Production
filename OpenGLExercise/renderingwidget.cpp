@@ -19,11 +19,6 @@ RenderingWidget::RenderingWidget(QWidget *parent) :
     connect(ui->boxDiffuseR, SIGNAL(clicked(bool)), this, SLOT(SwitchRDiffuse()));
     connect(ui->boxNormalsR, SIGNAL(clicked(bool)), this, SLOT(SwitchRNormals()));
     connect(ui->boxSpecularR, SIGNAL(clicked(bool)), this, SLOT(SwitchRSpecular()));
-
-    //Shaders checkboxes
-    connect(ui->boxNormalMapping, SIGNAL(clicked(bool)), this, SLOT(SwitchNormalMapping()));
-    connect(ui->boxHDR, SIGNAL(clicked(bool)), this, SLOT(SwitchHDR()));
-    connect(ui->boxBloom, SIGNAL(clicked(bool)), this, SLOT(SwitchBloom()));
 }
 
 RenderingWidget::~RenderingWidget()
@@ -70,17 +65,3 @@ void RenderingWidget::SwitchRSpecular()
     w->uiOpenGL->changed = true;
 }
 
-void RenderingWidget::SwitchNormalMapping()
-{
-
-}
-
-void RenderingWidget::SwitchHDR()
-{
-
-}
-
-void RenderingWidget::SwitchBloom()
-{
-
-}

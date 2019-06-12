@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>248</width>
-    <height>115</height>
+    <height>144</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -80,13 +80,6 @@
       <widget class="QSpinBox" name="scaZ"/>
      </item>
     </layout>
-   </item>
-   <item>
-    <widget class="QPushButton" name="loadMeshButton">
-     <property name="text">
-      <string>Load Mesh</string>
-     </property>
-    </widget>
    </item>
   </layout>
  </widget>

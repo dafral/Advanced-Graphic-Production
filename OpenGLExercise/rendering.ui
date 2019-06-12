@@ -50,27 +50,6 @@
     </widget>
    </item>
    <item>
-    <widget class="QCheckBox" name="boxNormalMapping">
-     <property name="text">
-      <string>Normal Mapping</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="boxHDR">
-     <property name="text">
-      <string>HDR</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="boxBloom">
-     <property name="text">
-      <string>Bloom</string>
-     </property>
-    </widget>
-   </item>
-   <item>
     <widget class="Line" name="lineRendering2">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>

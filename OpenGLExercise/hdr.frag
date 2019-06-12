@@ -5,7 +5,7 @@ in vec2 TexCoords;
 
 uniform sampler2D hdrBuffer;
 uniform int hdr;
-uniform float exposure;
+uniform int exposure;
 
 void main()
 {

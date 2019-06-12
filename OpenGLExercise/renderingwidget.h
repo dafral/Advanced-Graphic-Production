@@ -19,9 +19,6 @@ public slots:
     void SwitchRNormals();
     void SwitchRDiffuse();
     void SwitchRSpecular();
-    void SwitchNormalMapping();
-    void SwitchHDR();
-    void SwitchBloom();
 
 private:
     Ui::RenderingWidget *ui;

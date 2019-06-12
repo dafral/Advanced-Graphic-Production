@@ -86,7 +86,6 @@ void MyOpenGLWidget::InitGBuffer()
     glUniform1i(glGetUniformLocation(lightingProg.programId(),"gNormal"),1);
     glUniform1i(glGetUniformLocation(lightingProg.programId(),"gAlbedo"),2);
     glUniform1i(glGetUniformLocation(lightingProg.programId(), "gSpecular"), 3);
-
 }
 
 void MyOpenGLWidget::initializeGL()
@@ -132,24 +131,14 @@ void MyOpenGLWidget::initializeGL()
     program.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/geometry.frag");
     program.link();
 
-    hdrProg.create();
-    hdrProg.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/hdr.vert");
-    hdrProg.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/hdr.frag");
-    hdrProg.link();
-
-    InitGBuffer();
-
-    glGenFramebuffers(1, &gHDR);
-    glBindFramebuffer(GL_FRAMEBUFFER, gHDR);
-    hdrProg.bind();
-    glUniform1i(glGetUniformLocation(hdrProg.programId(),"hdrBuffer"),0);
+    InitGBuffer();  
 
     showInfo();
 
     //initializeTriangle();
     //initializeSphere();
     //initializeCube();
-    initialize3DModel("Resources/Patrick/Patrick.obj");
+    initialize3DModel("Resources/StoneFloor/StoneFloor.obj");
 
 }
 
@@ -212,10 +201,6 @@ void MyOpenGLWidget::paintGL()
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
     glBlitFramebuffer(0,0, this->width(), this->height(), 0,0,this->width(), this->height(), GL_DEPTH_BUFFER_BIT, GL_NEAREST);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-    //Use HDR shader
-    glUniform1i(glGetUniformLocation(hdrProg.programId(),"hdr"), activateHDR);
-    glUniform1f(glGetUniformLocation(hdrProg.programId(),"exposure"), exposureHDR);
 }
 
 void MyOpenGLWidget::finalizeGL()
