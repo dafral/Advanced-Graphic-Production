@@ -84,6 +84,10 @@ private:
     unsigned int gSpecular;
     unsigned int gHDR;
 
+    //HDR
+    int activateHDR = 0;
+    float exposureHDR = 2.5f;
+
     GLuint diffuse;
     GLuint normal;
 
