@@ -55,7 +55,7 @@ void main(void)
     vec3 pointLight = pl_amb + pl_diff + pl_spec;
     pointLight *= att;
 
-    FragColor.rgb = directionalLight * dlIntensity + pointLight * plIntensity;
+    FragColor.rgb = fragSpecular;// directionalLight * dlIntensity + pointLight * plIntensity;
 
     //vec3 N = normalize(fragNormal);
     //float kD = max(0.0, dot(L,N));
